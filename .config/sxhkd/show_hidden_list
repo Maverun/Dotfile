@@ -1,0 +1,34 @@
+#!/bin/env bash
+
+
+raw_id=`wmctrl -l | awk '{$2="";$3="";sub(" ","");print $0}'`
+
+readarray -d $'\n' id<<<"$raw_id"
+
+#declare -ra id_array
+
+#for i in "${id[@]}"
+#do
+#  echo $i
+#done
+
+id_array=()
+#Now we will filter out only hidden one.
+for x in "${id[@]}"
+do
+  readarray -d " " -t temp <<<"$x"
+  #echo "In array and it show $x"
+  #echo "${temp[0]}"
+
+    if bspc query -N -n "${temp}.window.hidden"; then
+      id_array+=("$x")
+  fi
+done
+
+#now checking.. and then we will add it...
+result=$(echo "${id_array[@]}" | rofi -dmenu -i)
+#Get input hex ID and ignore space extra
+r=$(echo $result | cut -d ' ' -f1)
+
+bspc node $r --flag hidden=off --focus
+

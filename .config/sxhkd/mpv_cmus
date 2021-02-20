@@ -1,0 +1,21 @@
+#!/bin/bash
+#set -xv #Debuggging!
+
+counter=`ls /tmp/mpvSockets/ | wc -l`
+
+
+declare -A mpv_list=(["pause"]="[\"cycle\",\"pause\"]" ["stop"]="[\"quit\"]")
+
+if [ "$counter" -gt 0 ]
+then
+	for i in $(ls /tmp/mpvSockets/*); do
+		#echo '{ "command": ["cycle", "pause"] }' | socat - "$i";
+		#echo { "command": "${mpv_list[$1]}" } | socat - "$i";
+		echo $i
+		rdata=$(echo '{ "command": ["get_property","filename"] }' | socat - "$i";)
+		echo "${rdata[data]}"
+	done
+else #If it just cmus and MPV aint playing so. This is just straight forward.
+	cmus-remote --$1
+fi
+

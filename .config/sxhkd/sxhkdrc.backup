@@ -1,0 +1,226 @@
+#
+# wm independent hotkeys
+#
+
+# XFCE4 terminal emulator
+super + t
+	xfce4-terminal
+
+# Alacritty Terminal
+super + Return
+	alacritty
+
+#tilda pulldown terminal
+crtl + shift + f1
+
+#program launcher
+alt + F3
+	rofi -modi run,drun,window -show drun -show-icons -sidebar-mode -kb-mode-next "Alt+Tab"
+
+#show window list
+alt + Tab
+	rofi -window -show window -show-icons
+
+#shift + alt + F3
+#	rofi -window -show window -show-icons
+
+# make sxhkd reload its configuration files:
+super + Escape
+	pkill -USR1 -x sxhkd
+
+#launch firefox
+super + f
+	firefox
+
+#Screenshot mode
+super + shift + ctrl + alt + c
+	flameshot gui
+
+#folder mode
+super + e
+	thunar
+
+##CMUS music##
+
+#Show CMUS
+super + 1
+	sh ~/.config/sxhkd/scartchpad cmus true
+
+
+#Play music
+XF86Audio{Play,Stop,Prev,Next}
+
+#XF86AudioPlay
+	cmus-remote --{pause,stop,prev,next}
+
+
+#raising up vol of cmus
+shift + XF86AudioRaiseVolume
+	cmus-remote --volume +5%
+
+#raising down vol of cmus
+shift + XF86AudioLowerVolume
+	cmus-remote --volume -5%
+#end of cmus
+
+#overall volume sys
+
+#mute audio
+XF86AudioMute
+	/usr/bin/pulseaudio-ctl mute
+
+#system vol up
+XF86AudioRaiseVolume
+	/usr/bin/pulseaudio-ctl up
+
+#system vol down
+XF86AudioLowerVolume
+	/usr/bin/pulseaudio-ctl down
+
+	
+
+#
+# bspwm hotkeys
+#
+
+# make sxhkd reload its configuration files
+alt + Escape
+	pkill -USR1 -x sxhkd
+
+# reload bspwmrc configuration file
+super + alt + r
+	bspc wm -r
+
+#BSPC QUIT
+super + alt + Escape
+	bspc quit
+
+# close window
+super + c
+	bspc node -c
+
+#set the node flag to hidden
+super + h
+	bspc node -g hidden
+
+#find a list of hidden and revert them to visible
+super + shift + h
+	sh ~/.config/sxhkd/show_hidden_list
+
+# === function keys ===
+
+# rotate windows
+super + r
+	bspc node @/ -R 90
+
+# circulate windows
+super + F1
+	bspc node @/ -C forward
+
+# flip windows horizontal
+super + F3
+	bspc node @/ -F horizontal
+
+# flip windows vertical
+super + F4
+	bspc node @/ -F vertical
+
+# balance windows
+super + b
+	bspc node @/ -B
+
+# alternate between the tiled and monocle layout
+super + F6
+	bspc desktop -l next
+
+# Change window gap
+#super + {F7,F8}
+#	bspc config -d focused window_gap $((`bspc config -d focused window_gap` {+,-} 2 ))
+
+# set the window state
+super + {F9,F10,F11,F12}
+	bspc node -t {floating,tiled,pseudo_tiled,fullscreen}
+
+# === focus/swap ===
+
+# focus the direction node + shift for swap.
+super + {+,shift +} {Up,Down,Left,Right}
+	bspc node -{f,s} {north,south,west,east}
+
+# focus the direction node + shift for swap.
+super + {+,shift +} {h,j,k,l}
+	bspc node -{f,s} {west,south,north,east}
+
+#get to certain desktop?
+super + alt + {1-9,0}
+	bspc {desktop -f} '^{1-9,0}'
+
+#move focus to different desktop within same monitor for view
+super + ctrl + {Up,Down}
+	sh /home/maverun/.config/sxhkd/ToNextD.sh {1,2}
+
+#move focus to different desktop within same monitor for view
+super + ctrl + {k,j}
+	sh /home/maverun/.config/sxhkd/ToNextD.sh {1,2}
+
+#change focus to left/right monitor
+super + ctrl + {Left,Right}
+	bspc monitor -f {prev,next}
+
+#change focus to left/right monitor
+super + ctrl + {h,l}
+	bspc monitor -f {prev,next}
+
+# move focused window to next desktop of same monitor
+super + alt + {Up,Down}
+	sh /home/maverun/.config/sxhkd/NToNextD.sh {1,2}
+
+# move focused window to next desktop of same monitor
+super + alt + {k,j}
+	sh /home/maverun/.config/sxhkd/NToNextD.sh {1,2}
+
+#move focused window between monitor
+super + alt + {Left,Right}
+	bspc node -m {prev,next} --follow
+
+#move focused window between monitor
+super + alt + {h,l}
+	bspc node -m {prev,next} --follow
+
+#shift + super + alt + {Left,Down,Up,Right,space}
+
+# preselect the direction
+shift + super + p : {h,j,k,l,space}
+       bspc node -p {west,south,north,east,cancel}
+
+# send focus to preselect gap
+shift + super + Return
+         bspc node -n 'last.!automatic'
+
+#shift + super + alt + s
+#	bspc node -s 'last.!automatic.local' | bspc node -f last -p cancel
+
+#add gap with between window
+super + bracket{left,right}
+	bspc config -d focused window_gap $((`bspc config -d focused window_gap` {-,+} 5 ))
+
+#Resize window via enter mode then hjkl
+super + s : {h,j,k,l}
+    STEP=20; SELECTION={1,2,3,4}; \
+    bspc node -z $(echo "left -$STEP 0,bottom 0 $STEP,top 0 -$STEP,right $STEP 0" | cut -d',' -f$SELECTION) || \
+    bspc node -z $(echo "right -$STEP 0,top 0 $STEP,bottom 0 -$STEP,left $STEP 0" | cut -d',' -f$SELECTION)
+
+
+#Show help
+super + slash
+	sh /home/maverun/.config/sxhkd/sxhkd-help
+
+# Show clipmenu
+alt + v
+    CM_LAUNCHER=rofi clipmenu \
+        -location 1 \
+        -m -3 \
+        -no-show-icons \
+        -theme-str '* \{ font: 10px; \}' \
+        -theme-str 'listview \{ spacing: 0; \}' \
+        -theme-str 'window \{ width: 20em; \}'

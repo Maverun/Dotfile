@@ -1,0 +1,40 @@
+#!/bin/env bash
+
+if [ -z "$2" ]
+then
+    mapfile -t IDs < <(xdotool search --classname "$1" | xargs -I{} bspc query -N -n {}.window)
+else
+    mapfile -t IDs < <(xdotool search --name "$1" | xargs -I{} bspc query -N -n {}.window)
+fi
+
+hide_all () {
+    for id in "${IDs[@]}"; do
+        bspc node "$id" --flag hidden=on
+    done
+}
+
+show_all () {
+    for id in "${IDs[@]}"; do
+        bspc node "$id" --flag hidden=off
+        bspc node "$id" --to-desktop focused --follow
+        bspc node "$id" --focus
+    done
+}
+
+toggle () {
+    action="hide"
+    for id in "${IDs[@]}"; do
+        if bspc query -N -n "${id}.window.hidden"; then
+            action="show" && break
+        fi
+    done
+    # If one of the windows for the given class was hidden,
+    # try showing all of them
+    if [ "$action" == "show" ]; then
+        show_all
+    else
+        hide_all
+    fi
+}
+
+[ "${#IDs[@]}" -gt 0 ] && toggle $1
