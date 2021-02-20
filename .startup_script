@@ -1,0 +1,65 @@
+#!/bin/sh
+
+#monitor setup
+
+xrandr --output HDMI-0 --mode 1920x1080  
+xrandr --output HDMI-1 --primary --mode 1920x1080 --right-of HDMI-0 
+xrandr --output DVI-D-0 --mode 1920x1080 --right-of HDMI-1
+
+
+#tint2 &
+#CMUS and Manga bot
+#xfce4-terminal -T cmus -e 'sh -ic "cmus; exec bash"' --tab -T Manga --working-directory /ext_drive/SynologyDrive/Discord\ Bot/Manga\ Updater\ checker -e 'sh -ic "python bot.py; exec bash"' &
+#synology-drive autostart &
+#xfce4-terminal -T cmus -e 'sh -ic "cmus; exec bash"'
+#redshift-gtk &
+#protonmail-bridge --no-window &
+#discord-ptb &
+#lightcord &
+#tilda &
+#ckb-next & 
+#timeshift --create --comments "Daily backup" &
+#task sync &
+
+picom -b
+xbindkeys -p  # disable middle click paste!
+task sync &
+
+process_list=(tint2 redshift-gtk lightcord tilda ckb-next clipmenud trackma-gtk thunderbird gnome-clocks pavucontrol)
+
+for p in "${process_list[@]}"
+do
+    if pgrep -x $p >/dev/null
+    then
+        echo "its running"
+    else
+        $p &
+    fi
+done
+
+
+if pgrep protonmail >/dev/null
+then
+    echo "its running"
+else
+    protonmail-bridge --no-window &
+fi
+
+if ps aux | grep SynologyDrive | grep -v grep >/dev/null 
+then
+    echo "its running"
+else
+    synology-drive autostart &
+fi
+
+
+if pgrep cmus >/dev/null
+then
+    echo "its running"
+else
+    xfce4-terminal -T cmus -e 'sh -ic "cmus; exec bash"'
+fi
+
+
+timeshift --create --comments "Daily backup" &
+#gnome-clocks --gapplication-service &
