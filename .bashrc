@@ -11,20 +11,64 @@ export NAS=/ext_drive/SynologyDrive/
 export NASN=/ext_drive/SynologyDrive/Discord*Bot/Github/Nurevam
 
 #ALIAS
-alias ls='exa --color=auto'
+
+#LS with EXA version
+alias ls='exa -l --color=always --group-directories-first' # my preferred listing
+alias la='exa -a --color=always --group-directories-first'  # all files and dirs
+alias ll='exa -l --color=always --group-directories-first'  # long format
+alias lt='exa -aT --color=always --group-directories-first' # tree listing
+alias l.='exa -a | egrep "^\."'
+
+# Colorize grep output (good for log files)
 alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+
+# confirm before overwriting something
+alias cp="cp -i"
+alias mv='mv -i'
+alias rm='rm -i'
+
+# adding flags
+alias df='df -h'                          # human-readable sizes
+alias free='free -m'                      # show sizes in MB
+alias lynx='lynx -cfg=~/.lynx/lynx.cfg -lss=~/.lynx/lynx.lss -vikeys'
+
+# navigation
+alias ..='cd ..' 
+alias ...='cd ../..'
+alias .3='cd ../../..'
+alias .4='cd ../../../..'
+alias .5='cd ../../../../..'
+
+
+#ALIAS of Taskwarrior
 alias tsync='task sync'
 alias ts='task +School'
 alias ta='task add'
 alias tas='task add +School project:irl.School'
+
+#Calculator
 alias bc='bc -l'
+
+#System
 alias suspend='systemctl suspend'
 alias vim='nvim'
+
+#Path
 alias school='cd /ext_drive/SynologyDrive/Student\ Work\ Folder/University/Forth\ Year'
 alias nurevam='cd /ext_drive/SynologyDrive/Discord\ Bot/Github/Nurevam/'
-alias config='cd ~/.config/'
+alias cdconfig='cd ~/.config/'
+
+#Window
 alias get_class='xprop | grep WM_CLASS'
+
+#git related
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+
+# get error messages from journalctl
+alias jctl="journalctl -p 3 -xb"
+
 
 #Prompt
 RESET="\[\017\]"
