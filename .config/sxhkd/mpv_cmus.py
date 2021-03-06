@@ -30,11 +30,13 @@ else: #from here, we will deal with MPV now...
         path = data["data"].rsplit("/",1)
         #now we will look for file, they will show in order list of video
         #this way, we can just do index +- 1 for next/prev files
-        x = call(f"ls -p \"{path[0]}\"| grep -v /")
+        x = call(f"ls -p \"{path[0]}\"| grep -e .mkv -e.mp4")
+        print(x)
         x = x.split("\n")
         i = x.index(path[1]) #index
         step = 1 if args[0] == "next" else -1 #step for next/prev files
         if len(x) <= i+step or i+step < 0: exit(0)
         video = f"{path[0]}/{x[i+step]}"
+        print(video)
         file = call('echo \'{ "command": ["quit"] }\' |' + socat)
-        check = call(f"mpv \"{video}\" &")
+        check = call(f"mpv -fs \"{video}\" &")
