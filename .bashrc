@@ -10,6 +10,12 @@ export EDITOR=nvim
 export NAS=/ext_drive/SynologyDrive/
 export NASN=/ext_drive/SynologyDrive/Discord*Bot/Github/Nurevam
 
+#BAT as manpager
+# export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+
+#NVIM as manpager
+export MANPAGER="nvim -c 'set ft=man' -"
+
 #ALIAS
 
 #LS with EXA version
