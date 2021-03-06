@@ -44,9 +44,11 @@ bspc rule -a Tilda state=floating
 bspc rule -a lightcord desktop='l0'
 bspc rule -a Xfce4-terminal:*:cmus desktop='r1' hidden=on state=floating
 bspc rule -a Org.gnome-clocks desktop='r1' hidden=on state=floating
+bspc rule -a org.gnome-clocks desktop='r1' hidden=on state=floating
 bspc rule -a Pavucontrol desktop='r1' hidden=on state=floating
 bpsc rule -a Trackma desktop='l0'
 bspc rule -a Thunderbird desktop='l1'
+bspc rule -a ckb-next hidden=on
 
 toggle=$(bspc config focus_follows_pointer | \
          awk -vtoggle="true" \
