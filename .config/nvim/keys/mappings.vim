@@ -5,7 +5,6 @@ inoremap <expr> <c-j> ("\<C-n>")
 inoremap <expr> <c-k> ("\<C-p>")
 
 "Use alt + hjkl to resize windows
-"
 nnoremap <M-j>    :resize -2<CR>
 nnoremap <M-k>    :resize +2<CR>
 nnoremap <M-h>    :vertical resize -2<CR>
@@ -19,10 +18,8 @@ inoremap kj <Esc>
 inoremap <c-u> <ESC>viwUi
 nnoremap <c-u> viwU<Esc>
 
-let g:ycm_key_list_previous_completion = ['<C-TAB>', '<Up>']    
 
 " TAB in general mode will move to text buffer
-"nnoremap <TAB> gt<CR>
 
 " SHIFT-TAB will go back
 "iunmap <S-Tab>
@@ -90,15 +87,27 @@ inoremap <C-Del> <esc>dwi
 nmap <c-n> :Startify<cr>
 
 "This is floaterm (Floating Terminal)
-
 let g:floaterm_keymap_new = '<Leader>ft'
 let g:floaterm_keymap_toggle = '<Leader>t'
-"nnoremap <silent> <Leader>ft :FloattermNew<CR>
-"nnoremap <silent> <Leader>t :FloattermToggle<CR>
-"nnoremap <silent> <Leader>fn :FloatermNext<CR>
-"nnoremap <silent> <Leader>fp :Floatermprev<CR>
 let g:floaterm_keymap_next = '<Leader>fn'
 let g:floaterm_keymap_prev= '<Leader>fp'
-"FZF mapping
 
+"FZF mapping
 nnoremap <C-p> :Files<Cr>
+
+"This is Ultisnip setting 
+"let g:UltiSnipsExpandTrigger = "<C-tab>" "setting this NONE since it ignore COC
+let g:UltiSnipsExpandTrigger="<C-CR>"
+let g:UltiSnipsJumpForwardTrigger="<C-j>"
+let g:UltiSnipsJumpBackwardTrigger="<C-k>"
+
+
+"Disable curse Middle click paste... just in case
+map <MiddleMouse> <Nop>
+imap <MiddleMouse> <Nop>
+map <2-MiddleMouse> <Nop>
+imap <2-MiddleMouse> <Nop>
+map <3-MiddleMouse> <Nop>
+imap <3-MiddleMouse> <Nop>
+map <4-MiddleMouse> <Nop>
+imap <4-MiddleMouse> <Nop>

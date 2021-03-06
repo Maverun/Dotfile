@@ -1,3 +1,4 @@
+"General Setting
 syntax enable                           " Enables syntax highlighing
 set hidden                              " Required to keep multiple buffers open multiple buffers
 set nowrap                              " Display long lines as just one line
@@ -11,7 +12,8 @@ set mouse=a                             " Enable your mouse
 set splitbelow                          " Horizontal splits will automatically be below
 set splitright                          " Vertical splits will automatically be to the right
 set t_Co=256                            " Support 256 colors
-set tabstop=4                           " Insert 2 spaces for a tab
+set tabstop=8                           " Insert 4 spaces for a tab
+set softtabstop=4
 set shiftwidth=4                        " Change the number of space characters inserted for indentation
 set smarttab                            " Makes tabbing smarter will realize you have 2 vs 4
 set expandtab                           " Converts tabs to spaces
@@ -48,8 +50,19 @@ cmap w!! w !sudo tee %
 let g:SuperTabClosePreviewOnPopupClose = 1
 highlight Pmenu ctermbg=darkgrey ctermfg=white gui=bold
 
-"This is Rainbow Plugins 
+"Remove any trailing whitespace
+"autocmd BufWritePre * :%s/\s\+$//e
+"NVM
+
+"Python thingy, that red whitespace ? yeh...
+highlight ExtraWhitespace ctermbg=darkgreen guibg=darkgreen
+highlight BadWhitespace ctermbg=darkgreen guibg=darkgreen
+
+"This is Rainbow Plugins
 let g:rainbow_active = 1
+
+"UltiSnips Setting
+let g:UltiSnipsEditSplit="vertical"
 
 "intent guide line THis is for that plugin uh Vim-indent-guides
 "let g:intent_guides_enable_on_vim_startup=1
@@ -57,14 +70,20 @@ let g:rainbow_active = 1
 "hi IndentGuidesOdd  ctermbg=235
 "hi IndentGuidesEven ctermbg=237
 
-"This is IndentLine Plugins 
+"This is IndentLine Plugins
 let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 
 set conceallevel=2
 "
 "This is Simpylfold plugins setting
 "
-let g:SimpylFold_docstring_preview = 0 
+let g:SimpylFold_docstring_preview = 0
+
+"
+"This is VIM-Polyglot 
+"
+let g:python_highlight_space_errors = 0
+
 "
 "This is LightLine plugins
 "
@@ -82,20 +101,18 @@ let g:lightline = {
 	\ }
 
 
-
-"
 " This is for VimWiki plugin setting
-"
-
 
 let g:vimwiki_list = [
               \{'path': '/ext_drive/SynologyDrive/vimwiki','syntax':'markdown','ext':'.md'},
+              \{'path': '/ext_drive/SynologyDrive/vimwiki/Dev','syntax':'markdown','ext':'.md'},
+              \{'path': '/ext_drive/SynologyDrive/vimwiki/Personal','syntax':'markdown','ext':'.md'},
                 \]
 
 let g:vim_ext2syntax = {'.md': 'markdown', '.markdown':'markdown','.mdown':'markdown'}
 
 "Make vimwiki markdown links as [text](text.md) instead of [text](text)
-let g:vimwiki_markdown_link_ext = 1 
+let g:vimwiki_markdown_link_ext = 1
 
 let g:taskwiki_markup_syntax = "markdown"
 let g:markdown_folding = 1
@@ -127,7 +144,7 @@ function! ToggleCalendar()
   end
 endfunction
 :autocmd FileType vimwiki map F5 :call ToggleCalendar()
-:autocmd FileType vimwiki let g:rainbow_active=0 
+:autocmd FileType vimwiki let g:rainbow_active=0
 
 
 "
