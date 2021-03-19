@@ -17,6 +17,6 @@ path="/ext_drive/SynologyDrive/vimwiki/TODO.md"
 #We getting input from user with dmenu
 TODO=$(printf ""|dmenu -p "TODO:") || exit
 
-msg="- [ ] $TODO" #Combine string together so it easier to dealt with
+msg="- [ ] LINK - $TODO" #Combine string together so it easier to dealt with
 #LAUNCH AWAY (aka append to end of this files $PATH)
 echo $msg >> $path
