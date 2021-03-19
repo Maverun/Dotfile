@@ -21,6 +21,18 @@ alt + F3
 alt + Tab
 	rofi -window -show window -show-icons
 
+#Edit Config
+alt + F4
+        sh ~/Script/config_edit
+
+#KILL PROCESS
+alt + F5
+        sh ~/Script/kill_process
+
+#Search Key
+alt + F6
+        sh ~/Script/search
+
 # close window
 super + c
 	bspc node -c

@@ -1,0 +1,6 @@
+shutdown +15 "Shutdown in 15 min..."
+
+zenity --title "Shutdown Alert" --warning --ellipsize --text "Shutdown in 15 min. Please close things up!"
+
+
+

@@ -1,0 +1,33 @@
+#!/bin/bash
+
+VAL=00
+DEV=0
+
+# toggle on (on) or off (off)
+if [ -z $1 ]
+then
+    VAL=00
+elif [ $1 = "on" ]
+then
+    VAL=01
+elif [ $1 = "off" ]
+then
+    VAL=00
+fi
+
+# select bluetooth device, 0 (=hci0) by default
+if [ -z $2 ]
+then
+    DEV=0
+else
+    DEV=$2
+fi
+
+
+# Left
+sudo gatttool -b AC:37:43:F5:38:AD -t random -i hci$DEV --char-write-req -a 0x12 -n $VAL
+
+sleep 5s
+
+# Right
+sudo gatttool -b AC:37:43:F5:2F:9D -t random -i hci$DEV --char-write-req -a 0x12 -n $VAL

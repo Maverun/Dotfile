@@ -127,4 +127,7 @@ neofetch
 task +School or +Work
 task calendar
 
+# Faster key repeat and delay
+xset r rate 210 40
 #eval "$(starship init bash)"
+
