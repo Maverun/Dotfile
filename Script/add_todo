@@ -1,0 +1,22 @@
+#!/usr/bin/bash
+
+#Fri 19 Mar 2021 05:33:05 PM EDT
+#Author: Maverun
+#File: add_todo
+
+#This is TODO script that will prompt input for todo so it can append to 
+#TODO.md of VIMWIKI so you can see a list anytime
+#Purpose of this is to run script instant and get input then carry on life
+#Such as you are busy doing something, and you find this task repeating, wish you
+#could write up the script for this task but you don't have time for doing it
+#So instead of forget about it, we can just write down todo and come back one day
+
+#Path to write to...
+path="/ext_drive/SynologyDrive/vimwiki/TODO.md"
+
+#We getting input from user with dmenu
+TODO=$(printf ""|dmenu -p "TODO:") || exit
+
+msg="- [ ] $TODO" #Combine string together so it easier to dealt with
+#LAUNCH AWAY (aka append to end of this files $PATH)
+echo $msg >> $path

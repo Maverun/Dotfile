@@ -86,7 +86,7 @@ highlight colorColumn ctermbg=238
 "=============================================================================="
 "                                Cursor Setting                                "
 "=============================================================================="
-set guicursor=n-v-c-sm:block-Cursor,i-ci-ve:hor100-iCursor,r-cr-o:hor20
+set guicursor=n-v-c-sm:block-Cursor,i-ci-ve:ver100-iCursor,r-cr-o:hor20
 
 
 "=============================================================================="

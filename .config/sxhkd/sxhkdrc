@@ -33,6 +33,10 @@ alt + F5
 alt + F6
         sh ~/Script/search
 
+#Make TOOD
+alt + F7
+        sh ~/Script/add_todo
+
 # close window
 super + c
 	bspc node -c
