@@ -1,6 +1,9 @@
 let g:startify_bookmarks = [
   \ { 'b': '~/.bashrc' },
   \ { 'v': '~/.config/nvim/init.vim' },
+  \ { 'g': '~/.config/nvim/general/settings.vim' },
+  \ { 'm': '~/.config/nvim/general/mappings.vim' },
+  \ { 'p': '~/.config/nvim/general/plugins.vim' },
   \ { 'w': '/ext_drive/SynologyDrive/vimwiki/index.md' },
   \ ]
 
@@ -11,11 +14,14 @@ let g:startify_commands = [
 let g:startify_lists = [
       \ { 'header': ['   Bookmarks'],       'type': 'bookmarks' },
       \ { 'header': ['   Recently'],            'type': 'files' },
-      \ { 'header': ['   MRU '. getcwd()], 'type': 'dir' },
+      \ { 'header': ['   Current Directory '. getcwd()], 'type': 'dir' },
+      \ { 'header': ['   Sessions '], 'type': 'sessions' },
       \ { 'header': ['   Commands '], 'type': 'commands' },
       \ ]
 
 let g:startify_fortune_use_unicode = 1
+let g:startify_session_dir = '~/.config/nvim/session'
+
 
 let g:startify_custom_header = [
       \ '.__   __.  _______   ______   ____    ____  __  .___  ___.', 
@@ -27,4 +33,4 @@ let g:startify_custom_header = [
       \ '                                                          ', 
   \ ]
 
-hi StartifyHeader  ctermfg=114
+hi StartifyHeader  ctermfg=114 guifg=#87d787

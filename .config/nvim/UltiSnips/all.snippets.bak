@@ -1,0 +1,52 @@
+global !p
+def insert_method_call(name):
+	vim.command('normal G')
+	snip.expand_anon(name + '($1)\n')
+
+def head_line(s):
+	comment = get_comment(s)
+	line = comment+ "=" * 78 + comment
+	snip.rv = line
+
+def get_comment(s):
+	ft = s.ft
+
+	#print("filetype is ",ft)
+	if ft is None: return "#"
+	elif ft == "python": return "#"
+	elif ft == "vim": return '"'
+	return "#"
+
+def comment(snip):
+	snip.rv = get_comment(snip)
+
+def first_half(text):
+	snip.rv = int((79/2) - int(len(text)/2)) * " "
+
+def second_half(text):
+	snip.rv = round((78/2)-len(text)/2) * " "
+endglobal
+
+#==============================================================================#
+#                              Headline like this                              #
+#==============================================================================#
+snippet headline "Giving Banner or headline!" b
+`!p head_line(snip)`
+`!p comment(snip)``!p first_half(t[1])`${1:${VISUAL}}`!p second_half(t[1])``!p comment(snip)`
+`!p head_line(snip)`
+
+$0
+endsnippet
+
+
+snippet lorem "Lorem Ipsum generation" b
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Etiam nec velit nec tortor blandit congue. Ut eget aliquet metus.
+Maecenas felis arcu, cursus at dui ut, aliquet ultricies ipsum. 
+Morbi bibendum placerat orci, id venenatis ante varius a.
+Nulla semper elit at turpis rutrum, eget tristique tortor hendrerit. 
+Aenean lorem diam, molestie in vehicula et, elementum nec nisl. 
+Interdum et malesuada fames ac ante ipsum primis in faucibus. 
+Integer malesuada ornare metus, vel mattis ante porttitor a. 
+Pellentesque ut odio quis ligula rhoncus pretium. 
+endsnippet
