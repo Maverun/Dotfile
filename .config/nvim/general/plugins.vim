@@ -4,7 +4,7 @@ call plug#begin('~/.config/nvim/autoload/plugged')
 "                                  Apperiances                                 "
 "=============================================================================="
 
-    Plug 'itchyny/lightline.vim' "Status bar at bottom
+    "Plug 'itchyny/lightline.vim' "Status bar at bottom
     Plug 'yggdroot/indentline' "to display indent line, better than intent guide?
     Plug 'tmhedberg/simpylfold' "for Python fold...
     Plug 'ap/vim-css-color' "to show what color look like

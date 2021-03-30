@@ -15,6 +15,7 @@ DMENUEDITOR="alacritty -e nvim"
 # An array of options to choose.
 # You can edit this list to add/remove config files.
 declare -a options=(
+"this - $HOME/Script/config_edit"
 "alacritty - $HOME/.config/alacritty/alacritty.yml"
 #"awesome - $HOME/.config/awesome/rc.lua"
 "bash - $HOME/.bashrc"
@@ -32,7 +33,7 @@ declare -a options=(
 "neovim - $HOME/.config/nvim/init.vim"
 "picom - $HOME/.config/picom/picom.conf"
 "polybar - $HOME/.config/polybar/config"
-#"qtile - $HOME/.config/qtile/config.py"
+"qtile - $HOME/.config/qtile/config.py"
 "quickmarks - $HOME/.config/qutebrowser/quickmarks"
 "qutebrowser - $HOME/.config/qutebrowser/autoconfig.yml"
 #"spectrwm - $HOME/.spectrwm.conf"

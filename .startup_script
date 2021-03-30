@@ -2,9 +2,10 @@
 
 #monitor setup
 
-xrandr --output HDMI-0 --mode 1920x1080  
-xrandr --output HDMI-1 --primary --mode 1920x1080 --right-of HDMI-0 
-xrandr --output DVI-D-0 --mode 1920x1080 --right-of HDMI-1
+#xrandr --output DP-3 --mode 1920x1080 
+#xrandr --output HDMI-1 --primary --mode 1920x1080 --right-of DP-3
+#xrandr --output DVI-D-0 --mode 1920x1080 --right-of HDMI-1
+#xrandr --output HDMI-0 --mode 1920x1080 --above HDMI-1 
 
 
 #tint2 &
@@ -22,10 +23,10 @@ xrandr --output DVI-D-0 --mode 1920x1080 --right-of HDMI-1
 #task sync &
 
 picom -b
-xbindkeys -p  # disable middle click paste!
-task sync &
+#xbindkeys -p  # disable middle click paste!
+#task sync &
 
-process_list=(tint2 redshift-gtk lightcord tilda ckb-next clipmenud trackma-gtk thunderbird gnome-clocks pavucontrol)
+process_list=(redshift-gtk lightcord ckb-next clipmenud trackma-gtk thunderbird gnome-clocks pavucontrol)
 
 for p in "${process_list[@]}"
 do
@@ -53,13 +54,21 @@ else
 fi
 
 
-if pgrep cmus >/dev/null
-then
-    echo "its running"
-else
-    xfce4-terminal -T cmus -e 'sh -ic "cmus; exec bash"'
-fi
+#if pgrep cmus >/dev/null
+#then
+    #echo "its running"
+#else
+    #xfce4-terminal -T cmus -e 'sh -ic "cmus; exec bash"'
+#fi
 
+#if [ $DESKTOP_SESSION = "bspwn" ]
+#then
+    #if pgrep tint2 >/dev/null
+    #then
+        #echo "its running"
+    #else
+        #tint2 &
+#fi
 
-timeshift --create --comments "Daily backup" &
+#timeshift --create --comments "Daily backup" &
 #gnome-clocks --gapplication-service &

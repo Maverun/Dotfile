@@ -61,14 +61,6 @@ map <leader>q :bp<bar>sp<bar>bn<bar>bd<CR>
 " where | mean then do this (like pipe)
 
 
-" Use control-cap instead of escape
-"nnoremap <C-c> <Esc>
-"nnoremap <Leader>o o<Esc>^Da
-"nnoremap <Leader>O O<Esc>^Da
-
-"Auto excute python with F5
-"nnoremap <F5> <Esc>:w !clear;python 
-"inoremap <F5> <Esc>:w !clear;python
 
 "Shift Enter to enter new line from current line
 inoremap <S-CR> <Esc>o
@@ -79,19 +71,23 @@ inoremap <M-CR> <Esc>O<Esc>0i
 "Shift line up  or down
 vmap <S-Up> :m-2<CR>gv
 vmap <S-Down> :m '>+1<CR>gv
+vmap <S-k> :m-2<CR>gv
+vmap <S-j> :m '>+1<CR>gv
+
 nmap <S-Up> <Esc>:m-2 <CR>
 nmap <S-Down> <Esc>:m+1 <CR>
+nmap <S-k> <Esc>:m-2 <CR>
+nmap <S-j> <Esc>:m+1 <CR>
+
 inoremap <S-Up> <Esc>:m-2 <CR>
 inoremap <S-Down> <Esc>:m+1 <CR>
-inoremap <C-k> <Esc>:m-2 <CR>a
-inoremap <C-j> <Esc>:m+1 <CR>a
 
 "this is to dupe the line during insert mode
 "this sent it to reg d, so we dont lose initial just in case.
 "inoremap <c-d> <esc>0y$o<esc>pi
 inoremap <c-d> <esc>"dyy"dpi
 
-vnoremap <C-d> "dygvo<esc>"dpi
+vnoremap <C-d> "dygvo<esc>"dp
 
 "This is to send selection TO VOID register
 vnoremap <leader>p "_dP
@@ -121,7 +117,10 @@ imap <4-MiddleMouse> <Nop>
 "Startify plugins hotkey
 nmap <c-n> :Startify<cr>
 
-"This is floaterm (Floating Terminal)
+"=============================================================================="
+"                         Floaterm (Floating Terminal)                         "
+"=============================================================================="
+
 let g:floaterm_keymap_new = '<Leader>ft'
 let g:floaterm_keymap_toggle = '<Leader>t'
 let g:floaterm_keymap_next = '<Leader>fn'
@@ -135,7 +134,8 @@ nnoremap <C-p> :Files<Cr>
 nnoremap <Leader>b :Buffers<Cr>
 nnoremap <Leader>c :Commands<Cr>
 nnoremap <Leader>m :Maps<Cr>
-nnoremap <Leader>f :Lines<Cr>
+nnoremap <Leader>T :BTags<Cr>
+nnoremap <Leader>l :Lines<Cr>
 nnoremap <Leader>? :Helptags<Cr>
 nnoremap <Leader>mm :Maps<CR>mappings.vim
 
@@ -157,3 +157,10 @@ map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
 
 nmap s <Plug>(easymotion-s2)
+
+
+"=============================================================================="
+"                                   Vimwiki                                    "
+"=============================================================================="
+
+au filetype vimwiki silent! iunmap <buffer> <Tab>
