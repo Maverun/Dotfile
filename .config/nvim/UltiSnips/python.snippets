@@ -35,7 +35,7 @@ endsnippet
 
 snippet if "if statement"
 if $1:
-	$2
+    $2
 #end if of $1
 endsnippet
 
@@ -45,12 +45,11 @@ endsnippet
 #==============================================================================#
 
 snippet fun "function"
-def ${1:function_name}(`!v indent('.') ? 'self,' : ''`$2):
+def ${1:function_name}(`!v indent('.') ? 'self,' : ''`${2: }):
 	"""
 	Function: ${1/_/ /g}
-
-	Params:
-	${2/,|\s/: TODO\n`!v repeat(" ",indent(".")+4)`/g}
+	${2/.*/Params:/}
+	${2/[^a-zA-Z]/: TODO\n`!v repeat(" ",indent(".")+8)`/g}
 	"""
 	$0
 #end of the function ${1/_/ /g}

@@ -49,8 +49,8 @@ nnoremap <C-s> :w<CR>
 inoremap <C-s> <Esc>:w<CR>i<Right>
 
 " Easy CAPS
-inoremap <c-u> <ESC>viwUi
-nnoremap <c-u> viwU<Esc>
+inoremap <M-u> <ESC>viwUi
+nnoremap <M-u> viwU<Esc>
 
 "Close buffer without closing window
 map <leader>q :bp<bar>sp<bar>bn<bar>bd<CR>
@@ -60,7 +60,10 @@ map <leader>q :bp<bar>sp<bar>bn<bar>bd<CR>
 " :bp | :sp | :bn | :bd 
 " where | mean then do this (like pipe)
 
-
+" Map Ctrl-Backspace to delete the previous word in insert mode.
+" Cuz I am using new keyboard where i can double tap backspace to give
+" C-backspace, so i can use itfor general stuff other than vim.
+imap <C-BS> <C-W>
 
 "Shift Enter to enter new line from current line
 inoremap <S-CR> <Esc>o
@@ -90,7 +93,7 @@ inoremap <c-d> <esc>"dyy"dpi
 vnoremap <C-d> "dygvo<esc>"dp
 
 "This is to send selection TO VOID register
-vnoremap <leader>p "_dP
+vnoremap <leader>d "_d
 
 "Tab toggle
 nnoremap <C-t> :TagbarToggle<CR>
@@ -145,6 +148,7 @@ nnoremap <Leader>mm :Maps<CR>mappings.vim
 
 "let g:UltiSnipsExpandTrigger = "<nop>" "setting this NONE since it ignore COC
 let g:UltiSnipsExpandTrigger="<M-e>"
+"let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<C-j>"
 let g:UltiSnipsJumpBackwardTrigger="<C-k>"
 

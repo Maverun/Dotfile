@@ -16,11 +16,13 @@ let g:vimwiki_markdown_link_ext = 1
 
 let g:taskwiki_markup_syntax = "markdown"
 let g:markdown_folding = 1
-let g:vim_markdown_conceal = 0
-let g:vim_markdown_conceal_code_blocks = 0
+"let g:vim_markdown_conceal = 0
+"let g:vim_markdown_conceal_code_blocks = 0
 
 au BufRead,BufNewFile *.md set filetype=vimwiki
+au BufRead,BufNewFile *.md set syntax=markdown
 :autocmd FileType vimwiki map F4 :VimwikiMakeDiaryNote
+autocmd FileType mdvimwiki UltiSnipsAddFiletypes vimwiki
 
 function! ToggleCalendar()
   execute ":Calendar"
@@ -37,3 +39,8 @@ function! ToggleCalendar()
 endfunction
 :autocmd FileType vimwiki map F5 :call ToggleCalendar()
 :autocmd FileType vimwiki :RainbowToggleOff 
+
+
+" Allow Ultisnips to work in Markdown Files (that Vimwiki controls)
+"let g:vimwiki_table_mappings = 0
+"let g:vimwiki_key_mappings = { 'table_mappings': 0, }

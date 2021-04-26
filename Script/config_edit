@@ -56,7 +56,7 @@ declare -a options=(
 
 # Piping the above array into dmenu.
 # We use "printf '%s\n'" to format the array one item to a line.
-choice=$(printf '%s\n' "${options[@]}" | dmenu -i -l 20 -p 'Edit config:')
+choice=$(printf '%s\n' "${options[@]}" | dmenu -m 0 -i -l 20 -p 'Edit config:')
 #choice=$(printf '%s\n' "${options[@]}" | rofi -dmenu -i -l 20 -p 'Edit config')
 
 # What to do when/if we choose 'quit'.

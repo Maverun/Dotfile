@@ -10,7 +10,8 @@ from libqtile import layout, bar, widget, hook
 from libqtile.lazy import lazy
 from typing import List  # noqa: F401
 from libqtile.log_utils import logger
-
+from datetime import datetime 
+from tkinter import Tk
 import json 
 myTerm = "alacritty"                             # My terminal of choice
 
@@ -164,8 +165,7 @@ def custom_swap(qtile,key):
     layout =  qtile.current_layout
     data = layout.info()
     name = data["name"]
-    #This one is impossible, Unless we know which side is window on, so we can do it.
-    #In theory it is possible but not now for  me to do it....
+
     current = data.get("current",data.get("current_stack",None))
     current = 0 if current is None and name == "treetab" else current
     #If it at edge, then we can go next screen
@@ -195,6 +195,7 @@ def custom_send(qtile,key):
     """
     #Get current active window
     active_win = qtile.current_window
+    if active_win is None: return #ignore if empty.
     #getting screen index
     new_screen_index = get_next_screen_index(qtile,key)
     #Now focus that screen
@@ -233,7 +234,20 @@ def custom_switch_group(qtile,direction):
     screen.cmd_toggle_group(target)
 
 
-    
+def custom_Screenshot(qtile,path,diary=False):
+    logger.warning(diary)
+    qtile.cmd_spawn(f"flameshot gui -p {path}")
+    p = datetime.now()
+    p = p.strftime("%F_%H-%M")
+    if diary:
+        # qtile.cmd_spawn(f"echo ../images/{p}.png | xset -b")
+        # pyperclip.copy(f"../images/{p}.png")
+        r = Tk()
+        r.withdraw()
+        r.clipboard_clear()
+        r.clipboard_append(f"../images/{p}.png")
+        r.update()
+        r.destroy()
     
 #end of the function custom switch group
 #end of the function custom send
@@ -254,6 +268,7 @@ super_alt   = ["mod4","mod1"]
 super_ctrl  = ["mod4","control"]
 super_shift = ["mod4","shift"]
 Gkey        = ["mod4","control","shift","mod1"]
+hyper       = ["mod4","control","shift","mod1"]
 
 keys = [ #Setting key blindings
     Key(sup,"v",lazy.function(debug_qtile)),
@@ -271,17 +286,23 @@ keys = [ #Setting key blindings
         ),
     Key(super_shift, "w",
         lazy.spawn("alacritty -t \"VIMWIKI\" -e nvim /ext_drive/SynologyDrive/vimwiki/index.md"),
-        desc='Launches My Terminal'
+        desc='Launch VimWiki'
         ),
     Key(super_shift, "x",
-        lazy.window.hide(),
+        lazy.spawncmd(),
         desc='Launches My Terminal'
         ),
     Key(super_shift, "Return",
-        lazy.spawn("dmenu_run -p 'Run: '"),
+        lazy.spawn("dmenu_run -m 0 -p 'Run: '"),
         # lazy.spawn("rofi -show drun -config ~/.config/rofi/themes/dt-dmenu.rasi -display-drun \"Run: \" -drun-display-format \"{name}\""),
         desc='Run Launcher'
         ),
+    #CHORD OF PROGRAM LAUNCHER
+    KeyChord(sup,"p",[
+            Key([],"f",lazy.spawn("firefox"), desc="Firefox"),
+            Key([],"e",lazy.spawn("thunar"), desc="Thunar explorer"),
+            Key([],"c",lazy.spawn("gnome-clocks"), desc="Clocks"),
+            ],mode="Program Launcher"),
     #Keyboard hotkey G1-G6 
     Key(Gkey,"F12",
         lazy.spawn("flameshot gui"),
@@ -299,6 +320,29 @@ keys = [ #Setting key blindings
         lazy.spawn(home + "/Script/kill_process"),
         desc="Confit Edit"),
     Key(Gkey,"F7",
+        lazy.spawn(home + "/Script/search"),
+        desc="Search Engine"),
+    KeyChord(hyper,"s",[
+        Key([], "s",
+            lazy.spawn("flameshot gui"),
+            # lazy.ungrab_chord(),
+            lazy.function(lambda x: x.ungrab_chord()),
+            desc="Flameshot SS"),
+        Key([], "d",
+            lazy.function(custom_Screenshot,"/ext_drive/SynologyDrive/vimwiki/Dev/images/",True),
+            lazy.ungrab_chord(),
+            desc="Flameshot and save files into Dev Diary Vimwiki")
+    ], mode="Screenshot Mode"),
+    Key(hyper,"t",
+        lazy.spawn(home + "/Script/add_todo"),
+        desc="Add todo task to TODO.MD"),
+    Key(hyper,"e",
+        lazy.spawn(home + "/Script/config_edit"),
+        desc="Confit Edit"),
+    Key(hyper,"k",
+        lazy.spawn(home + "/Script/kill_process"),
+        desc="Confit Edit"),
+    Key(hyper,"f",
         lazy.spawn(home + "/Script/search"),
         desc="Search Engine"),
     #Audio related
@@ -583,14 +627,13 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
-def init_widgets_list():
-    widgets_list = [
-        widget.Sep(
-            linewidth = 0,
-            padding = 6,
-            foreground = colors[2],
-            background = colors[0]
-        ),
+
+def create_widiget_list(ignore = [],ignore_textbox = [0,1,2,3,4,5,6,7,8,11,14,17,19]):
+    """
+    Function: create widiget list
+    """
+
+    widget_collections = [
         widget.Image(
             filename = "~/.config/qtile/icons/python-white.png",
             scale = "False",
@@ -652,31 +695,10 @@ def init_widgets_list():
             foreground = colors[0],
             background = colors[0]
         ),
-        widget.Chord(),
-        widget.Sep(
-            linewidth = 0,
-            padding = 6,
-            foreground = colors[0],
-            background = colors[0]
-        ),
-        widget.TextBox(
-            text = '',
-            background = colors[0],
-            foreground = colors[5],
-            padding = 0,
-            fontsize = 37
-        ),
-        widget.Pomodoro(
-            background = colors[5],
+        
+        widget.Chord(
             foreground = colors[2],
-            padding = 5,
-        ),
-        widget.TextBox(
-            text = '',
-            background = colors[5],
-            foreground = colors[4],
-            padding = 0,
-            fontsize = 37
+            background = colors[3]
         ),
         widget.Net(
             # interface = "enp6s0",
@@ -684,13 +706,6 @@ def init_widgets_list():
             foreground = colors[2],
             background = colors[4],
             padding = 5
-        ),
-        widget.TextBox(
-            text = '',
-            background = colors[4],
-            foreground = colors[5],
-            padding = 0,
-            fontsize = 37
         ),
         widget.TextBox(
             text = " 🌡",
@@ -705,158 +720,99 @@ def init_widgets_list():
             threshold = 90,
             padding = 5
         ),
-        widget.TextBox(
-            text='',
-            background = colors[5],
-            foreground = colors[4],
-            padding = 0,
-            fontsize = 37
+        widget.CheckUpdates(
+            update_interval = 1800,
+            distro = "Arch_checkupdates",
+            display_format = "⟳ {updates} Updates",
+            mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e sudo pacman -Syu')},
+            background = colors[4],
+            foreground = colors[2],
         ),
-    widget.TextBox(
-        text = " ⟳",
-        padding = 2,
-        foreground = colors[2],
-        background = colors[4],
-        fontsize = 14
-    ),
-    widget.CheckUpdates(
-        update_interval = 1800,
-        distro = "Arch_checkupdates",
-        display_format = "{updates} Updates",
-        foreground = colors[2],
-        mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e sudo pacman -Syu')},
-        background = colors[4]
-    ),
-    widget.TextBox(
-        text = '',
-        background = colors[4],
-        foreground = colors[5],
-        padding = 0,
-        fontsize = 37
-    ),
-    widget.TextBox(
-        text = " 🖬",
-        foreground = colors[2],
-        background = colors[5],
-        padding = 0,
-        fontsize = 14
-    ),
-    widget.Memory(
-        foreground = colors[2],
-        background = colors[5],
-        mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e htop')},
-        padding = 5
-    ),
-    widget.TextBox(
-        text='',
-        background = colors[5],
-        foreground = colors[4],
-        padding = 0,
-        fontsize = 37
-    ),
-    widget.CPU(
-        foreground = colors[2],
-        background = colors[4],
-    ),
-    widget.TextBox(
-        text = '',
-        background = colors[4],
-        foreground = colors[5],
-        padding = 0,
-        fontsize = 37
-    ),
-    widget.TextBox(
-        text = " Vol:",
-        foreground = colors[2],
-        background = colors[5],
-        padding = 0
-    ),
-    widget.Volume(
-        foreground = colors[2],
-        background = colors[5],
-        padding = 5
-    ),
-    widget.TextBox(
-        text = '',
-        background = colors[5],
-        foreground = colors[4],
-        padding = 0,
-        fontsize = 37
-    ),
-    widget.CurrentLayoutIcon(
-        custom_icon_paths = [os.path.expanduser("~/.config/qtile/icons")],
-        foreground = colors[0],
-        background = colors[4],
-        padding = 0,
-        scale = 0.7
-    ),
-    widget.CurrentLayout(
-        foreground = colors[2],
-        background = colors[4],
-        padding = 5
-    ),
-    widget.TextBox(
-        text = '',
-        background = colors[4],
-        foreground = colors[5],
-        padding = 0,
-        fontsize = 37
-    ),
-    widget.Clock(
-        foreground = colors[2],
-        background = colors[5],
-        format = "%A, %B %d - %I:%M %p "
-    ),
+        widget.TextBox(
+            text = " 🖬",
+            foreground = colors[2],
+            background = colors[5],
+            padding = 0,
+            fontsize = 14
+        ),
+        widget.Memory(
+            foreground = colors[2],
+            background = colors[5],
+            mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e htop')},
+            padding = 5
+        ),
+        widget.CPU(
+            foreground = colors[2],
+            background = colors[4],
+        ),
+        widget.TextBox(
+            text = " Vol:",
+            foreground = colors[2],
+            background = colors[5],
+            padding = 0
+        ),
+        widget.Volume(
+            foreground = colors[2],
+            background = colors[5],
+            padding = 5
+        ),
+        widget.CurrentLayoutIcon(
+            custom_icon_paths = [os.path.expanduser("~/.config/qtile/icons")],
+            foreground = colors[0],
+            background = colors[4],
+            padding = 0,
+            scale = 0.7
+        ),
+        widget.CurrentLayout(
+            foreground = colors[2],
+            background = colors[4],
+            padding = 5
+        ),
+        widget.Clock(
+            foreground = colors[2],
+            background = colors[5],
+            format = "%A, %B %d - %I:%M %p "
+        ),
     ]
-    return widgets_list
 
-def init_widgets_screen1():
-    widgets_screen1 = init_widgets_list()
-    del widgets_screen1[7:8]               # Slicing removes unwanted widgets (systray) on Monitors 1,3
+    text_box_split = "ﳣ" 
+    widget_list = []
+    for i, ele in enumerate(widget_collections):
+        if i in ignore: continue
+        if i not in ignore_textbox:
+            #Alt odd/event
+            t = widget.TextBox(
+                text = text_box_split,
+                background = colors[0],
+                foreground = ele.background,
+                padding = 0,
+                fontsize = 37,
+            )
+            widget_list.append(t)
+        widget_list.append(ele)
+    return widget_list
+#end of the function create widiget list
+
+def init_primary_widget():
+    widgets_screen1 = create_widiget_list()
     return widgets_screen1
 
-def init_widgets_screen2():
-    widgets_screen2 = init_widgets_list()
-    return widgets_screen2                 # Monitor 2 will display all widgets in widgets_list
+def init_secondary_widget():
+    widgets_screen1 = create_widiget_list()
+    del widgets_screen1[6:7]               # Slicing removes unwanted widgets (systray)
+    return widgets_screen1                 # Monitor 2 will display all widgets in widgets_list
 
 def init_screens():
-    return [Screen(top=bar.Bar(widgets=init_widgets_screen1(), opacity=1.0, size=20)),
-            Screen(top=bar.Bar(widgets=init_widgets_screen2(), opacity=1.0, size=20)),
-            Screen(top=bar.Bar(widgets=init_widgets_screen2(), opacity=1.0, size=20)),
-            Screen(top=bar.Bar(widgets=init_widgets_screen1(), opacity=1.0, size=20))]
+    return [Screen(top=bar.Bar(widgets=init_secondary_widget(), opacity=1.0, size=20)),
+            Screen(top=bar.Bar(widgets=init_secondary_widget(), opacity=1.0, size=20)),
+            Screen(top=bar.Bar(widgets=init_secondary_widget(), opacity=1.0, size=20)),
+            Screen(top=bar.Bar(widgets=init_primary_widget(), opacity=1.0, size=20))]
 
 if __name__ in ["config", "__main__"]:
     screens = init_screens()
-    widgets_list = init_widgets_list()
-    widgets_screen1 = init_widgets_screen1()
-    widgets_screen2 = init_widgets_screen2()
-
-def window_to_prev_group(qtile):
-    if qtile.currentWindow is not None:
-        i = qtile.groups.index(qtile.currentGroup)
-        qtile.currentWindow.togroup(qtile.groups[i - 1].name)
-
-def window_to_next_group(qtile):
-    if qtile.currentWindow is not None:
-        i = qtile.groups.index(qtile.currentGroup)
-        qtile.currentWindow.togroup(qtile.groups[i + 1].name)
-
-def window_to_previous_screen(qtile):
-    i = qtile.screens.index(qtile.current_screen)
-    if i != 0:
-        group = qtile.screens[i - 1].group.name
-        qtile.current_window.togroup(group)
-
-def window_to_next_screen(qtile):
-    i = qtile.screens.index(qtile.current_screen)
-    if i + 1 != len(qtile.screens):
-        group = qtile.screens[i + 1].group.name
-        qtile.current_window.togroup(group)
-
-def switch_screens(qtile):
-    i = qtile.screens.index(qtile.current_screen)
-    group = qtile.screens[i - 1].group
-    qtile.current_screen.set_group(group)
+    # widgets_list = init_widgets_list()
+    # widgets_screen1 = init_widgets_screen1()
+    # widgets_screen2 = init_widgets_screen2()
 
 mouse = [
     Drag(sup, "Button1", lazy.window.set_position_floating(),
@@ -882,40 +838,19 @@ floating_layout = layout.Floating(float_rules=[
     Match(title='Qalculate!'),  # qalculate-gtk
     Match(wm_class='kdenlive'),  # kdenlive
     Match(wm_class='pinentry-gtk-2'),  # GPG key password entry
-    Match(wm_class="org.gnome.clocks") #clocks
+    Match(wm_class="org.gnome.clocks"), #clocks
+    Match(wm_class="feh"), #feh
+    Match(wm_class="flameshot"), #flameshot
 ])
 auto_fullscreen = True
 focus_on_window_activation = "smart"
+# focus_on_window_activation = "focus"
 
 # @hook.subscribe.startup_once
 # def start_once():
     # home = os.path.expanduser('~')
     # subprocess.call([home + '/.startup_script'])
 
-# def show_shortcuts():
-    # key_map = {"mod1": "alt", "mod4": "super"}
-    # shortcuts_path = "{0}/{1}".format(os.environ["HOME"], "qtile_shortcuts")
-    # shortcuts = open("{0}".format(shortcuts_path), 'w')
-    # shortcuts.write("{0:30}| {1:50}\n".format("KEYS COMBINATION", "COMMAND"))
-    # shortcuts.write("{0:80}\n".format("=" * 80))
-    # for key in keys:
-        # key_comb = ""
-        # for modifier in key.modifiers:
-            # key_comb += key_map.get(modifier, modifier) + "+"
-        # key_comb += key.key
-        # shortcuts.write("{0:30}| ".format(key_comb))
-        # cmd_str = ""
-        # if isinstance(key,KeyChord): continue
-        # for command in key.commands:
-            # cmd_str += command.name + " "
-            # for arg in command.args:
-                # cmd_str += "{0} ".format(repr(arg))
-        # shortcuts.write("{0:50}\n".format(cmd_str))
-        # shortcuts.write("{0:80}\n".format("-" * 80))
-    # shortcuts.close()
-    # return lazy.spawn("alacritty -e less {0}".format(shortcuts_path))
-
-# keys.append(Key(sup, "p", show_shortcuts()))
 
 # XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
 # string besides java UI toolkits; you can see several discussions on the
@@ -925,4 +860,4 @@ focus_on_window_activation = "smart"
 #
 # We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
 # java that happens to be on java's whitelist.
-wmname = "LG3D"
+WMNAME = "LG3D"

@@ -99,15 +99,6 @@ highlight Pmenu ctermbg=238 ctermfg=white gui=bold
 highlight PmenuSel ctermfg=50
 "highlight Pmenu ctermbg=darkgrey ctermfg=white gui=bold
 
-"=============================================================================="
-"                           Highlight Selection Color                          "
-"=============================================================================="
-
-highlight Search ctermbg=20 ctermfg=red
-
-"au! BufWritePost $MYVIMRC source %      " auto source when writing to init.vm
-"alternatively you can run :source $MYVIMRC
-"
 "" You can't stop me
 cmap w!! w !sudo tee %
 
@@ -124,25 +115,6 @@ let g:SimpylFold_docstring_preview = 1
 let g:python_highlight_space_errors = 0
 
 
-"=============================================================================="
-"                                   LightLine                                  "
-"=============================================================================="
-
-
-set laststatus=2
-" delays and poor user experience.
-let g:lightline = {
-	\ 'colorscheme': 'wombat',
-	\ 'active': {
-	\   'left': [ [ 'mode', 'paste' ],
-	\             [ 'cocstatus', 'readonly', 'filename', 'modified' ] ]
-	\ },
-	\ 'component_function': {
-	\   'cocstatus': 'coc#status'
-	\ },
-	\ }
-
-
 
 "=============================================================================="
 "                                  IndentLine                                  "
@@ -151,7 +123,7 @@ let g:lightline = {
 "This is IndentLine Plugins
 let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 
-set conceallevel=2
+"set conceallevel=2
 
 "This is Identline plugin but related to VIMWIKI
 let g:indentLine_setConceal = 2
@@ -160,7 +132,7 @@ let g:indentLine_setConceal = 2
 " v for Visual mode
 " i for Insert mode
 " c for Command line editing, for 'incsearch'
-let g:indentLine_concealcursor = "nv" "This allow to show conceal stuff only in Insert mode
+let g:indentLine_concealcursor = "n" "This allow to show conceal stuff only in Insert mode
 
 "=============================================================================="
 "                                    VimStay                                    "
@@ -209,5 +181,53 @@ augroup qs_colors
 augroup END
 
 
+let g:wiki_root = '/ext_drive/SynologyDrive/wiki/'
+let g:wiki_filetypes = ['md']
+let g:wiki_link_extension = '.md'
+" Setup the type of links I want, and how they should look
+let g:wiki_link_target_map = 'WikiLinkFunction'
+let g:wiki_link_target_type = 'md'
+
+" Convert "My Wiki Link" to "my_wiki_link"
+function! WikiLinkFunction(text) abort
+    return substitute(tolower(a:text), '\s', '', 'g')
+endfunction
+
+
+let g:wiki_journal = {
+            \ 'name': 'diary',
+            \ 'frequency': 'daily',
+            \ 'date_format': {
+            \   'daily' : '%Y-%m-%d',
+            \   'weekly' : '%Y_w%V',
+            \   'monthly' : '%Y_m%m',
+            \ },
+            \ }
+
+let g:wiki_scratch_open = 0
+let g:wiki_scratch_buf_nr = 0
+
+
+" Markdown options
+let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_override_foldtext = 0
+let g:vim_markdown_conceal = 0
+let g:tex_conceal = ""
+let g:vim_markdown_math = 1
+let g:vim_markdown_fenced_languages = [
+            \ 'c++=cpp',
+            \ 'viml=vim',
+            \ 'bash=sh',
+            \ 'ini=dosini',
+            \ 'py=python',
+            \ 'md=markdown']
+" Setup the type of links I want, and how they should look
+let g:wiki_link_target_map = 'WikiLinkFunction'
+let g:wiki_link_target_type = 'md'
+
+" Convert "My Wiki Link" to "my_wiki_link"
+function! WikiLinkFunction(text) abort
+    return substitute(tolower(a:text), '\s', '', 'g')
+endfunction
 
 colorscheme Mave

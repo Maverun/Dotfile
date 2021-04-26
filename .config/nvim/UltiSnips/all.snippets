@@ -55,8 +55,9 @@ def body_headline_create(s,middle=False):
         x =  s.buffer[i]
         if x == "!BLOCK!": continue
         if len(x) < 50 : data.append(x)
-        else: text += s.buffer[i]
-    data += wrap(text,50) #we are gonna split within 50 space close, could be 52 etc
+        else: 
+            text = s.buffer[i]
+            data += wrap(text,50) #we are gonna split within 50 space close, could be 52 etc
     #Based on this api helpful https://pynvim.readthedocs.io/en/latest/api/buffer.html
     comment = get_comment_raw(s.window.buffer.name) #getting files name
     
@@ -101,7 +102,12 @@ ${2:${VISUAL}}
 $0
 endsnippet
 
-
+snippet box "Box"
+`!p snip.rv = '┌' + '─' * (len(t[1]) + 2) + '┐'`
+│ $1 │
+`!p snip.rv = '└' + '─' * (len(t[1]) + 2) + '┘'`
+$0
+endsnippet
 
 snippet info-owner "Give info about current user" b
 `!v strftime("%c")`
