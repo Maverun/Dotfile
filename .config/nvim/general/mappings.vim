@@ -64,6 +64,7 @@ map <leader>q :bp<bar>sp<bar>bn<bar>bd<CR>
 " Cuz I am using new keyboard where i can double tap backspace to give
 " C-backspace, so i can use itfor general stuff other than vim.
 imap <C-BS> <C-W>
+imap <C-f> <ESC>dea
 
 "Shift Enter to enter new line from current line
 inoremap <S-CR> <Esc>o
@@ -94,7 +95,7 @@ vnoremap <C-d> "dygvo<esc>"dp
 
 "This is to send selection TO VOID register
 vnoremap <leader>d "_d
-
+nnoremap <leader>d "_d
 "Tab toggle
 nnoremap <C-t> :TagbarToggle<CR>
 nnoremap <Leader><Space> :nohlsearch<CR>
