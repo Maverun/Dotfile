@@ -175,4 +175,4 @@ require'colorizer'.setup{}
 require'trouble'.setup{}
 require'FTerm'.setup{}
 require'lspsaga'.init_lsp_saga()
-require'which-key'.setup{}
+--require'which-key'.setup{}

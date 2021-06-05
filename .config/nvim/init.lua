@@ -13,7 +13,7 @@ require('plugins.autopair')
 require('plugins.snippet')
 require('plugins.startify')
 --require('plugins.vimwiki')
---require('plugins.whichkey')
+require('plugins.whichkey')
 
 -- for some reason, it is better to have this last, so i can use tab properly...
 require('compe_completion')
