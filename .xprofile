@@ -1,8 +1,8 @@
 #!/usr/bin/sh
 
 #MONITOR
-xrandr --output DP-3 --mode 1920x1080
-xrandr --output HDMI-1 --primary --mode 1920x1080 --right-of DP-3
+xrandr --output DP-1 --mode 1920x1080
+xrandr --output HDMI-1 --primary --mode 1920x1080 --right-of DP-1
 xrandr --output DVI-D-0 --mode 1920x1080 --right-of HDMI-1
 xrandr --output HDMI-0 --mode 1920x1080 --above HDMI-1
 
@@ -14,7 +14,8 @@ task sync &
 
 
 
-process_list=(redshift-gtk lightcord ckb-next clipmenud trackma-gtk thunderbird gnome-clocks pavucontrol)
+#process_list=(redshift-gtk lightcord ckb-next clipmenud trackma-gtk thunderbird gnome-clocks pavucontrol)
+process_list=(redshift-gtk lightcord clipmenud trackma-gtk thunderbird kdeconnect-app)
 
 for p in "${process_list[@]}"
 do

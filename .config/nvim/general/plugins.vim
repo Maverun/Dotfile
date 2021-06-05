@@ -12,6 +12,7 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'kshenoy/vim-signature' "To display where MARK is at (ma, mb ) etc
     Plug 'mhinz/vim-startify' "Home page of VIM/NEOVIM
     Plug 'chrisbra/csv.vim'
+    Plug 'tiagovla/tokyodark.nvim'
 
 "=============================================================================="
 "                                     Auto                                     "
@@ -37,14 +38,14 @@ call plug#begin('~/.config/nvim/autoload/plugged')
 "                                    VIMWIKI                                   "
 "=============================================================================="
 
-    "Plug 'vimwiki/vimwiki' " Personal Wiki for VIM (as in your own wiki
+    Plug 'vimwiki/vimwiki' " Personal Wiki for VIM (as in your own wiki
     Plug 'plasticboy/vim-markdown' "vim markdown for vimwiki
     Plug 'mattn/calendar-vim' "Calendar for vimwiki and general use
     Plug 'blindFS/vim-taskwarrior' "TaskWarrior API
     "Plug 'tbabej/taskwiki' "Taskwarrior on VIMWIKI
     Plug 'powerman/vim-plugin-AnsiEsc' "Heard this useful for TaskWarrior
     Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-    Plug 'lervag/wiki.vim'
+    "Plug 'lervag/wiki.vim'
 "=============================================================================="
 "                                    Useful                                    "
 "=============================================================================="
@@ -61,5 +62,10 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug  'jalvesaq/Nvim-R' "In replace of Rstudio
     Plug 'tjdevries/train.nvim' "To be Gitgud, Rumor say master UP AND DOWN SON!
     Plug 'tpope/vim-fugitive' "GIT
+
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+    Plug 'nvim-treesitter/playground'
+    Plug 'neovim/nvim-lspconfig'
+    Plug 'hrsh7th/nvim-compe'
 
 call plug#end()

@@ -281,7 +281,7 @@ keys = [ #Setting key blindings
 #==============================================================================#
 
     Key(sup, "Return",
-        lazy.spawn(myTerm+" -e fish"),
+        lazy.spawn(myTerm),
         desc='Launches My Terminal'
         ),
     Key(super_shift, "w",
@@ -299,10 +299,16 @@ keys = [ #Setting key blindings
         ),
     #CHORD OF PROGRAM LAUNCHER
     KeyChord(sup,"p",[
-            Key([],"f",lazy.spawn("firefox"), desc="Firefox"),
-            Key([],"e",lazy.spawn("thunar"), desc="Thunar explorer"),
-            Key([],"c",lazy.spawn("gnome-clocks"), desc="Clocks"),
-            ],mode="Program Launcher"),
+            Key([],"f",lazy.spawn("firefox"),lazy.function(lambda x: x.ungrab_chord()), desc="Firefox"),
+            Key([],"e",lazy.spawn("thunar"), lazy.function(lambda x: x.ungrab_chord()),desc="Thunar explorer"),
+            Key([],"c",lazy.spawn("gnome-clocks"),lazy.function(lambda x: x.ungrab_chord()), desc="Clocks"),
+            Key([],"l",
+                lazy.spawn('rofi -modi run,drun,window -show drun -show-icons -sidebar-mode -kb-mode-next "Alt+Tab"'),
+                Key([],"c",lazy.spawn("gnome-clocks"),lazy.function(lambda x: x.ungrab_chord()), desc="Clocks"),
+                # lazy.ungrab_chord(),
+                desc="Rofi Appfinder"),
+    #End of CHORD
+                ],mode="Program Launcher"),
     #Keyboard hotkey G1-G6 
     Key(Gkey,"F12",
         lazy.spawn("flameshot gui"),
