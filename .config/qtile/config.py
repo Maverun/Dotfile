@@ -276,10 +276,9 @@ keys = [ #Setting key blindings
     # cycle to next group
     # Key(sup, "Right", lazy.screen.next_group()),
 
-#==============================================================================#
-#                                  Essentials                                  #
-#==============================================================================#
-
+# ┌───────────────────────────────────────────────────────────────────────────┐
+# │                                Essentials                                 │
+# └───────────────────────────────────────────────────────────────────────────┘
     Key(sup, "Return",
         lazy.spawn(myTerm),
         desc='Launches My Terminal'
@@ -436,9 +435,9 @@ keys = [ #Setting key blindings
 
 
 
-#==============================================================================#
-#                                    Window                                    #
-#==============================================================================#
+# ┌───────────────────────────────────────────────────────────────────────────┐
+# │                                  Window                                   │
+# └───────────────────────────────────────────────────────────────────────────┘
 
     #Window focus key hjkl
     Key(sup,"h",
@@ -527,9 +526,10 @@ keys = [ #Setting key blindings
     #Send Window to Screen
 ]#End of keys array
 
-#==============================================================================#
-#                                     GROUP                                    #
-#==============================================================================#
+
+# ┌───────────────────────────────────────────────────────────────────────────┐
+# │                                   GROUP                                   │
+# └───────────────────────────────────────────────────────────────────────────┘
 
 group_names = [("|1|MAIN", {'layout': 'monadtall'}),
                ("|2|DEV", {'layout': 'monadtall'}),
@@ -540,7 +540,7 @@ group_names = [("|1|MAIN", {'layout': 'monadtall'}),
                    Match(wm_class="cherrytree"),
                ]}),
                ("|5|VBOX", {'layout': 'monadtall'}),
-               ("|6|CHAT", {'layout': 'stack',"matches":[
+               ("|6|CHAT", {'layout': 'monadtall',"matches":[
                    Match(wm_class="lightcord"),
                ],#End of Match
                             }),#end of |6| CHAT
@@ -558,10 +558,9 @@ for i, (name, kwargs) in enumerate(group_names, 1):
     keys.append(Key(sup, str(i), lazy.group[name].toscreen()))        # Switch to another group
     keys.append(Key(super_shift, str(i), lazy.window.togroup(name))) # Send current window to another group
 
-
-#==============================================================================#
-#                               Group ScratchPad                               #
-#==============================================================================#
+# ┌───────────────────────────────────────────────────────────────────────────┐
+# │                             Group ScratchPad                              │
+# └───────────────────────────────────────────────────────────────────────────┘
 
 groups.append(
                ScratchPad("scratchpad",[
@@ -574,9 +573,9 @@ keys.append(Key(sup,"F11",
 keys.append(Key(sup,"F10",
                 lazy.group["scratchpad"].dropdown_toggle("clocks")))
 
-#==============================================================================#
-#                                    Layout                                    #
-#==============================================================================#
+# ┌───────────────────────────────────────────────────────────────────────────┐
+# │                                  Layout                                   │
+# └───────────────────────────────────────────────────────────────────────────┘
 
 layout_theme = {"border_width": 2,
                 "margin": 8,
@@ -595,7 +594,7 @@ layouts = [
     #layout.Zoomy(**layout_theme),
     layout.MonadTall(**layout_theme),
     layout.Max(**layout_theme),
-    layout.Tile(shift_windows=True, **layout_theme),
+    # layout.Tile(shift_windows=True, **layout_theme),
     layout.Stack(num_stacks=2),
     layout.TreeTab(
         font = "Ubuntu",
@@ -634,7 +633,7 @@ widget_defaults = dict(
 extension_defaults = widget_defaults.copy()
 
 
-def create_widiget_list(ignore = [],ignore_textbox = [0,1,2,3,4,5,6,7,8,11,14,17,19]):
+def create_widiget_list(ignore = []):
     """
     Function: create widiget list
     """
@@ -648,6 +647,23 @@ def create_widiget_list(ignore = [],ignore_textbox = [0,1,2,3,4,5,6,7,8,11,14,17
         widget.Sep(
             linewidth = 0,
             padding = 6,
+            foreground = colors[2],
+            background = colors[0]
+        ),
+        widget.AGroupBox(
+            font = "Ubuntu Bold",
+            fontsize = 9,
+            margin_y = 2,
+            margin_x = 0,
+            padding_y = 5,
+            padding_x = 3,
+            borderwidth = 0,
+            foreground = colors[2],
+            background = colors[4],
+        ),
+        widget.Sep(
+            linewidth = 0,
+            padding = 2,
             foreground = colors[2],
             background = colors[0]
         ),
@@ -672,6 +688,12 @@ def create_widiget_list(ignore = [],ignore_textbox = [0,1,2,3,4,5,6,7,8,11,14,17
             background = colors[0],
             use_mouse_wheel = False,
             disable_drag = True,
+        ),
+        widget.Sep(
+            linewidth = 0,
+            padding = 6,
+            foreground = colors[2],
+            background = colors[0]
         ),
         widget.Prompt(
             prompt = prompt,
@@ -706,6 +728,8 @@ def create_widiget_list(ignore = [],ignore_textbox = [0,1,2,3,4,5,6,7,8,11,14,17
             foreground = colors[2],
             background = colors[3]
         ),
+        #Pattern begin here
+        "PATTERN",
         widget.Net(
             # interface = "enp6s0",
             format = '{down} ↓↑ {up}',
@@ -713,7 +737,7 @@ def create_widiget_list(ignore = [],ignore_textbox = [0,1,2,3,4,5,6,7,8,11,14,17
             background = colors[4],
             padding = 5
         ),
-        widget.TextBox(
+        [widget.TextBox(
             text = " 🌡",
             padding = 2,
             foreground = colors[2],
@@ -725,7 +749,7 @@ def create_widiget_list(ignore = [],ignore_textbox = [0,1,2,3,4,5,6,7,8,11,14,17
             background = colors[5],
             threshold = 90,
             padding = 5
-        ),
+        )],
         widget.CheckUpdates(
             update_interval = 1800,
             distro = "Arch_checkupdates",
@@ -734,7 +758,7 @@ def create_widiget_list(ignore = [],ignore_textbox = [0,1,2,3,4,5,6,7,8,11,14,17
             background = colors[4],
             foreground = colors[2],
         ),
-        widget.TextBox(
+        [widget.TextBox(
             text = " 🖬",
             foreground = colors[2],
             background = colors[5],
@@ -746,12 +770,12 @@ def create_widiget_list(ignore = [],ignore_textbox = [0,1,2,3,4,5,6,7,8,11,14,17
             background = colors[5],
             mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e htop')},
             padding = 5
-        ),
+        )],
         widget.CPU(
             foreground = colors[2],
             background = colors[4],
         ),
-        widget.TextBox(
+        [widget.TextBox(
             text = " Vol:",
             foreground = colors[2],
             background = colors[5],
@@ -761,8 +785,8 @@ def create_widiget_list(ignore = [],ignore_textbox = [0,1,2,3,4,5,6,7,8,11,14,17
             foreground = colors[2],
             background = colors[5],
             padding = 5
-        ),
-        widget.CurrentLayoutIcon(
+        )],
+        [widget.CurrentLayoutIcon(
             custom_icon_paths = [os.path.expanduser("~/.config/qtile/icons")],
             foreground = colors[0],
             background = colors[4],
@@ -773,7 +797,7 @@ def create_widiget_list(ignore = [],ignore_textbox = [0,1,2,3,4,5,6,7,8,11,14,17
             foreground = colors[2],
             background = colors[4],
             padding = 5
-        ),
+        )],
         widget.Clock(
             foreground = colors[2],
             background = colors[5],
@@ -783,19 +807,29 @@ def create_widiget_list(ignore = [],ignore_textbox = [0,1,2,3,4,5,6,7,8,11,14,17
 
     text_box_split = "ﳣ" 
     widget_list = []
+    run_pattern = False
     for i, ele in enumerate(widget_collections):
         if i in ignore: continue
-        if i not in ignore_textbox:
+        if ele == "PATTERN": 
+            run_pattern = True
+            continue
+        if run_pattern:
             #Alt odd/event
+            if isinstance(ele,list): fg = ele[1].background
+            else: fg = ele.background
             t = widget.TextBox(
                 text = text_box_split,
                 background = colors[0],
-                foreground = ele.background,
+                foreground = fg,
                 padding = 0,
                 fontsize = 37,
             )
             widget_list.append(t)
-        widget_list.append(ele)
+        #Since we can make a list to put together a "one widget" its for patterns dont mix up
+        if isinstance(ele,list):
+            widget_list.extend(ele)
+        else:
+            widget_list.append(ele)
     return widget_list
 #end of the function create widiget list
 

@@ -171,7 +171,7 @@ require('no-clc').setup({
 require'surround'.setup{}
 --require'navigator'.setup()
 require'lsp_signature'.on_attach()
-require'colorizer'.setup{}
+require'colorizer'.setup{"*"}
 require'trouble'.setup{}
 require'FTerm'.setup{}
 require'lspsaga'.init_lsp_saga()

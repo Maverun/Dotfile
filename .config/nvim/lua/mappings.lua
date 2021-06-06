@@ -113,15 +113,15 @@ map(n,'<C-m>',':Startify<CR>')
 vim.cmd 'autocmd User Startified nmap <buffer> <C-m> <plug>(startify-open-buffers)'
 
 -- Mouse Middle Click Disable
-map(n,'MiddleMouse','<Nop>')
-map(n,'2-MiddleMouse','<Nop>')
-map(n,'3-MiddleMouse','<Nop>')
-map(n,'4-MiddleMouse','<Nop>')
+map(n,'<MiddleMouse>','<LeftMouse>')
+map(n,'<2-MiddleMouse>','<LeftMouse>')
+map(n,'<3-MiddleMouse>','<LeftMouse>')
+map(n,'<4-MiddleMouse>','<LeftMouse>')
 
-map(i,'MiddleMouse','<Nop>')
-map(i,'2-MiddleMouse','<Nop>')
-map(i,'3-MiddleMouse','<Nop>')
-map(i,'4-MiddleMouse','<Nop>')
+map(i,'<MiddleMouse>','<LeftMouse>')
+map(i,'<2-MiddleMouse>','<LeftMouse>')
+map(i,'<3-MiddleMouse>','<LeftMouse>')
+map(i,'<4-MiddleMouse>','<LeftMouse>')
 
 --CheatSheet
 map(n,'<leader>?',":Cheatsheet<CR>")
@@ -204,7 +204,8 @@ map(v,'r',':<c-u>HSRmHighlight<CR>')
 -- │                                 Ultisnips                                 │
 -- └───────────────────────────────────────────────────────────────────────────┘
 
-vim.g.UltiSnipsExpandTrigger = '<NOP>'
-vim.g.UltiSnipsJumpForwardTrigger = '<NOP>'
-vim.g.UltiSnipsJumpBackwardTrigger = '<NOP>'
+vim.g.UltiSnipsExpandTrigger = "<F12>"
+vim.g.UltiSnipsJumpForwardTrigger = "<F12>"
+vim.g.UltiSnipsJumpBackwardTrigger = "<F12>"
+
 

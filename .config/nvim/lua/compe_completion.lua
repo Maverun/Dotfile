@@ -103,7 +103,6 @@ end
 
 
 vim.api.nvim_set_keymap("i", "<CR>", "v:lua.completions()", {expr = true})
-vim.api.nvim_set_keymap("i", "<F3>", "v:lua.teap()", {expr = true})
 --vim.api.nvim_set_keymap("i", "<CR>", "compe#confirm('<CR>')", {expr = true})
 
 
