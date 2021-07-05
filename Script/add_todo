@@ -12,7 +12,7 @@
 #So instead of forget about it, we can just write down todo and come back one day
 
 #Path to write to...
-path="/ext_drive/SynologyDrive/vimwiki/TODO.md"
+path="/ext_drive/SynologyDrive/NotesTaking/TODO.md"
 
 #We getting input from user with dmenu
 TODO=$(printf ""|dmenu -m 0 -p "TODO:") || exit

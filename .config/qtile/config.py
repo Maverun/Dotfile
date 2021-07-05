@@ -33,6 +33,13 @@ def is_atEdge(data,name,current,key):
     if len(data["clients"]) in (0,1): return True 
     #always cuz only one window
     if name == "treetab" and key in "hl": return True 
+    if name == "max" and key in "jk":
+        if current == 0 and current in (0,len(data['clients']) -1) and key == "j": return False
+        elif current == 0 and key == "k": return True
+        elif current == len(data["clients"]) - 1 and key == "j": return True
+        else: return False
+
+
     #left most,no matter what layerout...
     if key == "h" and current == 0: return True
     elif key =="l" and name in ("slack","columns") and  current == len(data[name]):
@@ -80,6 +87,7 @@ def custom_focus(qtile,key):
     data = layout.info()
     name = data["name"]
     current = data.get("current",data.get("current_stack",None))
+    # logger.warning(json.dumps(data,indent=3))
     current = 0 if current is None and name == "treetab" else current
     #If it at edge, then we can go next screen
     if is_atEdge(data,name,current,key) or (name == "max" and key in "hl"):
@@ -229,6 +237,7 @@ def custom_switch_group(qtile,direction):
         #That group is not in screen
         current_index += toward_side
         target = data_group[current_index % length] #making warp possible.
+        if data[target]["name"] == "scratchpad": continue #ignore scratchpad, doesn't make sense to go into this.
         if data[target]["screen"] == None: break
     #Now we will swap with that target!
     screen.cmd_toggle_group(target)
@@ -279,13 +288,10 @@ keys = [ #Setting key blindings
 # ┌───────────────────────────────────────────────────────────────────────────┐
 # │                                Essentials                                 │
 # └───────────────────────────────────────────────────────────────────────────┘
+
     Key(sup, "Return",
         lazy.spawn(myTerm),
         desc='Launches My Terminal'
-        ),
-    Key(super_shift, "w",
-        lazy.spawn("alacritty -t \"VIMWIKI\" -e nvim /ext_drive/SynologyDrive/vimwiki/index.md"),
-        desc='Launch VimWiki'
         ),
     Key(super_shift, "x",
         lazy.spawncmd(),
@@ -350,6 +356,9 @@ keys = [ #Setting key blindings
     Key(hyper,"f",
         lazy.spawn(home + "/Script/search"),
         desc="Search Engine"),
+    # Key(hyper,"w",
+        # lazy.spawn("alacritty -t \"NOTE\" -e sh -c 'sleep 0.4 && nvim /ext_drive/SynologyDrive/NotesTaking/index.md'"),
+        # desc="Notes"),
     #Audio related
     Key([],"XF86AudioPlay",
         lazy.spawn("python " + home + "/Script/mpv_cmus.py pause"),
@@ -535,7 +544,6 @@ group_names = [("|1|MAIN", {'layout': 'monadtall'}),
                ("|2|DEV", {'layout': 'monadtall'}),
                ("|3|SYS", {'layout': 'monadtall'}),
                ("|4|DOC", {'layout': 'monadtall',"matches":[
-                   Match(title="VIMWIKI"),
                    Match(wm_class="Zathura"),
                    Match(wm_class="cherrytree"),
                ]}),
@@ -565,13 +573,16 @@ for i, (name, kwargs) in enumerate(group_names, 1):
 groups.append(
                ScratchPad("scratchpad",[
                    DropDown("cmus",f"{myTerm} -e cmus"),
-                   DropDown("clocks","gnome-clocks",)
+                   DropDown("taskerwarrior",f"{myTerm}",height = 0.7,width = 0.5,opacity = 1,y = 0.2,x = 0.2),
+                   DropDown("notes",f"{myTerm} -t \"NOTE\" -e sh -c 'sleep 0.4 && nvim /ext_drive/SynologyDrive/NotesTaking/index.md'",height = 1, opacity=1)
                    #more Dropdown
                ]))
 keys.append(Key(sup,"F11",
                 lazy.group["scratchpad"].dropdown_toggle("cmus")))
-keys.append(Key(sup,"F10",
-                lazy.group["scratchpad"].dropdown_toggle("clocks")))
+keys.append(Key(hyper,"w",
+                lazy.group["scratchpad"].dropdown_toggle("notes")))
+keys.append(Key(hyper,'Return',
+                lazy.group["scratchpad"].dropdown_toggle("taskerwarrior")))
 
 # ┌───────────────────────────────────────────────────────────────────────────┐
 # │                                  Layout                                   │
@@ -608,7 +619,7 @@ layouts = [
         inactive_fg = "a0a0a0",
         padding_y = 5,
         section_top = 10,
-        panel_width = 320
+        panel_width = 100
     ),
     layout.Floating(**layout_theme)
 ]
@@ -695,6 +706,11 @@ def create_widiget_list(ignore = []):
             foreground = colors[2],
             background = colors[0]
         ),
+        # widget.TaskList(
+            # background=colors[0],
+            # foreground = colors[6],
+            # max_title_width = 100,
+        # ),
         widget.Prompt(
             prompt = prompt,
             font = "Ubuntu Mono",
@@ -839,7 +855,7 @@ def init_primary_widget():
 
 def init_secondary_widget():
     widgets_screen1 = create_widiget_list()
-    del widgets_screen1[6:7]               # Slicing removes unwanted widgets (systray)
+    # del widgets_screen1[6:7]               # Slicing removes unwanted widgets (systray)
     return widgets_screen1                 # Monitor 2 will display all widgets in widgets_list
 
 def init_screens():
