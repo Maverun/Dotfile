@@ -14,9 +14,6 @@ local function opt(scope, key, value)
   if scope ~= 'o' then scopes['o'][key] = value end
 end
 
---Show that we copy
-cmd 'au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=700}'
-
 opt('o','syntax','on')               -- Able syntax
 opt('o', 'hidden', true)             -- Enable modified buffers in background
 opt('o', 'encoding', 'utf-8')        -- Encoding displayed
@@ -42,6 +39,7 @@ opt('o', 'ignorecase', true)         -- Ignore case
 
 opt('o', 'backup',false)             -- Disable Backup since it is bit annoying to deal when open files
 opt('o','writebackup',false)         -- similar as backup setting
+opt('o','swapfile',false)         -- similar as backup setting
 
 opt('o', 'clipboard','unnamedplus')  -- allow to merge with system clipboard
 opt('o', 'cmdheight',1)              -- set command height 1
@@ -91,6 +89,7 @@ opt('w','cursorcolumn',true)
 -- hi LineNr cterm=None ctermbg=237 ctermfg=70
 -- This is to set column line up so we know where we reached end of famous 80th
 opt('w','colorcolumn',"80")
+vim.g.colorcolumn = "80"
 -- highlight colorColumn ctermbg=238
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐

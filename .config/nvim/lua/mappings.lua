@@ -1,23 +1,45 @@
+local n = 'n'
+local i = 'i'
+local v = 'v'
+
 local function map(mode, lhs, rhs, opts)
   local options = {noremap = true}
   if opts then options = vim.tbl_extend('force', options, opts) end
   vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
-local n = 'n'
-local i = 'i'
-local v = 'v'
 
+function resize(vertical, margin)
+  local cur_win = vim.api.nvim_get_current_win()
+  -- go (possibly) right
+  vim.cmd(string.format('wincmd %s', vertical and 'l' or 'j'))
+  local new_win = vim.api.nvim_get_current_win()
+
+  -- determine direction cond on increase and existing right-hand buffer
+  local not_last = not (cur_win == new_win)
+  local sign = margin > 0
+  -- go to previous window if required otherwise flip sign
+  if not_last == true then
+    vim.cmd [[wincmd p]]
+  else
+    sign = not sign
+  end
+
+  sign = sign and '+' or '-'
+  local dir = vertical and 'vertical ' or ''
+  local cmd = dir .. 'resize ' .. sign .. math.abs(margin) .. '<CR>'
+  vim.cmd(cmd)
+end
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                Navigation                                 │
 -- └───────────────────────────────────────────────────────────────────────────┘
 
 --Using alt + hjkl for resize windows
-map(n,'<M-j>',":resize -2<CR>")
-map(n,'<M-k>',":resize +2<CR>")
-map(n,'<M-h>',":vertical resize +2<CR>")
-map(n,'<M-l>',":vertical resize -2<CR>")
+map(n,'<M-h>',":lua resize(true,-2)<CR>")
+map(n,'<M-j>',":lua resize(false,2)<CR>")
+map(n,'<M-k>',":lua resize(false,-2)<CR>")
+map(n,'<M-l>',":lua resize(true,2)<CR>")
 
 -- better window navigation
 map(n,'<C-h>','<C-w>h')
@@ -59,7 +81,7 @@ map(i,'<M-u>','<Esc>viwUi')
 map(n,'<M-u>','viwU')
 
 -- Close buffer without closing window
-map(n,'<leader>q',':bq<bar>sp<bar>bn<bar>bd<CR>')
+map(n,'<leader>q',':bp<bar>sp<bar>bn<bar>bd<CR>')
 -- If i understood this.. it mean, go to
 -- previous buffer | split new one | buffer next | buffer delete it
 -- TLDR
@@ -105,11 +127,11 @@ map(n,'<leader>d','"_d')
 map(n,'<leader><space>',':nohlsearch<CR>')
 
 map(n,'<C-t>',':TagbarToggle<CR>')
-map(n,'<F2>',':NERDTreeToggle<CR>')
+map(n,'<F2>',':NvimTreeToggle<CR>')
 
 --Startify Plugins Hotkeys
 
-map(n,'<C-m>',':Startify<CR>')
+map(n,'<M-m>',':Startify<CR>')
 vim.cmd 'autocmd User Startified nmap <buffer> <C-m> <plug>(startify-open-buffers)'
 
 -- Mouse Middle Click Disable
@@ -207,5 +229,52 @@ map(v,'r',':<c-u>HSRmHighlight<CR>')
 vim.g.UltiSnipsExpandTrigger = "<F12>"
 vim.g.UltiSnipsJumpForwardTrigger = "<F12>"
 vim.g.UltiSnipsJumpBackwardTrigger = "<F12>"
+
+
+
+
+-- ┌───────────────────────────────────────────────────────────────────────────┐
+-- │                                    Dap                                    │
+-- └───────────────────────────────────────────────────────────────────────────┘
+
+map(n,'<leader>dc',':lua require"dap".continue()<CR>')
+map(n,'<leader>do',':lua require"dap".step_over()<CR>')
+map(n,'<leader>dj',':lua require"dap".step_into()<CR>')
+map(n,'<leader>dl',':lua require"dap".step_out()<CR>')
+map(n,'<leader>db',':lua require"dap".toggle_breakpoint()<CR>')
+map(n,'<leader>ds',':lua require"dap".set_breakpoint(vim.fn.input("Breakpoint Condition: "))<CR>')
+map(n,'<leader>dsl',':lua require"dap".set_breakpoint(nil,nil,vim.fn.input("Log point Message: "))<CR>')
+map(n,'<leader>dr',':lua require"dap".repl_open()<CR>')
+map(n,'<leader>drl',':lua require"dap".run_last()<CR>')
+
+
+-- ┌───────────────────────────────────────────────────────────────────────────┐
+-- │                                Vimspector                                 │
+-- └───────────────────────────────────────────────────────────────────────────┘
+
+map(n,'<leader>vc',':call VimspectorContinue')
+map(n,'<leader>vs',':call VimspectorStop')
+map(n,'<leader>vr',':call VimspectorRestart')
+map(n,'<leader>vp',':call VimspectorPause')
+map(n,'<leader>vb',':call VimspectorToggleBreakpoint')
+map(n,'<leader>vbc',':call VimspectorToggleConditionalBreakpoint')
+map(n,'<leader>vt',':call VimspectorRunToCursor')
+map(n,'<leader>vo',':call VimspectorStepOver')
+map(n,'<leader>vj',':call VimspectorStepInto')
+map(n,'<leader>vl',':call VimspectorStepOut')
+map(n,'<leader>vfu',':call VimspectorUpFrame')
+map(n,'<leader>vfd',':call VimspectorDownFrame')
+map(n,'<leader>vb',':call VimspectorBalloonEval')
+
+
+
+
+
+
+
+
+
+
+
 
 

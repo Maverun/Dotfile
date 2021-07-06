@@ -13,17 +13,48 @@ vim.g.tokyodark_enable_italic_comment = true
 vim.g.tokyodark_enable_italic = true
 vim.g.tokyodark_color_gamma = "1.1"
 
+vim.g.tokyonight_style = "night"
 
-cmd("colorscheme tokyodark")
---cmd 'hi Visual ctermfg=120'
-cmd 'hi Visual cterm=reverse ctermbg=NONE'
---cmd("highlight! StatusLineNC cterm=underline term=underline gui=underline guifg=#383c44")
---cmd 'set fillchars+=vert:▏'
---cmd('set listchars=tab:>\\ ,trail:-')
---highlight('Visual','#FFFFFF','#FFFFFF')
-
---highlight('VisualNOS','#FFFFFF','#FFFFFF')
+cmd("colorscheme tokyonight")
+--cmd("colorscheme tokyodark")
 highlight('TSComment','#0087ff','None')
 
-cmd 'hi WindowLine guifg=#4C4D5A guibg=#151623'
-cmd' set winhighlight=VertSplit:WindowLine'
+--cmd 'hi WindowLine guifg=#4C4D5A guibg=#151623'
+--cmd' set winhighlight=VertSplit:WindowLine'
+
+local diagnostic =  {
+      'diagnostics',
+      -- table of diagnostic sources, available sources:
+      -- nvim_lsp, coc, ale, vim_lsp
+      sources = {'nvim_lsp'},
+      -- displays diagnostics from defined severity
+      sections = {'error', 'warn', 'info', 'hint'},
+    }
+
+require'lualine'.setup {
+  options = {
+    icons_enabled = true,
+    theme = 'tokyonight';
+    component_separators = {'', ''},
+    section_separators = {'', ''},
+    disabled_filetypes = {}
+  },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {'branch'},
+    lualine_c = {'filename', diagnostic},
+    lualine_x = {'encoding', 'fileformat', 'filetype'},
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {'filename'},
+    lualine_x = {'location'},
+    lualine_y = {},
+    lualine_z = {}
+  },
+  tabline = {},
+  extensions = {}
+}

@@ -64,13 +64,14 @@ alias vim='nvim'
 #Path
 alias school='cd /ext_drive/SynologyDrive/Student\ Work\ Folder/University/Forth\ Year'
 alias nurevam='cd /ext_drive/SynologyDrive/Discord\ Bot/Github/Nurevam/'
-alias cdconfig='cd ~/.config/'
+alias configs='cd ~/.config/'
 
 #Window
 alias get_class='xprop | grep WM_CLASS'
 
 #git related
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+alias lazyconfig='lazygit --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
 # get error messages from journalctl
 alias jctl="journalctl -p 3 -xb"
@@ -131,3 +132,5 @@ task calendar
 xset r rate 210 40
 #eval "$(starship init bash)"
 
+
+alias luamake=/home/maverun/langservers/lua-language-server/3rd/luamake/luamake
