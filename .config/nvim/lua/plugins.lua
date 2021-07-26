@@ -10,16 +10,17 @@ return require("packer").startup(
 -- │                                Apperiances                                │
 -- └───────────────────────────────────────────────────────────────────────────┘
 
+    use 'tiagovla/tokyodark.nvim'                          -- Colorscheme
+    use 'folke/tokyonight.nvim'
     use 'kyazdani42/nvim-web-devicons'                       -- Icon and so on for more conviences
     use 'lukas-reineke/indent-blankline.nvim' -- to display indent line
     use 'norcalli/nvim-colorizer.lua'                      -- to show what color look like
     use 'kshenoy/vim-signature'                            -- To display where MARK is at (ma, mb ) etc
     use 'mhinz/vim-startify'                               -- Home page of VIM/NEOVIM
     use 'chrisbra/csv.vim'                                 -- CSV format pretty
-    use 'tiagovla/tokyodark.nvim'                          -- Colorscheme
     use "Pocco81/NoCLC.nvim"                                -- Disable cursorline/column on inactive window
-    use 'folke/tokyonight.nvim'
-
+    use 'kyazdani42/nvim-tree.lua'
+    use 'hoob3rt/lualine.nvim'
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                   Auto                                    │
 -- └───────────────────────────────────────────────────────────────────────────┘
@@ -46,8 +47,11 @@ return require("packer").startup(
 
     use 'godlygeek/tabular'
     use 'plasticboy/vim-markdown' --vim markdown for vimwiki
+    use 'iamcco/markdown-preview.nvim'
     use 'Pocco81/HighStr.nvim'
     use 'alok/notational-fzf-vim'
+    use 'lervag/wiki.vim'
+    use 'jbyuki/venn.nvim'
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                LSP Relate                                 │
@@ -89,16 +93,14 @@ return require("packer").startup(
 
     use "blackCauldron7/surround.nvim"                       -- allow to surround word!
 
-    -- use {"yamatsum/nvim-cursorline"}
+    -- use {"yamatsu m/nvim-cursorline"}
     use 'tjdevries/train.nvim'                               -- To be Gitgud, Rumor say master UP AND DOWN SON!
     use 'ThePrimeagen/vim-be-good'                           -- be faster with moment. train train!
 
     use 'mfussenegger/nvim-dap'
-    use 'hoob3rt/lualine.nvim'
-    use 'kyazdani42/nvim-tree.lua'
     use 'puremourning/vimspector'
-    use 'lervag/wiki.vim'
 
+    use 'L3MON4D3/LuaSnip'
     end,
     {
         display = {

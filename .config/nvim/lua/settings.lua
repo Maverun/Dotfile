@@ -56,6 +56,15 @@ opt('w','conceallevel',2)            -- allow to view markdown ease
 
 cmd 'autocmd BufNewFile,BufRead * setlocal formatoptions-=cro'
 
+vim.opt.listchars = {
+    tab = '',
+    conceal = '┊',
+    nbsp = 'ﮊ',
+    extends = '>',
+    precedes = '<',
+    trail = '·',
+    eol = '﬋',
+}
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                    Tab                                    │
 -- └───────────────────────────────────────────────────────────────────────────┘
@@ -136,7 +145,9 @@ require('nvim-treesitter.configs').setup{
     enable = true,
     additional_vim_regex_highlighting = true -- <= THIS LINE is the magic! for spelling
   },
-  indent = {enable = true},
+  indent = {
+    enable = true,
+    diable = {'python'}},
   autotag = {enable = true},
   incremental_selection = {enable = true}
 }
@@ -175,3 +186,4 @@ require'trouble'.setup{}
 require'FTerm'.setup{}
 require'lspsaga'.init_lsp_saga()
 --require'which-key'.setup{}
+

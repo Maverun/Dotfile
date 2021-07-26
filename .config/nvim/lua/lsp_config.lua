@@ -1,6 +1,6 @@
-function on_attach(client)
+function on_attach(client,bufnr)
     local function map(...)
-        vim.api.nvim_buf_set_keymap(bufnr, ...)
+        vim.api.nvim_buf_set_keymap(bufnr,'n',...)
     end
 
     local function buf_set_option(...)
@@ -10,17 +10,17 @@ function on_attach(client)
     buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 
     -- Mappings.
-    local opts = {noremap = true, silent = true, normal = true}
+    local opts = {noremap = true, silent = true}
     map("gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-    map("gd", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts)
-    map("K", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
+    --map("gd", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts)
+    --map("K", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
     map("gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-    map("<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+    map("<space>s", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
     map("<space>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", opts)
     map("<space>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", opts)
     map("<space>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", opts)
     map("<space>D", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
-    map("<space>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+    --map("<space>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
     map("gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
     map("<space>e", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", opts)
     map("[d", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", opts)
@@ -50,7 +50,7 @@ local function setup_servers()
     local servers = require'lspinstall'.installed_servers()
     for _, server in pairs(servers) do
         if contain(ignoreServers,server) == false then
-            require'lspconfig'[server].setup{}
+            require'lspconfig'[server].setup{on_attach = on_attach}
         end
     end
 end
@@ -100,6 +100,7 @@ table.insert(runtime_path, "lua/?/init.lua")
 
 require'lspconfig'.sumneko_lua.setup {
   cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
+  on_attach = on_attach,
   settings = {
     Lua = {
       runtime = {
@@ -115,6 +116,7 @@ require'lspconfig'.sumneko_lua.setup {
       workspace = {
         -- Make the server aware of Neovim runtime files
         library = vim.api.nvim_get_runtime_file("", true),
+        preloadFileSize = 150,
       },
       -- Do not send telemetry data containing a randomized but unique identifier
       telemetry = {

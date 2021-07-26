@@ -36,8 +36,9 @@ local autocmds = {
     { "TextYankPost", "*", "silent! lua vim.highlight.on_yank{higroup='IncSearch', timeout=2000}" };
   };
   quickscope = {
-    { 'Colorscheme', '*', 'highlight QuickScopePrimary guifg=#afff5f gui=underline ctermfg=50 cterm=underline'};
-    { 'Colorscheme', '*', 'highlight QuickScopePrimary guifg=#5fffff gui=underline ctermfg=50 cterm=underline'}
+    { 'ColorScheme', '*', 'highlight QuickScopePrimary guifg=#afff5f gui=underline ctermfg=50 cterm=underline'};
+    { 'ColorScheme', '*', 'highlight QuickScopeSecondary guifg=#5fffff gui=underline ctermfg=50 cterm=underline'};
+
     };
 }
 

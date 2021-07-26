@@ -18,11 +18,12 @@ require "compe".setup {
         buffer = {kind = "﬘" , true},
         calc = true,
         --vsnip = {kind = "﬌"}, --replace to what sign you prefer
-        snippets_nvim = {kind = "﬌"}, --replace to what sign you prefer
-        ultisnips = true,
+        snippets_nvim = {kind = "﬌",priority = 9999}, --replace to what sign you prefer
+        luasnip = {kind = "﬌",priority = 9999}, --replace to what sign you prefer
+        ultisnips = {kind = "﬌",priority = 9999}, --replace to what sign you prefer
         nvim_lsp = true,
         nvim_lua = true,
-        spell = true,
+        spell = {priority = 1},
         tags = true,
         --snippets_nvim = true,
         treesitter = true
@@ -44,6 +45,7 @@ end
 
 
 snip = require("snippets")
+luasnip = require('luasnip')
 -- tab completion
 -- Use (s-)tab to:
 --- move to prev/next item in completion menuone
@@ -55,6 +57,8 @@ _G.tab_complete = function()
     return t "<C-k>"
   elseif vim.fn["UltiSnips#CanExpandSnippet"]() == 1 or vim.fn["UltiSnips#CanJumpForwards"]() == 1 then
     return vim.api.nvim_replace_termcodes("<C-R>=UltiSnips#ExpandSnippetOrJump()<CR>", true, true, true)
+  elseif luasnip.expand_or_jumpable() then
+    return t'<Plug>luasnip-expand-or-jump'
   elseif check_back_space() then
     return t "<Tab>"
   else
@@ -70,6 +74,8 @@ _G.s_tab_complete = function()
     return t "<C-j>"
   elseif vim.fn["UltiSnips#CanJumpBackwards"]() == 1 then
     return vim.api.nvim_replace_termcodes("<C-R>=UltiSnips#JumpBackwards()<CR>", true, true, true)
+  elseif luasnip.jumpable(-1) then
+    return t'<Plug>luasnip-jump-prev'
   --elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
     --return t "<Plug>(vsnip-jump-prev)"
   else
@@ -110,5 +116,6 @@ vim.api.nvim_set_keymap("i", "<CR>", "v:lua.completions()", {expr = true})
 --for key, value in pairs(snip.snippets['_global']) do
     --print(key, '---',value)
 --end
+
 
 

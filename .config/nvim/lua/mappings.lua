@@ -8,6 +8,9 @@ local function map(mode, lhs, rhs, opts)
   vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
+local t = function(str)
+    return vim.api.nvim_replace_termcodes(str, true, true, true)
+end
 
 function resize(vertical, margin)
   local cur_win = vim.api.nvim_get_current_win()
@@ -31,15 +34,38 @@ function resize(vertical, margin)
   vim.cmd(cmd)
 end
 
+function function_cn()
+    print("wew")
+    if require('luasnip').choice_active() then
+        return t'<Plug>luasnip-next-choice'
+    else
+        return t':lua require("lspsaga.action").smart_scroll_with_saga(1)<CR>'
+    end
+end
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                Navigation                                 │
 -- └───────────────────────────────────────────────────────────────────────────┘
 
+function function_shift_K()
+    if vim.bo.filetype == "help" then
+        return vim.api.nvim_feedkeys('K','n',true)
+    else
+        return vim.api.nvim_input("d$o<esc>p0")
+    end
+end
+
+
+--map(n,'<S-k>',':lua function_K()<CR>')
+map(n,'<leader>k','lua function_shift_K()<CR>')
+map(n,'<leader>j','J')
+map(n,'<S-k>','k')
+map(n,'<S-j>','j')
+
 --Using alt + hjkl for resize windows
-map(n,'<M-h>',":lua resize(true,-2)<CR>")
-map(n,'<M-j>',":lua resize(false,2)<CR>")
-map(n,'<M-k>',":lua resize(false,-2)<CR>")
-map(n,'<M-l>',":lua resize(true,2)<CR>")
+map(n,'<M-h>',":lua resize(true,-2)<CR>", {silent = true})
+map(n,'<M-j>',":lua resize(false,2)<CR>", {silent = true})
+map(n,'<M-k>',":lua resize(false,-2)<CR>", {silent = true})
+map(n,'<M-l>',":lua resize(true,2)<CR>", {silent = true})
 
 -- better window navigation
 map(n,'<C-h>','<C-w>h')
@@ -64,8 +90,8 @@ map(n,'<S-Tab>','<<')
 --better tabbing in visual
 map(v,'<','<gv')
 map(v,'>','>gv')
-map(v,'<Tab>','<gv')
-map(v,'<S-Tab>','>gv')
+map(v,'<Tab>','>gv')
+map(v,'<S-Tab>','<gv')
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                Essentials                                 │
@@ -80,8 +106,8 @@ map(i,"<C-s>","<ESC>:w<CR>")
 map(i,'<M-u>','<Esc>viwUi')
 map(n,'<M-u>','viwU')
 
--- Close buffer without closing window
 map(n,'<leader>q',':bp<bar>sp<bar>bn<bar>bd<CR>')
+-- Close buffer without closing window
 -- If i understood this.. it mean, go to
 -- previous buffer | split new one | buffer next | buffer delete it
 -- TLDR
@@ -100,18 +126,30 @@ map(i,'<M-CR>','<Esc>O<Esc>0i')
 
 --Shfift Line up or down
 
-map(v,'<S-Up>',':m-2<CR>gv')
-map(v,'<S-Down>',":m '>+1<CR>gv")
-map(v,'<S-k>',':m-2<CR>gv')
-map(v,'<S-j>',":m '>+1<CR>gv")
+map(v,'<Up>',':m-2<CR>gv')
+map(v,'<Down>',":m '>+1<CR>gv")
+--map(v,'<S-Up>',':m-2<CR>gv')
+--map(v,'<S-Down>',":m '>+1<CR>gv")
+--map(v,'<S-k>',':m-2<CR>gv')
+--map(v,'<S-j>',":m '>+1<CR>gv")
 
-map(n,'<S-Up>','<Esc>:m-2<CR>')
-map(n,'<S-Down>',"<Esc>:m+1<CR>")
-map(n,'<S-k>','<Esc>:m-2<CR>')
-map(n,'<S-j>',"<Esc>:m+1<CR>")
+map(n,'<Up>','<Esc>:m-2<CR>')
+map(n,'<Down>',"<Esc>:m+1<CR>")
+--map(n,'<S-Up>','<Esc>:m-2<CR>')
+--map(n,'<S-Down>',"<Esc>:m+1<CR>")
+--map(n,'<S-k>','<Esc>:m-2<CR>')
+--map(n,'<S-j>',"<Esc>:m+1<CR>")
 
 map(i,'<S-Up>','<Esc>:m-2<CR>')
 map(i,'<S-Down>',"<Esc>:m+1<CR>")
+
+--Since we remove shifting line with jk, so let do one for k since opposite of J for join lines
+-- K is for checking man doucmentss
+-- so let make a function that check if files is help or not and we will just do depending on filetype
+-- such ft is help, then use as default K function else break line
+
+
+
 
 --Dupe the line during insert mode, same with visual mode
 --This is sent to register d, so we dont lose initial just in case
@@ -154,7 +192,7 @@ map(n,'<leader>s',':ISwap<CR>')
 --Images Paste (Useful for notes/markdown)
 map(n,'<F1>',':PasteImg')
 
-
+map(i,'<esc>','<esc>:update<cr>', {silent=true})
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                 Telescope                                 │
 -- └───────────────────────────────────────────────────────────────────────────┘
@@ -198,13 +236,12 @@ map(n,'<Space>k',':Lspsaga hover_doc<CR>')
 --scroll up and down
 map(n,'<C-n>',':lua require("lspsaga.action").smart_scroll_with_saga(1)<CR>')
 map(n,'<C-p>',':lua require("lspsaga.action").smart_scroll_with_saga(-1)<CR>')
---Check signature of functions
-map(n,'gs',':Lspsaga signature_help<CR>')
+--Check signature of functions - we will use default lsp
+--map(n,'<Space>s',':Lspsaga signature_help<CR>')
 -- Rename whole file related to this
-map(n,'gr',':Lspsaga rename<CR>')
+map(n,'<Space>r',':Lspsaga rename<CR>')
 -- preview definitons
-map(n,'gd',':Lspsaga preview_definition<CR>')
-
+map(n,'<Space>d',':Lspsaga preview_definition<CR>')
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                               FloatTerminal                               │
@@ -218,6 +255,7 @@ map('t', '<leader>tt','<C-\\><C-n>:lua require("FTerm").toggle()<cr>')
 -- │                                 Highlight                                 │
 -- └───────────────────────────────────────────────────────────────────────────┘
 
+
 map(v,'q',':<c-u>HSHighlight 2<CR> ')
 map(v,'r',':<c-u>HSRmHighlight<CR>')
 
@@ -230,7 +268,17 @@ vim.g.UltiSnipsExpandTrigger = "<F12>"
 vim.g.UltiSnipsJumpForwardTrigger = "<F12>"
 vim.g.UltiSnipsJumpBackwardTrigger = "<F12>"
 
+function luasnip_choice()
+    local snip = require('luasnip')
+    if snip.choice_active() then
+        print("yes")
+        return t '<Plug>luasnip-next-choice'
+    end
+    return t "<C-E>"
+end
 
+vim.cmd[[imap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>']]
+--map(i,'<C-E>',"<esc>:lua luasnip_choice()<cr>",{silent=true})
 
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐

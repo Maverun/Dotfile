@@ -17,10 +17,12 @@ vim.g.tokyonight_style = "night"
 
 cmd("colorscheme tokyonight")
 --cmd("colorscheme tokyodark")
-highlight('TSComment','#0087ff','None')
+--highlight('TSComment','#0087ff','None')
 
 --cmd 'hi WindowLine guifg=#4C4D5A guibg=#151623'
 --cmd' set winhighlight=VertSplit:WindowLine'
+vim.cmd[[highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline]]
+vim.cmd[[highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline]]
 
 local diagnostic =  {
       'diagnostics',
@@ -40,7 +42,7 @@ require'lualine'.setup {
     disabled_filetypes = {}
   },
   sections = {
-    lualine_a = {'mode'},
+    lualine_a = {{'mode',icon = '☯'}},
     lualine_b = {'branch'},
     lualine_c = {'filename', diagnostic},
     lualine_x = {'encoding', 'fileformat', 'filetype'},
@@ -58,3 +60,14 @@ require'lualine'.setup {
   tabline = {},
   extensions = {}
 }
+
+MyFoldText = function()
+    local line = vim.fn.getline(vim.v.foldstart)
+    local foldedlinecount = vim.v.foldend - vim.v.foldstart + 1
+    return '  '.. foldedlinecount .. '  ' .. line
+end
+
+vim.o.foldtext = "luaeval('MyFoldText()')"
+vim.o.fillchars = "fold: "
+
+

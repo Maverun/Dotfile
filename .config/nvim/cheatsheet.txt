@@ -81,3 +81,29 @@ Show all Mappings | :WhichKey
 Show all <leader> | :WhichKey <leader>
 Show all <leader> for Visual mode | :WhichKey <leader> v
 Show all mappings for VISUAL Mode etc | :Whichkey "v"
+
+##Dap @Debug @Dap
+Continue | <leader>dc
+Step Over | <leader>do
+Step Into | <leader>dj
+Step Out | <leader>dl
+Toggle Breakpoint | <leader>db
+Set Breakpoint | <leader>ds
+Set Breakpoint Log | <leader>dsl
+Repl Open | <leader>dr
+Run Last | <leader>drl
+
+##Vimspector @Debug @Vimspector
+Continue | <leader>vc
+Stop | <leader>vs
+Restart | <leader>vr
+Pause | <leader>vp
+Toggle Breakpoint | <leader>vb
+Toggle Condition Breakpoint | <leader>vbc
+Run to cursor | <leader>vt
+Step Over | <leader>vo
+Step Into | <leader>vj
+Step Out | <leader>vl
+Upframe | <leader>vfu
+Downframe | <leader>vfd
+BallonEval | <leader>vb
