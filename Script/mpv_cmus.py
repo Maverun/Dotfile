@@ -39,4 +39,4 @@ else: #from here, we will deal with MPV now...
         video = f"{path[0]}/{x[i+step]}"
         print(video)
         file = call('echo \'{ "command": ["quit"] }\' |' + socat)
-        check = call(f"mpv -fs \"{video}\" &")
+        check = call(f"mpv -fs --slang=en --sid=1 --alang=en  \"{video}\" &")
