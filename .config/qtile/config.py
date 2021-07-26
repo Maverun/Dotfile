@@ -574,6 +574,7 @@ groups.append(
                ScratchPad("scratchpad",[
                    DropDown("cmus",f"{myTerm} -e cmus"),
                    DropDown("taskerwarrior",f"{myTerm}",height = 0.7,width = 0.5,opacity = 1,y = 0.2,x = 0.2),
+                   DropDown("anime",f"{myTerm} -t \"ANIME\" -e trackma",height = 0.7,width = 0.5,opacity = 1,y = 0.2,x = 0.2),
                    DropDown("notes",f"{myTerm} -t \"NOTE\" -e sh -c 'sleep 0.4 && nvim /ext_drive/SynologyDrive/NotesTaking/index.md'",height = 1, opacity=1)
                    #more Dropdown
                ]))
@@ -581,6 +582,8 @@ keys.append(Key(sup,"F11",
                 lazy.group["scratchpad"].dropdown_toggle("cmus")))
 keys.append(Key(hyper,"w",
                 lazy.group["scratchpad"].dropdown_toggle("notes")))
+keys.append(Key(hyper,"a",
+                lazy.group["scratchpad"].dropdown_toggle("anime")))
 keys.append(Key(hyper,'Return',
                 lazy.group["scratchpad"].dropdown_toggle("taskerwarrior")))
 
