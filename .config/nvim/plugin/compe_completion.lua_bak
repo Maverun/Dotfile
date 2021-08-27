@@ -15,15 +15,15 @@ require "compe".setup {
     documentation = true,
     source = {
         path = true,
-        buffer = {kind = "﬘" , true},
+        buffer = {kind = "﬘" , true,priority=9000},
         calc = true,
         --vsnip = {kind = "﬌"}, --replace to what sign you prefer
-        snippets_nvim = {kind = "﬌",priority = 9999}, --replace to what sign you prefer
+        --snippets_nvim = {kind = "﬌",priority = 9999}, --replace to what sign you prefer
         luasnip = {kind = "﬌",priority = 9999}, --replace to what sign you prefer
-        ultisnips = {kind = "﬌",priority = 9999}, --replace to what sign you prefer
+        --ultisnips = {kind = "﬌",priority = 9999}, --replace to what sign you prefer
         nvim_lsp = true,
         nvim_lua = true,
-        spell = {priority = 1},
+        spell = {priority = 0},
         tags = true,
         --snippets_nvim = true,
         treesitter = true
@@ -44,7 +44,7 @@ local check_back_space = function()
 end
 
 
-snip = require("snippets")
+--snip = require("snippets")
 luasnip = require('luasnip')
 -- tab completion
 -- Use (s-)tab to:
@@ -53,10 +53,10 @@ luasnip = require('luasnip')
 _G.tab_complete = function()
   if vim.fn.pumvisible() == 1 then
         return t "<C-n>"
-  elseif snip.has_active_snippet() then
-    return t "<C-k>"
-  elseif vim.fn["UltiSnips#CanExpandSnippet"]() == 1 or vim.fn["UltiSnips#CanJumpForwards"]() == 1 then
-    return vim.api.nvim_replace_termcodes("<C-R>=UltiSnips#ExpandSnippetOrJump()<CR>", true, true, true)
+  --elseif snip.has_active_snippet() then
+    --return t "<C-k>"
+  --elseif vim.fn["UltiSnips#CanExpandSnippet"]() == 1 or vim.fn["UltiSnips#CanJumpForwards"]() == 1 then
+    --return vim.api.nvim_replace_termcodes("<C-R>=UltiSnips#ExpandSnippetOrJump()<CR>", true, true, true)
   elseif luasnip.expand_or_jumpable() then
     return t'<Plug>luasnip-expand-or-jump'
   elseif check_back_space() then
@@ -70,10 +70,10 @@ end
 _G.s_tab_complete = function()
   if vim.fn.pumvisible() == 1 then
     return t "<C-p>"
-  elseif snip.has_active_snippet() then
-    return t "<C-j>"
-  elseif vim.fn["UltiSnips#CanJumpBackwards"]() == 1 then
-    return vim.api.nvim_replace_termcodes("<C-R>=UltiSnips#JumpBackwards()<CR>", true, true, true)
+  --elseif snip.has_active_snippet() then
+    --return t "<C-j>"
+  --elseif vim.fn["UltiSnips#CanJumpBackwards"]() == 1 then
+    --return vim.api.nvim_replace_termcodes("<C-R>=UltiSnips#JumpBackwards()<CR>", true, true, true)
   elseif luasnip.jumpable(-1) then
     return t'<Plug>luasnip-jump-prev'
   --elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
@@ -94,14 +94,14 @@ vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
 
 function _G.completions()
     local npairs = require("nvim-autopairs")
-    local _, expanded = snip.lookup_snippet_at_cursor()
+    --local _, expanded = snip.lookup_snippet_at_cursor()
     if vim.fn.pumvisible() == 1 then
         if vim.fn.complete_info()["selected"] ~= -1 then
             return vim.fn["compe#confirm"]('<CR>')
         end
-    elseif expanded ~= nil then
-        snip.expand_at_cursor()
-        return
+    --elseif expanded ~= nil then
+        --snip.expand_at_cursor()
+        --return
     end
     return npairs.check_break_line_char()
 end

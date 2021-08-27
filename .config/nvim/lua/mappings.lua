@@ -1,3 +1,4 @@
+vim.g.mapleader=' ' -- setting space as a leader
 local n = 'n'
 local i = 'i'
 local v = 'v'
@@ -34,18 +35,14 @@ function resize(vertical, margin)
   vim.cmd(cmd)
 end
 
-function function_cn()
-    print("wew")
-    if require('luasnip').choice_active() then
-        return t'<Plug>luasnip-next-choice'
-    else
-        return t':lua require("lspsaga.action").smart_scroll_with_saga(1)<CR>'
-    end
-end
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                Navigation                                 │
 -- └───────────────────────────────────────────────────────────────────────────┘
 
+--Since we remove shifting line with jk, so let do one for k since opposite of J for join lines
+-- K is for checking man doucmentss
+-- so let make a function that check if files is help or not and we will just do depending on filetype
+-- such ft is help, then use as default K function else break line
 function function_shift_K()
     if vim.bo.filetype == "help" then
         return vim.api.nvim_feedkeys('K','n',true)
@@ -55,9 +52,12 @@ function function_shift_K()
 end
 
 
---map(n,'<S-k>',':lua function_K()<CR>')
-map(n,'<leader>k','lua function_shift_K()<CR>')
-map(n,'<leader>j','J')
+--┌────────────────────────────────────────────────────────────────────────────┐
+--│                                   Window                                   │
+--└────────────────────────────────────────────────────────────────────────────┘--map(n,'<S-k>',':lua function_K()<CR>')
+
+map(n,'\\k','lua function_shift_K()<CR>')
+map(n,'\\j','J')
 map(n,'<S-k>','k')
 map(n,'<S-j>','j')
 
@@ -76,8 +76,6 @@ map(n,'<C-l>','<C-w>l')
 --Buffer next page or previously
 -- gbn is nice optional, F12,F11 is just in case
 
-map(n,"<F12>",":bn<CR>")
-map(n,"<F11>",":bp<CR>")
 map(n,"gbn",":bn<CR>")
 map(n,"gbp",":bp<CR>")
 
@@ -97,6 +95,14 @@ map(v,'<S-Tab>','<gv')
 -- │                                Essentials                                 │
 -- └───────────────────────────────────────────────────────────────────────────┘
 
+map(n,"<M-s>",":luafile %<cr>")
+
+--we are marking where we are before we begin search so that way we can return to orignal spot
+map(n,"/","ms/")
+map(n,"?","ms?")
+map(n,'<S-h>','^')
+map(n,'<S-l>','$')
+map(n,'<S-q','@@') --screwed ex mode
 -- Save
 map(n,"<C-s>",":w<CR>")
 map(i,"<C-s>","<ESC>:w<CR>")
@@ -143,10 +149,6 @@ map(n,'<Down>',"<Esc>:m+1<CR>")
 map(i,'<S-Up>','<Esc>:m-2<CR>')
 map(i,'<S-Down>',"<Esc>:m+1<CR>")
 
---Since we remove shifting line with jk, so let do one for k since opposite of J for join lines
--- K is for checking man doucmentss
--- so let make a function that check if files is help or not and we will just do depending on filetype
--- such ft is help, then use as default K function else break line
 
 
 
@@ -187,12 +189,25 @@ map(i,'<4-MiddleMouse>','<LeftMouse>')
 map(n,'<leader>?',":Cheatsheet<CR>")
 
 --ISwap params
-map(n,'<leader>s',':ISwap<CR>')
+map(n,'\\s',':ISwap<CR>')
 
 --Images Paste (Useful for notes/markdown)
 map(n,'<F1>',':PasteImg')
 
-map(i,'<esc>','<esc>:update<cr>', {silent=true})
+function escape()
+    --this is since we got telescope prompt that will set buftype that which we are unable to save
+    if vim.bo.buftype == 'prompt' then
+        print("escaping")
+        return t'<esc>'
+    end
+    return t'<esc>:update'
+end
+map(i,'<esc>','<esc>:lua escape()<cr>', {silent=true})
+
+-- adding where it doesnt swap with old into reg, we will just use same one. so it make sense that way
+map(v,'p','"_dp')
+map(v,'P','"_dP')
+
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                 Telescope                                 │
 -- └───────────────────────────────────────────────────────────────────────────┘
@@ -201,6 +216,9 @@ map(n,'<leader>ff',':Telescope find_files<cr>')
 map(n,'<leader>fg',':Telescope live_grep<cr>')
 map(n,'<leader>fb',':Telescope buffers<cr>')
 map(n,'<leader>fh',':Telescope help_tags<cr>')
+map(n,'<leader>fm',':Telescope keymaps<cr>')
+--map(n,'<leader>fr',':Telescope frecency<cr>')
+map(n,'<leader>fr','<Cmd>lua require("telescope").extensions.frecency.frecency()<CR>')
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                    FZF                                    │
@@ -220,28 +238,28 @@ map(n, "<Leader>mm",':Maps<CR>mappings.vim')
 -- │                               Trouble LSPS                                │
 -- └───────────────────────────────────────────────────────────────────────────┘
 
-map(n, "<leader>xx", "<cmd>LspTroubleToggle<cr>")
-map(n, "<leader>xw", "<cmd>LspTroubleToggle lsp_workspace_diagnostics<cr>")
-map(n, "<leader>xd", "<cmd>LspTroubleToggle lsp_document_diagnostics<cr>")
-map(n, "<leader>xl", "<cmd>LspTroubleToggle loclist<cr>")
-map(n, "<leader>xq", "<cmd>LspTroubleToggle quickfix<cr>")
-map(n, "gR", "<cmd>LspTrouble lsp_references<cr>")
+--map(n, "<leader>xx", "<cmd>LspTroubleToggle<cr>")
+--map(n, "<leader>xw", "<cmd>LspTroubleToggle lsp_workspace_diagnostics<cr>")
+--map(n, "<leader>xd", "<cmd>LspTroubleToggle lsp_document_diagnostics<cr>")
+--map(n, "<leader>xl", "<cmd>LspTroubleToggle loclist<cr>")
+--map(n, "<leader>xq", "<cmd>LspTroubleToggle quickfix<cr>")
+--map(n, "gR", "<cmd>LspTrouble lsp_references<cr>")
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                  LSPSAGA                                  │
 -- └───────────────────────────────────────────────────────────────────────────┘
 
 --Hover docs
-map(n,'<Space>k',':Lspsaga hover_doc<CR>')
+--map(n,'<Space>k',':Lspsaga hover_doc<CR>')
 --scroll up and down
-map(n,'<C-n>',':lua require("lspsaga.action").smart_scroll_with_saga(1)<CR>')
-map(n,'<C-p>',':lua require("lspsaga.action").smart_scroll_with_saga(-1)<CR>')
+--map(n,'<C-n>',':lua require("lspsaga.action").smart_scroll_with_saga(1)<CR>')
+--map(n,'<C-p>',':lua require("lspsaga.action").smart_scroll_with_saga(-1)<CR>')
 --Check signature of functions - we will use default lsp
 --map(n,'<Space>s',':Lspsaga signature_help<CR>')
 -- Rename whole file related to this
-map(n,'<Space>r',':Lspsaga rename<CR>')
+--map(n,'<Space>r',':Lspsaga rename<CR>')
 -- preview definitons
-map(n,'<Space>d',':Lspsaga preview_definition<CR>')
+--map(n,'<Space>d',':Lspsaga preview_definition<CR>')
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                               FloatTerminal                               │
@@ -256,17 +274,8 @@ map('t', '<leader>tt','<C-\\><C-n>:lua require("FTerm").toggle()<cr>')
 -- └───────────────────────────────────────────────────────────────────────────┘
 
 
-map(v,'q',':<c-u>HSHighlight 2<CR> ')
-map(v,'r',':<c-u>HSRmHighlight<CR>')
-
-
--- ┌───────────────────────────────────────────────────────────────────────────┐
--- │                                 Ultisnips                                 │
--- └───────────────────────────────────────────────────────────────────────────┘
-
-vim.g.UltiSnipsExpandTrigger = "<F12>"
-vim.g.UltiSnipsJumpForwardTrigger = "<F12>"
-vim.g.UltiSnipsJumpBackwardTrigger = "<F12>"
+map(v,'<leader>h',':<c-u>HSHighlight 2<CR> ')
+map(v,'<leader>r',':<c-u>HSRmHighlight<CR>')
 
 function luasnip_choice()
     local snip = require('luasnip')
@@ -278,6 +287,8 @@ function luasnip_choice()
 end
 
 vim.cmd[[imap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>']]
+vim.cmd[[vmap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>']]
+vim.cmd[[smap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>']]
 --map(i,'<C-E>',"<esc>:lua luasnip_choice()<cr>",{silent=true})
 
 
@@ -292,7 +303,7 @@ map(n,'<leader>dl',':lua require"dap".step_out()<CR>')
 map(n,'<leader>db',':lua require"dap".toggle_breakpoint()<CR>')
 map(n,'<leader>ds',':lua require"dap".set_breakpoint(vim.fn.input("Breakpoint Condition: "))<CR>')
 map(n,'<leader>dsl',':lua require"dap".set_breakpoint(nil,nil,vim.fn.input("Log point Message: "))<CR>')
-map(n,'<leader>dr',':lua require"dap".repl_open()<CR>')
+map(n,'<leader>dr',':lua require"dap".repl.open()<CR>')
 map(n,'<leader>drl',':lua require"dap".run_last()<CR>')
 
 
@@ -300,19 +311,19 @@ map(n,'<leader>drl',':lua require"dap".run_last()<CR>')
 -- │                                Vimspector                                 │
 -- └───────────────────────────────────────────────────────────────────────────┘
 
-map(n,'<leader>vc',':call VimspectorContinue')
-map(n,'<leader>vs',':call VimspectorStop')
-map(n,'<leader>vr',':call VimspectorRestart')
-map(n,'<leader>vp',':call VimspectorPause')
-map(n,'<leader>vb',':call VimspectorToggleBreakpoint')
-map(n,'<leader>vbc',':call VimspectorToggleConditionalBreakpoint')
-map(n,'<leader>vt',':call VimspectorRunToCursor')
-map(n,'<leader>vo',':call VimspectorStepOver')
-map(n,'<leader>vj',':call VimspectorStepInto')
-map(n,'<leader>vl',':call VimspectorStepOut')
-map(n,'<leader>vfu',':call VimspectorUpFrame')
-map(n,'<leader>vfd',':call VimspectorDownFrame')
-map(n,'<leader>vb',':call VimspectorBalloonEval')
+--map(n,'<leader>vc','<Plug> VimspectorContinue')
+--map(n,'<leader>vs','<Plug> VimspectorStop')
+--map(n,'<leader>vr','<Plug> VimspectorRestart')
+--map(n,'<leader>vp','<Plug> VimspectorPause')
+--map(n,'<leader>vb','<Plug> VimspectorToggleBreakpoint')
+--map(n,'<leader>vh','<Plug> VimspectorToggleConditionalBreakpoint')
+--map(n,'<leader>vt','<Plug> VimspectorRunToCursor')
+--map(n,'<leader>vo','<Plug> VimspectorStepOver')
+--map(n,'<leader>vj','<Plug> VimspectorStepInto')
+--map(n,'<leader>vl','<Plug> VimspectorStepOut')
+--map(n,'<leader>vfu','<Plug> VimspectorUpFrame')
+--map(n,'<leader>vfd','<Plug> VimspectorDownFrame')
+--map(n,'<leader>ve','<Plug> VimspectorBalloonEval')
 
 
 

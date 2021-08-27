@@ -86,7 +86,7 @@ function M.list_buffers()
 end
 ]]
 
-function M.toggle_colorcolumn()
+function M.toggle_cursor_column()
   local wininfo = vim.fn.getwininfo()
   local cwind = vim.api.nvim_get_current_win()
   for _, win in pairs(wininfo) do
@@ -95,8 +95,12 @@ function M.toggle_colorcolumn()
     if ft == nil or ft == '' or ft == 'TelescopePrompt' then return end
     if win['winid'] ~= cwind then
       vim.api.nvim_win_set_option(win['winid'], 'colorcolumn', '')
+      vim.api.nvim_win_set_option(win['winid'], 'cursorline', false)
+      vim.api.nvim_win_set_option(win['winid'], 'cursorcolumn', false)
     else
-      vim.api.nvim_win_set_option(win['winid'], 'colorcolumn', vim.g.colorcolumn)
+      vim.api.nvim_win_set_option(win['winid'], 'colorcolumn', '80')
+      vim.api.nvim_win_set_option(win['winid'], 'cursorline', true)
+      vim.api.nvim_win_set_option(win['winid'], 'cursorcolumn', true)
     end
   end
 end

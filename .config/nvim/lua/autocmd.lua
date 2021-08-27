@@ -14,9 +14,19 @@ local function nvim_create_augroups(definitions)
   end
 end
 
+ function test()
+    local lua = require('luasnip')
+    print(lua.session.event_node:get_text()[1])
+end
+
+
 local autocmds = {
+    luasnip = {
+    --{ 'User','LuasnipInsertNodeEnter','lua test()'},
+    { 'User','LuasnipInsertNodeLeave','lua print(require("luasnip").session.event_node:get_text()[1])'}
+},
   set_formatoptions = {
-    { "BufEnter", "*", "setlocal formatoptions-=o" };
+    { "BufNewFile,BufEnter", "*", "setlocal formatoptions-=cro" };
   };
   terminal_job = {
     -- conflicts with neoterm
@@ -27,7 +37,7 @@ local autocmds = {
     { "VimResized", "*", [[tabdo wincmd =]]};
   };
   toggle_colorcolumn = {
-    { "VimResized,WinEnter,BufWinEnter", "*", [[lua require'utils'.toggle_colorcolumn()]]};
+    { "VimResized,WinEnter,BufWinEnter", "*", [[lua require'utils'.toggle_cursor_column()]]};
   },
   toggle_search_highlighting = {
     { "InsertEnter", "*", ":nohl | redraw" };
@@ -40,6 +50,13 @@ local autocmds = {
     { 'ColorScheme', '*', 'highlight QuickScopeSecondary guifg=#5fffff gui=underline ctermfg=50 cterm=underline'};
 
     };
+    packer = {
+        {'BufWritePost','plugins.lua','PackerCompile'}
+    };
+    --search_nohl = {
+    --{'CmdlineEnter', '/,\\?','set hlsearch'};
+    --{'CmdlineLeave','/,\\?','set nohlsearch'};
+    --}
 }
 
 nvim_create_augroups(autocmds)
