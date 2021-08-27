@@ -12,6 +12,7 @@ from typing import List  # noqa: F401
 from libqtile.log_utils import logger
 from datetime import datetime 
 from tkinter import Tk
+from prettytable import PrettyTable
 import json 
 myTerm = "alacritty"                             # My terminal of choice
 
@@ -19,6 +20,9 @@ myTerm = "alacritty"                             # My terminal of choice
 #monitor position, you can find order by xrandr --listactivemonitors    
 monitor_position = [[-1, 2,-1],#top
                     [ 3, 0, 1]]#middle
+
+def terminal(command,extra = ''):
+    return f"{myTerm} {extra} -e sh -c 'sleep 0.4 && {command}'"
 
 def debug_qtile(qtile):
     logger.warning(str(qtile.current_layout.name))
@@ -243,6 +247,30 @@ def custom_switch_group(qtile,direction):
     screen.cmd_toggle_group(target)
 
 
+def list_keyblinds(qtile):
+    # logger.warning("Right here")
+    # table = PrettyTable(["Modifiers","Keys","Descriptions"])
+    # max_width_length = 24 #its 23 but 24 as a nice even numbers.
+    # for k in keys:
+        # if isinstance(k,Key):
+            # mod = '+'.join(k.modifiers).replace('mod4','super').replace('mod1','alt')
+            # table.add_row([mod,k.key,k.desc])
+    # qtile.cmd_spawn(f'echo "{table}"|yad --text-info --back=#282c34 --fore=#46d9ff --geometry=1200x800 --justify=center',True)
+    # logger.warning(table)
+
+    logger.warning("Right here")
+    table = PrettyTable(["Modifiers","Keys","Descriptions"])
+    max_width_length = 24 #its 23 but 24 as a nice even numbers.
+    data = ''
+    for k in keys:
+        if isinstance(k,Key):
+            mod = ' + '.join(k.modifiers).replace('mod4','super').replace('mod1','alt')
+            if mod == '': mod = 'NONE'
+            data += f"'{mod}' {k.key} '{k.desc}' "
+    qtile.cmd_spawn(f'yad --list --back=#282c34 --fore=#46d9ff --grid-line="both" --geometry=1200x800 --justify=center --expand-column=0 --column="Modifiers" --column="Key" --column="Descriptions" {data}',True)
+    logger.warning(data)
+
+
 def custom_Screenshot(qtile,path,diary=False):
     logger.warning(diary)
     qtile.cmd_spawn(f"flameshot gui -p {path}")
@@ -280,7 +308,8 @@ Gkey        = ["mod4","control","shift","mod1"]
 hyper       = ["mod4","control","shift","mod1"]
 
 keys = [ #Setting key blindings
-    Key(sup,"v",lazy.function(debug_qtile)),
+    # Key(sup,"v",lazy.function(debug_qtile)),
+    Key(sup,"v",lazy.function(list_keyblinds)),
     # Key(sup, "Left", lazy.screen.prev_group()),
     # cycle to next group
     # Key(sup, "Right", lazy.screen.next_group()),
@@ -304,12 +333,12 @@ keys = [ #Setting key blindings
         ),
     #CHORD OF PROGRAM LAUNCHER
     KeyChord(sup,"p",[
-            Key([],"f",lazy.spawn("firefox"),lazy.function(lambda x: x.ungrab_chord()), desc="Firefox"),
-            Key([],"e",lazy.spawn("thunar"), lazy.function(lambda x: x.ungrab_chord()),desc="Thunar explorer"),
-            Key([],"c",lazy.spawn("gnome-clocks"),lazy.function(lambda x: x.ungrab_chord()), desc="Clocks"),
+            Key([],"f",lazy.spawn("firefox"),lazy.ungrab_chord(), desc="Firefox"),
+            Key([],"e",lazy.spawn("thunar"), lazy.ungrab_chord(),desc="Thunar explorer"),
+            Key([],"c",lazy.spawn("gnome-clocks"),lazy.ungrab_chord(), desc="Clocks"),
             Key([],"l",
                 lazy.spawn('rofi -modi run,drun,window -show drun -show-icons -sidebar-mode -kb-mode-next "Alt+Tab"'),
-                Key([],"c",lazy.spawn("gnome-clocks"),lazy.function(lambda x: x.ungrab_chord()), desc="Clocks"),
+                Key([],"c",lazy.spawn("gnome-clocks"),lazy.ungrab_chord(), desc="Clocks"),
                 # lazy.ungrab_chord(),
                 desc="Rofi Appfinder"),
     #End of CHORD
@@ -336,8 +365,8 @@ keys = [ #Setting key blindings
     KeyChord(hyper,"s",[
         Key([], "s",
             lazy.spawn("flameshot gui"),
-            # lazy.ungrab_chord(),
-            lazy.function(lambda x: x.ungrab_chord()),
+            lazy.ungrab_chord(),
+            # lazy.function(lambda x: x.ungrab_chord()),
             desc="Flameshot SS"),
         Key([], "d",
             lazy.function(custom_Screenshot,"/ext_drive/SynologyDrive/vimwiki/Dev/images/",True),
@@ -480,48 +509,48 @@ keys = [ #Setting key blindings
         desc="Swap to right of current window"),
 
     #Send window to new screen
-    Key(super_alt,"h",
+    Key(super_ctrl,"h",
         lazy.function(custom_send,"h"),
         desc="Send window to left screen"),
-    Key(super_alt,"j",
+    Key(super_ctrl,"j",
         lazy.function(custom_send,"j"),
         desc="Send window to down screen"),
-    Key(super_alt,"k",
+    Key(super_ctrl,"k",
         lazy.function(custom_send,"k"),
         desc="Send window to up screen"),
-    Key(super_alt,"l",
+    Key(super_ctrl,"l",
         lazy.function(custom_send,"l"),
         desc="Send window to right screen"),
 
     #Resize Window #as far as I can see, it only affect MonadTall and Tile?
-    Key(super_ctrl,"h",
+    Key(super_alt,"h",
         lazy.layout.shrink_main(),#Make sense since, right is shrinking to left
         desc="Grow master pane"),
-    Key(super_ctrl,"j",
+    Key(super_alt,"j",
         lazy.layout.grow(),
         desc="Grow down of current window"),
-    Key(super_ctrl,"k",
+    Key(super_alt,"k",
         lazy.layout.shrink(),
         desc="Grow up of current window"),
-    Key(super_ctrl,"l",
+    Key(super_alt,"l",
         lazy.layout.grow_main(), #make sense since to growing to right
         desc="Grow right of current window"),
     Key(sup, "n",
         lazy.layout.normalize(),
         desc='normalize window size ratios'
         ),
-    Key(super_ctrl,"n",
+    Key(super_alt,"n",
         lazy.layout.reset(),
         desc="Reset it looks"),
-    Key(super_ctrl, "m",
+    Key(super_alt, "m",
         lazy.layout.maximize(),
         desc='toggle window between minimum and maximum sizes'
         ),
-    Key(super_ctrl,"r",
+    Key(super_alt,"r",
         lazy.layout.rotate(), #Stack
         lazy.layout.flip(), #Monotall, maybe tile?
         desc="Rotate layout"),
-    Key(super_ctrl,"Return", #Stack only 
+    Key(super_alt,"Return", #Stack only 
         lazy.layout.toggle_split(),
         desc="Split stack"),
     Key(super_shift, "f",
@@ -543,21 +572,23 @@ keys = [ #Setting key blindings
 group_names = [("|1|MAIN", {'layout': 'monadtall'}),
                ("|2|DEV", {'layout': 'monadtall'}),
                ("|3|SYS", {'layout': 'monadtall'}),
-               ("|4|DOC", {'layout': 'monadtall',"matches":[
-                   Match(wm_class="Zathura"),
-                   Match(wm_class="cherrytree"),
-               ]}),
-               ("|5|VBOX", {'layout': 'monadtall'}),
-               ("|6|CHAT", {'layout': 'monadtall',"matches":[
+               ("|4|CHAT", {'layout': 'monadtall',"matches":[
+                   Match(wm_class="lightcord"),
                    Match(wm_class="lightcord"),
                ],#End of Match
                             }),#end of |6| CHAT
+               ("|5|VBOX", {'layout': 'monadtall'}),
+               ("|6|DOC", {'layout': 'monadtall',"matches":[
+                   Match(wm_class="Zathura"),
+                   Match(wm_class="cherrytree"),
+               ]}),
                ("|7|MUS", {'layout': 'monadtall'}),
                ("|8|VID", {'layout': 'monadtall',"matches":[
                     Match(wm_class="mpv"),
                     Match(wm_class="vlc"),
                ]}),
-               ("|9|Game", {'layout': 'monadtall'}),
+                ("|9|Game", {'layout': 'monadtall', 'matches':[
+                    Match(wm_class='Minecraft')]})
                ]
 
 groups = [Group(name, **kwargs) for name, kwargs in group_names]
@@ -572,10 +603,12 @@ for i, (name, kwargs) in enumerate(group_names, 1):
 
 groups.append(
                ScratchPad("scratchpad",[
-                   DropDown("cmus",f"{myTerm} -e cmus"),
+                   DropDown("cmus",terminal("cmus")),
                    DropDown("taskerwarrior",f"{myTerm}",height = 0.7,width = 0.5,opacity = 1,y = 0.2,x = 0.2),
-                   DropDown("anime",f"{myTerm} -t \"ANIME\" -e trackma",height = 0.7,width = 0.5,opacity = 1,y = 0.2,x = 0.2),
-                   DropDown("notes",f"{myTerm} -t \"NOTE\" -e sh -c 'sleep 0.4 && nvim /ext_drive/SynologyDrive/NotesTaking/index.md'",height = 1, opacity=1)
+                   # DropDown("anime",f"{myTerm} -t \"ANIME\" -e trackma",height = 0.7,width = 0.5,opacity = 1,y = 0.2,x = 0.2),
+                   DropDown("anime",terminal('trackma','-t "ANIME"'),height = 0.7,width = 0.5,opacity = 1,y = 0.2,x = 0.2),
+                   # DropDown("notes",f"{myTerm} -t \"NOTE\" -e sh -c 'sleep 0.4 && nvim /ext_drive/SynologyDrive/NotesTaking/index.md'",height = 1, opacity=1)
+                   DropDown("notes",terminal("nvim /ext_drive/SynologyDrive/NotesTaking/index.md",'-t "NOTE"'),height = 1, opacity=1,on_focus_lost_hide=False),
                    #more Dropdown
                ]))
 keys.append(Key(sup,"F11",
@@ -900,6 +933,7 @@ floating_layout = layout.Floating(float_rules=[
     Match(wm_class="org.gnome.clocks"), #clocks
     Match(wm_class="feh"), #feh
     Match(wm_class="flameshot"), #flameshot
+    Match(wm_class="yad"), #yad dialog
 ])
 auto_fullscreen = True
 focus_on_window_activation = "smart"
