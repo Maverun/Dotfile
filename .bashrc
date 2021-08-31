@@ -14,7 +14,8 @@ export NASN=/ext_drive/SynologyDrive/Discord*Bot/Github/Nurevam
 # export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 #NVIM as manpager
-export MANPAGER="nvim -c 'set ft=man' -"
+#export MANPAGER="nvim -c 'set ft=man' -"
+export MANPAGER="nvim +Man!"
 
 #ALIAS
 
@@ -60,14 +61,19 @@ alias bc='bc -l'
 #System
 alias suspend='systemctl suspend'
 alias vim='nvim'
+alias v='nvim'
+alias e='nvim'
 
 #Path
 alias school='cd /ext_drive/SynologyDrive/Student\ Work\ Folder/University/Forth\ Year'
 alias nurevam='cd /ext_drive/SynologyDrive/Discord\ Bot/Github/Nurevam/'
+alias drive='cd /ext_drive/SynologyDrive/'
 alias configs='cd ~/.config/'
+alias dev='cd ~/dev/'
 
 #Window
 alias get_class='xprop | grep WM_CLASS'
+alias get_key='xev'
 
 #git related
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'

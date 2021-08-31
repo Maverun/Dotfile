@@ -15,7 +15,7 @@ task sync &
 
 
 #process_list=(redshift-gtk lightcord ckb-next clipmenud trackma-gtk thunderbird gnome-clocks pavucontrol)
-process_list=(redshift-gtk lightcord clipmenud trackma-gtk thunderbird kdeconnect-app gnome-clocks)
+process_list=(redshift-gtk lightcord clipmenud trackma-gtk thunderbird kdeconnect-app gnome-clocks element-desktop)
 
 for p in "${process_list[@]}"
 do

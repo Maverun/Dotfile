@@ -707,6 +707,7 @@ cursor:
 #
 # If the same trigger is assigned to multiple actions, all of them are executed
 # in the order they were defined in.
+
 key_bindings:
   # - { key: Back, mods: Control, chars: "\x15" } # delete word/line
    - { key: Back, mods: Control, chars: "\x17" } # delete word/line
@@ -723,7 +724,7 @@ key_bindings:
    - { key: Return,   mods: Shift,   chars: "\x1b[13;2u" }
   # Vi Mode
   #- { key: Space,  mods: Shift|Control, mode: Vi, action: ScrollToBottom          }
-  #- { key: Space,  mods: Shift|Control,           action: ToggleViMode            }
+   - { key: Escape,  mods: Shift|Control,           action: ToggleViMode            }
   #- { key: Escape,                      mode: Vi, action: ClearSelection          }
   #- { key: I,                           mode: Vi, action: ScrollToBottom          }
   #- { key: I,                           mode: Vi, action: ToggleViMode            }

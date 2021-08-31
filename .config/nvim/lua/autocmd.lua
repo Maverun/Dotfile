@@ -53,6 +53,10 @@ local autocmds = {
     packer = {
         {'BufWritePost','plugins.lua','PackerCompile'}
     };
+  map_K = {
+        {'FileType','man', [[:lua vim.api.nvim_buf_set_keymap(0,"n","K",":lua vim.api.nvim_feedkeys('K','n',true)<CR>",{noremap=true,silent=true})]]},
+        {'FileType','help',[[:lua vim.api.nvim_buf_set_keymap(0,"n","K",":lua vim.api.nvim_feedkeys('K','n',true)<CR>",{noremap=true,silent=true})]]},
+    },
     --search_nohl = {
     --{'CmdlineEnter', '/,\\?','set hlsearch'};
     --{'CmdlineLeave','/,\\?','set nohlsearch'};

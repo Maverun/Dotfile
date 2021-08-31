@@ -36,79 +36,26 @@ function resize(vertical, margin)
 end
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
--- │                                Navigation                                 │
--- └───────────────────────────────────────────────────────────────────────────┘
-
---Since we remove shifting line with jk, so let do one for k since opposite of J for join lines
--- K is for checking man doucmentss
--- so let make a function that check if files is help or not and we will just do depending on filetype
--- such ft is help, then use as default K function else break line
-function function_shift_K()
-    if vim.bo.filetype == "help" then
-        return vim.api.nvim_feedkeys('K','n',true)
-    else
-        return vim.api.nvim_input("d$o<esc>p0")
-    end
-end
-
-
---┌────────────────────────────────────────────────────────────────────────────┐
---│                                   Window                                   │
---└────────────────────────────────────────────────────────────────────────────┘--map(n,'<S-k>',':lua function_K()<CR>')
-
-map(n,'\\k','lua function_shift_K()<CR>')
-map(n,'\\j','J')
-map(n,'<S-k>','k')
-map(n,'<S-j>','j')
-
---Using alt + hjkl for resize windows
-map(n,'<M-h>',":lua resize(true,-2)<CR>", {silent = true})
-map(n,'<M-j>',":lua resize(false,2)<CR>", {silent = true})
-map(n,'<M-k>',":lua resize(false,-2)<CR>", {silent = true})
-map(n,'<M-l>',":lua resize(true,2)<CR>", {silent = true})
-
--- better window navigation
-map(n,'<C-h>','<C-w>h')
-map(n,'<C-j>','<C-w>j')
-map(n,'<C-k>','<C-w>k')
-map(n,'<C-l>','<C-w>l')
-
---Buffer next page or previously
--- gbn is nice optional, F12,F11 is just in case
-
-map(n,"gbn",":bn<CR>")
-map(n,"gbp",":bp<CR>")
-
--- ┌───────────────────────────────────────────────────────────────────────────┐
--- │                               Tab Functions                               │
--- └───────────────────────────────────────────────────────────────────────────┘
-
--- for command mode
-map(n,'<S-Tab>','<<')
---better tabbing in visual
-map(v,'<','<gv')
-map(v,'>','>gv')
-map(v,'<Tab>','>gv')
-map(v,'<S-Tab>','<gv')
-
--- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                Essentials                                 │
 -- └───────────────────────────────────────────────────────────────────────────┘
 
-map(n,"<M-s>",":luafile %<cr>")
+map(n,"<M-s>",":source %<cr>") -- source either vim/lua for future
+map(n,';',':') -- save time pressing shift or rely on autoshift
 
---we are marking where we are before we begin search so that way we can return to orignal spot
-map(n,"/","ms/")
-map(n,"?","ms?")
-map(n,'<S-h>','^')
-map(n,'<S-l>','$')
-map(n,'<S-q','@@') --screwed ex mode
+
+-- unmap lightspeed fFtT, its annoying, only good is s only
+map(n,'f','f')
+map(n,'F','F')
+map(n,'t','t')
+map(n,'T','T')
+
+map(n,'<S-q>','@@') --screwed ex mode
+
 -- Save
 map(n,"<C-s>",":w<CR>")
 map(i,"<C-s>","<ESC>:w<CR>")
 
 -- Easy Caps
-
 map(i,'<M-u>','<Esc>viwUi')
 map(n,'<M-u>','viwU')
 
@@ -121,7 +68,7 @@ map(n,'<leader>q',':bp<bar>sp<bar>bn<bar>bd<CR>')
 -- where | mean then do this (like a pipe)
 
 -- Map Ctrl-Backspace to delete previous word in insert mode
--- Cuz as I am using new keyboard wher duble backspace give C-Backspace
+-- Cuz as I am using new keyboard where double press backspace give C-Backspace
 -- So i can use it for general stuff other tha vim
 
 map(i,'<C-BS>','<C-W>')
@@ -155,8 +102,8 @@ map(i,'<S-Down>',"<Esc>:m+1<CR>")
 
 --Dupe the line during insert mode, same with visual mode
 --This is sent to register d, so we dont lose initial just in case
-map(i,'<C-d>','<Esc>"dyy"dpi')
-map(v,'<C-d>','"dygvo<esc>"dp')
+map(i,'<M-d>','<Esc>"dyy"dpi')
+map(v,'<M-d>','"dygvo<esc>"dp')
 map(n,'<M-d>','"dyy"dp')
 
 --Send them to VOID register
@@ -172,7 +119,6 @@ map(n,'<F2>',':NvimTreeToggle<CR>')
 --Startify Plugins Hotkeys
 
 map(n,'<M-m>',':Startify<CR>')
-vim.cmd 'autocmd User Startified nmap <buffer> <C-m> <plug>(startify-open-buffers)'
 
 -- Mouse Middle Click Disable
 map(n,'<MiddleMouse>','<LeftMouse>')
@@ -209,6 +155,61 @@ map(v,'p','"_dp')
 map(v,'P','"_dP')
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
+-- │                                Navigation                                 │
+-- └───────────────────────────────────────────────────────────────────────────┘
+
+map(n,'\\k','d$o<esc>p0')
+map(n,'\\j','J')
+map(n,'<S-k>','k')
+map(n,'<S-j>','j')
+
+--we are marking where we are before we begin search so that way we can return to orignal spot
+map(n,"/","ms/")
+map(n,"?","ms?")
+
+-- instead of moving cursor to top and bottom, we can move left and right fast instead reaching manual way
+-- this also mean I dont have to do I<esc> or A<esc>
+map(n,'<S-h>','^')
+map(n,'<S-l>','$')
+map(v,'<S-h>','^')
+map(v,'<S-l>','$')
+
+--┌────────────────────────────────────────────────────────────────────────────┐
+--│                                   Window                                   │
+--└────────────────────────────────────────────────────────────────────────────┘--map(n,'<S-k>',':lua function_K()<CR>')
+
+
+--Using alt + hjkl for resize windows
+map(n,'<M-h>',":lua resize(true,-2)<CR>", {silent = true})
+map(n,'<M-j>',":lua resize(false,2)<CR>", {silent = true})
+map(n,'<M-k>',":lua resize(false,-2)<CR>", {silent = true})
+map(n,'<M-l>',":lua resize(true,2)<CR>", {silent = true})
+
+-- better window navigation
+map(n,'<C-h>','<C-w>h')
+map(n,'<C-j>','<C-w>j')
+map(n,'<C-k>','<C-w>k')
+map(n,'<C-l>','<C-w>l')
+
+--Buffer next page or previously
+-- gbn is nice optional, F12,F11 is just in case
+
+map(n,"gbn",":bn<CR>")
+map(n,"gbp",":bp<CR>")
+
+-- ┌───────────────────────────────────────────────────────────────────────────┐
+-- │                               Tab Functions                               │
+-- └───────────────────────────────────────────────────────────────────────────┘
+
+-- for command mode
+map(n,'<S-Tab>','<<')
+--better tabbing in visual
+map(v,'<','<gv')
+map(v,'>','>gv')
+map(v,'<Tab>','>gv')
+map(v,'<S-Tab>','<gv')
+
+-- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                 Telescope                                 │
 -- └───────────────────────────────────────────────────────────────────────────┘
 
@@ -217,21 +218,20 @@ map(n,'<leader>fg',':Telescope live_grep<cr>')
 map(n,'<leader>fb',':Telescope buffers<cr>')
 map(n,'<leader>fh',':Telescope help_tags<cr>')
 map(n,'<leader>fm',':Telescope keymaps<cr>')
---map(n,'<leader>fr',':Telescope frecency<cr>')
 map(n,'<leader>fr','<Cmd>lua require("telescope").extensions.frecency.frecency()<CR>')
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                    FZF                                    │
 -- └───────────────────────────────────────────────────────────────────────────┘
 
-map(n, "<C-p>",":Files<Cr>")
-map(n, "<Leader>b", ':Buffers<Cr>')
-map(n, "<Leader>c", ':Commands<Cr>')
-map(n, "<Leader>m", ':Maps<Cr>')
-map(n, "<Leader>T", ':BTags<Cr>')
-map(n, "<Leader>l", ':Lines<Cr>')
---map(n, "<Leader>?", ':Helptags<Cr>')
-map(n, "<Leader>mm",':Maps<CR>mappings.vim')
+--map(n, "<C-p>",":Files<Cr>")
+--map(n, "<Leader>b", ':Buffers<Cr>')
+--map(n, "<Leader>c", ':Commands<Cr>')
+--map(n, "<Leader>m", ':Maps<Cr>')
+--map(n, "<Leader>T", ':BTags<Cr>')
+--map(n, "<Leader>l", ':Lines<Cr>')
+----map(n, "<Leader>?", ':Helptags<Cr>')
+--map(n, "<Leader>mm",':Maps<CR>mappings.vim')
 
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
@@ -274,7 +274,7 @@ map('t', '<leader>tt','<C-\\><C-n>:lua require("FTerm").toggle()<cr>')
 -- └───────────────────────────────────────────────────────────────────────────┘
 
 
-map(v,'<leader>h',':<c-u>HSHighlight 2<CR> ')
+map(v,'<leader>h',':<c-u>HSHighlight 9<CR> ')
 map(v,'<leader>r',':<c-u>HSRmHighlight<CR>')
 
 function luasnip_choice()
@@ -296,15 +296,15 @@ vim.cmd[[smap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next
 -- │                                    Dap                                    │
 -- └───────────────────────────────────────────────────────────────────────────┘
 
-map(n,'<leader>dc',':lua require"dap".continue()<CR>')
-map(n,'<leader>do',':lua require"dap".step_over()<CR>')
-map(n,'<leader>dj',':lua require"dap".step_into()<CR>')
-map(n,'<leader>dl',':lua require"dap".step_out()<CR>')
-map(n,'<leader>db',':lua require"dap".toggle_breakpoint()<CR>')
-map(n,'<leader>ds',':lua require"dap".set_breakpoint(vim.fn.input("Breakpoint Condition: "))<CR>')
-map(n,'<leader>dsl',':lua require"dap".set_breakpoint(nil,nil,vim.fn.input("Log point Message: "))<CR>')
-map(n,'<leader>dr',':lua require"dap".repl.open()<CR>')
-map(n,'<leader>drl',':lua require"dap".run_last()<CR>')
+map(n,'\\dc',':lua require"dap".continue()<CR>')
+map(n,'\\do',':lua require"dap".step_over()<CR>')
+map(n,'\\dj',':lua require"dap".step_into()<CR>')
+map(n,'\\dl',':lua require"dap".step_out()<CR>')
+map(n,'\\db',':lua require"dap".toggle_breakpoint()<CR>')
+map(n,'\\ds',':lua require"dap".set_breakpoint(vim.fn.input("Breakpoint Condition: "))<CR>')
+map(n,'\\dsl',':lua require"dap".set_breakpoint(nil,nil,vim.fn.input("Log point Message: "))<CR>')
+map(n,'\\dr',':lua require"dap".repl.open()<CR>')
+map(n,'\\drl',':lua require"dap".run_last()<CR>')
 
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐

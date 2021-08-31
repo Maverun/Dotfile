@@ -246,29 +246,26 @@ def custom_switch_group(qtile,direction):
     #Now we will swap with that target!
     screen.cmd_toggle_group(target)
 
+def get_key(k,mod=None,chkey=None):
+    #mod and chkey are one that is Keychords 
+    if mod is None: 
+        mod = ' + '.join(k.modifiers)
+    else: mod = 'CHORD: ' + ' + '.join(mod) + f' + {chkey}'
+    mod = mod.replace('mod4','super').replace('mod1','alt') #human readable
+    return f"'{mod}' {k.key} '{k.desc}' "
+        
 
 def list_keyblinds(qtile):
-    # logger.warning("Right here")
-    # table = PrettyTable(["Modifiers","Keys","Descriptions"])
-    # max_width_length = 24 #its 23 but 24 as a nice even numbers.
-    # for k in keys:
-        # if isinstance(k,Key):
-            # mod = '+'.join(k.modifiers).replace('mod4','super').replace('mod1','alt')
-            # table.add_row([mod,k.key,k.desc])
-    # qtile.cmd_spawn(f'echo "{table}"|yad --text-info --back=#282c34 --fore=#46d9ff --geometry=1200x800 --justify=center',True)
-    # logger.warning(table)
-
-    logger.warning("Right here")
-    table = PrettyTable(["Modifiers","Keys","Descriptions"])
-    max_width_length = 24 #its 23 but 24 as a nice even numbers.
+    #This job is print out all current keyblinds i have so i can see them when i need to 
+    #thankfully, they Are quite straightforward and easily
     data = ''
-    for k in keys:
-        if isinstance(k,Key):
-            mod = ' + '.join(k.modifiers).replace('mod4','super').replace('mod1','alt')
-            if mod == '': mod = 'NONE'
-            data += f"'{mod}' {k.key} '{k.desc}' "
-    qtile.cmd_spawn(f'yad --list --back=#282c34 --fore=#46d9ff --grid-line="both" --geometry=1200x800 --justify=center --expand-column=0 --column="Modifiers" --column="Key" --column="Descriptions" {data}',True)
-    logger.warning(data)
+    for k in keys: 
+        if isinstance(k,Key): data += get_key(k)
+        else: 
+            for x in k.submappings: 
+                data += get_key(x,k.modifiers,k.key) 
+            
+    qtile.cmd_spawn(f'yad --title="Qtiles Keyblind" --no-buttons --list --grid-lines=both --geometry=1200x800  --expand-column=0 --column="Modifiers" --column="Key" --column="Descriptions" {data}',True)
 
 
 def custom_Screenshot(qtile,path,diary=False):
@@ -324,18 +321,20 @@ keys = [ #Setting key blindings
         ),
     Key(super_shift, "x",
         lazy.spawncmd(),
-        desc='Launches My Terminal'
+        desc='Launches My qtile Terminal'
         ),
     Key(super_shift, "Return",
         lazy.spawn("dmenu_run -m 0 -p 'Run: '"),
         # lazy.spawn("rofi -show drun -config ~/.config/rofi/themes/dt-dmenu.rasi -display-drun \"Run: \" -drun-display-format \"{name}\""),
         desc='Run Launcher'
         ),
+
     #CHORD OF PROGRAM LAUNCHER
     KeyChord(sup,"p",[
             Key([],"f",lazy.spawn("firefox"),lazy.ungrab_chord(), desc="Firefox"),
             Key([],"e",lazy.spawn("thunar"), lazy.ungrab_chord(),desc="Thunar explorer"),
             Key([],"c",lazy.spawn("gnome-clocks"),lazy.ungrab_chord(), desc="Clocks"),
+            Key([],"s",lazy.spawn(home + "/Script/shutdownMenu"),lazy.ungrab_chord(), desc="Shutdown Menu"),
             Key([],"l",
                 lazy.spawn('rofi -modi run,drun,window -show drun -show-icons -sidebar-mode -kb-mode-next "Alt+Tab"'),
                 Key([],"c",lazy.spawn("gnome-clocks"),lazy.ungrab_chord(), desc="Clocks"),
@@ -343,25 +342,28 @@ keys = [ #Setting key blindings
                 desc="Rofi Appfinder"),
     #End of CHORD
                 ],mode="Program Launcher"),
+
     #Keyboard hotkey G1-G6 
-    Key(Gkey,"F12",
-        lazy.spawn("flameshot gui"),
-        desc="Run Screenshot mode"),
-    Key(Gkey,"F11",
-        lazy.spawn(home + "/Script/add_todo"),
-        desc="Add todo task to TODO.MD"),
-    Key(Gkey,"F10",
-        lazy.spawn(home + "/Script/config_edit"),
-        desc="Confit Edit"),
-    Key(Gkey,"F9",
-        lazy.spawn('rofi -modi run,drun,window -show drun -show-icons -sidebar-mode -kb-mode-next "Alt+Tab"'),
-        desc="Rofi Appfinder"),
-    Key(Gkey,"F8",
-        lazy.spawn(home + "/Script/kill_process"),
-        desc="Confit Edit"),
-    Key(Gkey,"F7",
-        lazy.spawn(home + "/Script/search"),
-        desc="Search Engine"),
+    # Key(Gkey,"F12",
+        # lazy.spawn("flameshot gui"),
+        # desc="Run Screenshot mode"),
+    # Key(Gkey,"F11",
+        # lazy.spawn(home + "/Script/add_todo"),
+        # desc="Add todo task to TODO.MD"),
+    # Key(Gkey,"F10",
+        # lazy.spawn(home + "/Script/config_edit"),
+        # desc="Confit Edit"),
+    # Key(Gkey,"F9",
+        # lazy.spawn('rofi -modi run,drun,window -show drun -show-icons -sidebar-mode -kb-mode-next "Alt+Tab"'),
+        # desc="Rofi Appfinder"),
+    # Key(Gkey,"F8",
+        # lazy.spawn(home + "/Script/kill_process"),
+        # desc="Confit Edit"),
+    # Key(Gkey,"F7",
+        # lazy.spawn(home + "/Script/search"),
+        # desc="Search Engine"),
+
+    #Screenshot modes
     KeyChord(hyper,"s",[
         Key([], "s",
             lazy.spawn("flameshot gui"),
@@ -373,6 +375,8 @@ keys = [ #Setting key blindings
             lazy.ungrab_chord(),
             desc="Flameshot and save files into Dev Diary Vimwiki")
     ], mode="Screenshot Mode"),
+
+    #scripts
     Key(hyper,"t",
         lazy.spawn(home + "/Script/add_todo"),
         desc="Add todo task to TODO.MD"),
@@ -385,9 +389,7 @@ keys = [ #Setting key blindings
     Key(hyper,"f",
         lazy.spawn(home + "/Script/search"),
         desc="Search Engine"),
-    # Key(hyper,"w",
-        # lazy.spawn("alacritty -t \"NOTE\" -e sh -c 'sleep 0.4 && nvim /ext_drive/SynologyDrive/NotesTaking/index.md'"),
-        # desc="Notes"),
+
     #Audio related
     Key([],"XF86AudioPlay",
         lazy.spawn("python " + home + "/Script/mpv_cmus.py pause"),
@@ -424,6 +426,7 @@ keys = [ #Setting key blindings
     Key(super_shift,"Tab",
         lazy.prev_layout(),
         desc='Toggle through previous layout'),
+
     Key(super_shift, "c",
         lazy.window.kill(),
         desc='Kill active window'
@@ -436,6 +439,7 @@ keys = [ #Setting key blindings
         lazy.shutdown(),
         desc='Shutdown Qtile'
         ),
+
     ### Switch focus to specific monitor (out of fourth)
     Key(sup, "q",
         lazy.to_screen(3),
@@ -453,6 +457,7 @@ keys = [ #Setting key blindings
         lazy.to_screen(2),
         desc='Keyboard focus to monitor 4'
         ),
+
     ### Switch focus of monitors
     Key(sup, "period",
         lazy.next_screen(),
@@ -574,7 +579,7 @@ group_names = [("|1|MAIN", {'layout': 'monadtall'}),
                ("|3|SYS", {'layout': 'monadtall'}),
                ("|4|CHAT", {'layout': 'monadtall',"matches":[
                    Match(wm_class="lightcord"),
-                   Match(wm_class="lightcord"),
+                   Match(wm_class="element"),
                ],#End of Match
                             }),#end of |6| CHAT
                ("|5|VBOX", {'layout': 'monadtall'}),
@@ -588,14 +593,14 @@ group_names = [("|1|MAIN", {'layout': 'monadtall'}),
                     Match(wm_class="vlc"),
                ]}),
                 ("|9|Game", {'layout': 'monadtall', 'matches':[
-                    Match(wm_class='Minecraft')]})
+                    Match(wm_class='Minecraft_*')]})
                ]
 
 groups = [Group(name, **kwargs) for name, kwargs in group_names]
 
 for i, (name, kwargs) in enumerate(group_names, 1):
-    keys.append(Key(sup, str(i), lazy.group[name].toscreen()))        # Switch to another group
-    keys.append(Key(super_shift, str(i), lazy.window.togroup(name))) # Send current window to another group
+    keys.append(Key(sup, str(i), lazy.group[name].toscreen(),desc=f"Move to Group {name}"))        # Switch to another group
+    keys.append(Key(super_shift, str(i), lazy.window.togroup(name),desc=f"Send Window to Group {name}")) # Send current window to another group
 
 # ┌───────────────────────────────────────────────────────────────────────────┐
 # │                             Group ScratchPad                              │
@@ -611,14 +616,15 @@ groups.append(
                    DropDown("notes",terminal("nvim /ext_drive/SynologyDrive/NotesTaking/index.md",'-t "NOTE"'),height = 1, opacity=1,on_focus_lost_hide=False),
                    #more Dropdown
                ]))
+
 keys.append(Key(sup,"F11",
-                lazy.group["scratchpad"].dropdown_toggle("cmus")))
+                lazy.group["scratchpad"].dropdown_toggle("cmus"), desc="Dropdown cmus"))
 keys.append(Key(hyper,"w",
-                lazy.group["scratchpad"].dropdown_toggle("notes")))
+                lazy.group["scratchpad"].dropdown_toggle("notes"), desc="Dropdown Notes"))
 keys.append(Key(hyper,"a",
-                lazy.group["scratchpad"].dropdown_toggle("anime")))
+                lazy.group["scratchpad"].dropdown_toggle("anime"), desc="Dropdown Animes Listing"))
 keys.append(Key(hyper,'Return',
-                lazy.group["scratchpad"].dropdown_toggle("taskerwarrior")))
+                lazy.group["scratchpad"].dropdown_toggle("taskerwarrior"), desc="Dropdown Terminal/TaskWarrior"))
 
 # ┌───────────────────────────────────────────────────────────────────────────┐
 # │                                  Layout                                   │
