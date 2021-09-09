@@ -1,4 +1,3 @@
-#
 # ~/.bashrc
 #
 export EDITOR=nvim
@@ -14,7 +13,7 @@ export NASN=/ext_drive/SynologyDrive/Discord*Bot/Github/Nurevam
 # export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 #NVIM as manpager
-#export MANPAGER="nvim -c 'set ft=man' -"
+# export MANPAGER="nvim -c 'set ft=man' -"
 export MANPAGER="nvim +Man!"
 
 #ALIAS
@@ -99,32 +98,32 @@ $Function
 function cheat(){ curl cheat.sh/"$@"; }
 
 extract () {
-	if [ -f $1 ] ; then
-		case $1 in
-			*.tar.bz2)	tar xjf $1		;;
-			*.tar.gz)	tar xzf $1		;;
-			*.bz2)		bunzip2 $1		;;
-			*.rar)		rar x $1		;;
-			*.gz)		gunzip $1		;;
-			*.tar)		tar xf $1		;;
-			*.tbz2)		tar xjf $1		;;
-			*.tgz)		tar xzf $1		;;
-			*.zip)		unzip $1		;;
-			*.Z)		uncompress $1	;;
-			*)			echo "'$1' cannot be extracted via extract()" ;;
-		esac
-	else
-		echo "'$1' is not a valid file"
-	fi
+    if [ -f $1 ] ; then
+        case $1 in
+            *.tar.bz2)	tar xjf $1		;;
+            *.tar.gz)	tar xzf $1		;;
+            *.bz2)		bunzip2 $1		;;
+            *.rar)		rar x $1		;;
+            *.gz)		gunzip $1		;;
+            *.tar)		tar xf $1		;;
+            *.tbz2)		tar xjf $1		;;
+            *.tgz)		tar xzf $1		;;
+            *.zip)		unzip $1		;;
+            *.Z)		uncompress $1	;;
+            *)			echo "'$1' cannot be extracted via extract()" ;;
+        esac
+    else
+        echo "'$1' is not a valid file"
+    fi
 }
 
 psgrep() {
-	if [ ! -z $1 ] ; then
-		#echo "Grepping for processes matching $1..."
-		ps aux | grep $1 | grep -v grep
-	else
-		echo "!! Need name to grep for"
-	fi
+    if [ ! -z $1 ] ; then
+        #echo "Grepping for processes matching $1..."
+        ps aux | grep $1 | grep -v grep
+    else
+        echo "!! Need name to grep for"
+    fi
 }
 
 
