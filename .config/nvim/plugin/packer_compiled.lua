@@ -81,10 +81,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/maverun/.local/share/nvim/site/pack/packer/start/LuaSnip"
   },
-  ["Nvim-R"] = {
-    loaded = true,
-    path = "/home/maverun/.local/share/nvim/site/pack/packer/start/Nvim-R"
-  },
   ["cheatsheet.nvim"] = {
     loaded = true,
     path = "/home/maverun/.local/share/nvim/site/pack/packer/start/cheatsheet.nvim"
@@ -93,13 +89,21 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/maverun/.local/share/nvim/site/pack/packer/start/clipboard-image.nvim"
   },
-  fzf = {
+  ["cmp-buffer"] = {
     loaded = true,
-    path = "/home/maverun/.local/share/nvim/site/pack/packer/start/fzf"
+    path = "/home/maverun/.local/share/nvim/site/pack/packer/start/cmp-buffer"
   },
-  ["fzf.vim"] = {
+  ["cmp-nvim-lsp"] = {
     loaded = true,
-    path = "/home/maverun/.local/share/nvim/site/pack/packer/start/fzf.vim"
+    path = "/home/maverun/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp"
+  },
+  ["cmp-nvim-lua"] = {
+    loaded = true,
+    path = "/home/maverun/.local/share/nvim/site/pack/packer/start/cmp-nvim-lua"
+  },
+  cmp_luasnip = {
+    loaded = true,
+    path = "/home/maverun/.local/share/nvim/site/pack/packer/start/cmp_luasnip"
   },
   ["indent-blankline.nvim"] = {
     loaded = true,
@@ -113,10 +117,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/maverun/.local/share/nvim/site/pack/packer/start/lightspeed.nvim"
   },
-  ["lsp_signature.nvim"] = {
-    loaded = true,
-    path = "/home/maverun/.local/share/nvim/site/pack/packer/start/lsp_signature.nvim"
-  },
   ["lualine.nvim"] = {
     loaded = true,
     path = "/home/maverun/.local/share/nvim/site/pack/packer/start/lualine.nvim"
@@ -124,10 +124,6 @@ _G.packer_plugins = {
   ["markdown-preview.nvim"] = {
     loaded = true,
     path = "/home/maverun/.local/share/nvim/site/pack/packer/start/markdown-preview.nvim"
-  },
-  nerdcommenter = {
-    loaded = true,
-    path = "/home/maverun/.local/share/nvim/site/pack/packer/start/nerdcommenter"
   },
   ["notational-fzf-vim"] = {
     loaded = true,
@@ -148,6 +144,14 @@ _G.packer_plugins = {
   ["nvim-dap"] = {
     loaded = true,
     path = "/home/maverun/.local/share/nvim/site/pack/packer/start/nvim-dap"
+  },
+  ["nvim-dap-ui"] = {
+    loaded = true,
+    path = "/home/maverun/.local/share/nvim/site/pack/packer/start/nvim-dap-ui"
+  },
+  ["nvim-dap-virtual-text"] = {
+    loaded = true,
+    path = "/home/maverun/.local/share/nvim/site/pack/packer/start/nvim-dap-virtual-text"
   },
   ["nvim-lspconfig"] = {
     loaded = true,
@@ -209,10 +213,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/maverun/.local/share/nvim/site/pack/packer/start/startuptime.vim"
   },
-  ["surround.nvim"] = {
-    loaded = true,
-    path = "/home/maverun/.local/share/nvim/site/pack/packer/start/surround.nvim"
-  },
   tabular = {
     loaded = true,
     path = "/home/maverun/.local/share/nvim/site/pack/packer/start/tabular"
@@ -233,17 +233,13 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/maverun/.local/share/nvim/site/pack/packer/start/tokyonight.nvim"
   },
-  ["train.nvim"] = {
-    loaded = true,
-    path = "/home/maverun/.local/share/nvim/site/pack/packer/start/train.nvim"
-  },
   ["venn.nvim"] = {
     loaded = true,
     path = "/home/maverun/.local/share/nvim/site/pack/packer/start/venn.nvim"
   },
-  ["vim-be-good"] = {
+  ["vim-commentary"] = {
     loaded = true,
-    path = "/home/maverun/.local/share/nvim/site/pack/packer/start/vim-be-good"
+    path = "/home/maverun/.local/share/nvim/site/pack/packer/start/vim-commentary"
   },
   ["vim-fugitive"] = {
     loaded = true,

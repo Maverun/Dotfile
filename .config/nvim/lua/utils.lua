@@ -239,4 +239,30 @@ M.resize = function(vertical, margin)
   vim.cmd(cmd)
 end
 
+-- Based on make_position_param from $VIMRUNTIME/lua/vim/lsp/util.lua
+function M.make_function_position_param()
+  local row, col = unpack(vim.call("searchpos", "\\w(", "bn")) -- TODO: restrict to current line
+  row = row - 1
+  local line = vim.api.nvim_buf_get_lines(0, row, row+1, true)[1]
+  if not line then
+    return { line = 0; character = 0; }
+  end
+  col = vim.str_utfindex(line, col)
+  return { line = row; character = col; }
+end
+
+-- Based on vim.lsp.util.make_position_params
+function M.make_function_position_params()
+  return {
+    textDocument = vim.lsp.util.make_text_document_params();
+    position = M.make_function_position_param();
+  }
+end
+
+-- Based on vim.lsp.buf.hover
+function M.Show_func_help()
+  local params = M.make_function_position_params()
+  vim.lsp.buf_request(0, "textDocument/signatureHelp", params)
+end
+
 return M

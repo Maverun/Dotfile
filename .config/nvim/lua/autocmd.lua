@@ -14,46 +14,38 @@ local function nvim_create_augroups(definitions)
   end
 end
 
- function test()
-    local lua = require('luasnip')
-    print(lua.session.event_node:get_text()[1])
-end
 
 
 local autocmds = {
-    luasnip = {
-    --{ 'User','LuasnipInsertNodeEnter','lua test()'},
-    { 'User','LuasnipInsertNodeLeave','lua print(require("luasnip").session.event_node:get_text()[1])'}
-},
-  set_formatoptions = {
-    { "BufNewFile,BufEnter", "*", "setlocal formatoptions-=cro" };
-  };
-  terminal_job = {
-    -- conflicts with neoterm
-    --{ "TermOpen", "*", "startinsert" };
-    { "TermOpen", "*", "setlocal listchars= nonumber norelativenumber" };
-  };
-  resize_windows_proportionally = {
-    { "VimResized", "*", [[tabdo wincmd =]]};
-  };
-  toggle_colorcolumn = {
-    { "VimResized,WinEnter,BufWinEnter", "*", [[lua require'utils'.toggle_cursor_column()]]};
-  },
-  toggle_search_highlighting = {
-    { "InsertEnter", "*", ":nohl | redraw" };
-  };
-  lua_highlight = {
-    { "TextYankPost", "*", "silent! lua vim.highlight.on_yank{higroup='IncSearch', timeout=2000}" };
-  };
-  quickscope = {
-    { 'ColorScheme', '*', 'highlight QuickScopePrimary guifg=#afff5f gui=underline ctermfg=50 cterm=underline'};
-    { 'ColorScheme', '*', 'highlight QuickScopeSecondary guifg=#5fffff gui=underline ctermfg=50 cterm=underline'};
+    set_formatoptions = {
+        { "BufNewFile,BufEnter", "*", "setlocal formatoptions-=cro" };
+    };
+    terminal_job = {
+        -- conflicts with neoterm
+        --{ "TermOpen", "*", "startinsert" };
+        { "TermOpen", "*", "setlocal listchars= nonumber norelativenumber" };
+    };
+    resize_windows_proportionally = {
+        { "VimResized", "*", [[tabdo wincmd =]]};
+    };
+    toggle_colorcolumn = {
+        { "VimResized,WinEnter,BufWinEnter", "*", [[lua require'utils'.toggle_cursor_column()]]};
+    },
+    toggle_search_highlighting = {
+        { "InsertEnter", "*", ":nohl | redraw" };
+    };
+    lua_highlight = {
+        { "TextYankPost", "*", "silent! lua vim.highlight.on_yank{higroup='IncSearch', timeout=2000}" };
+    };
+    quickscope = {
+        { 'ColorScheme', '*', 'highlight QuickScopePrimary guifg=#afff5f gui=underline ctermfg=50 cterm=underline'};
+        { 'ColorScheme', '*', 'highlight QuickScopeSecondary guifg=#5fffff gui=underline ctermfg=50 cterm=underline'};
 
     };
     packer = {
         {'BufWritePost','plugins.lua','PackerCompile'}
     };
-  map_K = {
+    map_K = {
         {'FileType','man', [[:lua vim.api.nvim_buf_set_keymap(0,"n","K",":lua vim.api.nvim_feedkeys('K','n',true)<CR>",{noremap=true,silent=true})]]},
         {'FileType','help',[[:lua vim.api.nvim_buf_set_keymap(0,"n","K",":lua vim.api.nvim_feedkeys('K','n',true)<CR>",{noremap=true,silent=true})]]},
     },
@@ -61,6 +53,15 @@ local autocmds = {
     --{'CmdlineEnter', '/,\\?','set hlsearch'};
     --{'CmdlineLeave','/,\\?','set nohlsearch'};
     --}
+    show_signature = {
+        {'CursorHoldI','*',[[lua require'utils'.Show_func_help()]]}
+    },
+    dap = {
+
+        {'FileType', 'dap-repl', 'nnoremap<buffer> n', [[<cmd>lua require('dap').step_over()<CR> ]]},
+        {'FileType', 'dap-repl', 'nnoremap<buffer> s', [[<cmd>lua require('dap').step_into()<CR>]]},
+        {'FileType', 'dap-repl', 'nnoremap<buffer> c', [[<cmd>lua require('dap').continue()<CR>]]}
+    },
 }
 
 nvim_create_augroups(autocmds)

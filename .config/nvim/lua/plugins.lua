@@ -67,7 +67,7 @@ return require("packer").startup(
     use 'neovim/nvim-lspconfig'                             -- LSP Config that allow us to use instead of coc
     use 'kabouzeid/nvim-lspinstall'                         -- Ease of Install Language Servers
     --use 'glepnir/lspsaga.nvim'                               -- Powerful tools to allow uses of code, such as read doc, rename at once etc
-    use "ray-x/lsp_signature.nvim"                           -- Allow to show Params signature when typings
+    -- use "ray-x/lsp_signatre.nvim"                           -- Allow to show Params signature when typings
     -- use {'ray-x/navigator.lua', requires = {'ray-x/guihua.lua', run = 'cd lua/fzy && make',opt=true}}
     --use "folke/lsp-trouble.nvim"                             -- Allow to see all lsp message, error,warning etc at once
 
@@ -76,19 +76,20 @@ return require("packer").startup(
 -- └───────────────────────────────────────────────────────────────────────────┘
 
     use 'tpope/vim-fugitive'                                 -- GIT
-    use 'scrooloose/nerdcommenter'                          -- Commenter!
+    use 'tpope/vim-commentary'
     use 'numtostr/FTerm.nvim'                               -- Floating Terminal
 
-    use 'junegunn/fzf'                                      -- Allowing Fuzzle Finder Search!
-    use 'junegunn/fzf.vim'                                  -- FZF well u know fuzzy finder thingy
+    --use 'junegunn/fzf'                                      -- Allowing Fuzzle Finder Search!
+    --use 'junegunn/fzf.vim'                                  -- FZF well u know fuzzy finder thingy
 
-    use 'jalvesaq/Nvim-R'                                    -- In replace of Rstudio
+    --use 'jalvesaq/Nvim-R'                                    -- In replace of Rstudio
     use 'mizlan/iswap.nvim'                                  -- Allow to Swap params ease
     use 'ekickx/clipboard-image.nvim'                        -- Allow to paste img as a url of path (Auto create picture files locally)
     use 'sudormrfbin/cheatsheet.nvim'                        -- Cheat sheet to remind you
     use {'nvim-treesitter/nvim-treesitter', run =':TSUpdate'}-- Treesitter rules all
     use 'nvim-treesitter/playground'                        -- Allow to Debug
     use 'nvim-treesitter/nvim-treesitter-textobjects'
+
     use 'hrsh7th/nvim-cmp'                                -- Similar as Coc, to complete menu etc
     use 'hrsh7th/cmp-nvim-lsp'
     use 'hrsh7th/cmp-buffer'
@@ -104,13 +105,14 @@ return require("packer").startup(
     use 'tami5/sql.nvim'
     use "nvim-telescope/telescope-frecency.nvim"
 
-    use "blackCauldron7/surround.nvim"                       -- allow to surround word!
+    -- use "blackCauldron7/surround.nvim"                       -- allow to surround word!
 
-    -- use {"yamatsu m/nvim-cursorline"}
-    use 'tjdevries/train.nvim'                               -- To be Gitgud, Rumor say master UP AND DOWN SON!
-    use 'ThePrimeagen/vim-be-good'                           -- be faster with moment. train train!
+    -- use 'tjdevries/train.nvim'                               -- To be Gitgud, Rumor say master UP AND DOWN SON!
+    -- use 'ThePrimeagen/vim-be-good'                           -- be faster with moment. train train!
 
     use 'mfussenegger/nvim-dap'
+    use 'theHamsta/nvim-dap-virtual-text'
+    use 'rcarriga/nvim-dap-ui'
     --use 'puremourning/vimspector'
 
     use 'L3MON4D3/LuaSnip'

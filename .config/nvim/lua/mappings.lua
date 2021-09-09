@@ -41,6 +41,7 @@ end
 
 map(n,"<M-s>",":source %<cr>") -- source either vim/lua for future
 map(n,';',':') -- save time pressing shift or rely on autoshift
+map(v,';',':') -- save time pressing shift or rely on autoshift
 
 
 -- unmap lightspeed fFtT, its annoying, only good is s only
@@ -107,8 +108,8 @@ map(v,'<M-d>','"dygvo<esc>"dp')
 map(n,'<M-d>','"dyy"dp')
 
 --Send them to VOID register
-map(v,'<leader>d','"_d')
-map(n,'<leader>d','"_d')
+map(v,'dv','"_d')
+map(n,'dv','"_d')
 
 --
 map(n,'<leader><space>',':nohlsearch<CR>')
@@ -141,18 +142,24 @@ map(n,'\\s',':ISwap<CR>')
 map(n,'<F1>',':PasteImg')
 
 function escape()
-    --this is since we got telescope prompt that will set buftype that which we are unable to save
+    -- this is since we got telescope prompt that will set buftype that which we are unable to save
     if vim.bo.buftype == 'prompt' then
-        print("escaping")
         return t'<esc>'
     end
-    return t'<esc>:update'
+    return t':update<CR>'
 end
 map(i,'<esc>','<esc>:lua escape()<cr>', {silent=true})
 
 -- adding where it doesnt swap with old into reg, we will just use same one. so it make sense that way
 map(v,'p','"_dp')
 map(v,'P','"_dP')
+
+function ruler_toggle()
+    vim.opt.ruler = not vim.opt.ruler._value
+    vim.opt.relativenumber = not vim.opt.relativenumber._value
+end
+map(n,'<F5>',':lua ruler_toggle()<CR>')
+
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                Navigation                                 │
@@ -180,10 +187,10 @@ map(v,'<S-l>','$')
 
 
 --Using alt + hjkl for resize windows
-map(n,'<M-h>',":lua resize(true,-2)<CR>", {silent = true})
-map(n,'<M-j>',":lua resize(false,2)<CR>", {silent = true})
-map(n,'<M-k>',":lua resize(false,-2)<CR>", {silent = true})
-map(n,'<M-l>',":lua resize(true,2)<CR>", {silent = true})
+map(n,'<M-h>',":lua require'utils'.resize(true,-2)<CR>", {silent = true})
+map(n,'<M-j>',":lua require'utils'.resize(false,2)<CR>", {silent = true})
+map(n,'<M-k>',":lua require'utils'.resize(false,-2)<CR>", {silent = true})
+map(n,'<M-l>',":lua require'utils'.resize(true,2)<CR>", {silent = true})
 
 -- better window navigation
 map(n,'<C-h>','<C-w>h')
@@ -301,10 +308,10 @@ map(n,'\\do',':lua require"dap".step_over()<CR>')
 map(n,'\\dj',':lua require"dap".step_into()<CR>')
 map(n,'\\dl',':lua require"dap".step_out()<CR>')
 map(n,'\\db',':lua require"dap".toggle_breakpoint()<CR>')
-map(n,'\\ds',':lua require"dap".set_breakpoint(vim.fn.input("Breakpoint Condition: "))<CR>')
+map(n,'\\dsc',':lua require"dap".set_breakpoint(vim.fn.input("Breakpoint Condition: "))<CR>')
 map(n,'\\dsl',':lua require"dap".set_breakpoint(nil,nil,vim.fn.input("Log point Message: "))<CR>')
 map(n,'\\dr',':lua require"dap".repl.open()<CR>')
-map(n,'\\drl',':lua require"dap".run_last()<CR>')
+map(n,'\\de',':lua require"dap".run_last()<CR>')
 
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐

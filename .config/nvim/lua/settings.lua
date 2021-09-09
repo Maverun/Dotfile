@@ -21,14 +21,8 @@ opt.splitbelow = true         -- Put new windows below current
 --opt.wildmenu = true
 --opt.wildmode ='list:longest' -- Command-line completion mode
 opt.list = true               -- Show some invisible characters (tabs...)
-opt.number = true             -- Print line number
-opt.relativenumber = true     -- Relative line numbers
-opt.list = true
-opt.mouse = 'a'
-opt.spell = true
-opt.showmode = false
-opt.smartcase = true
-opt.ignorecase = true
+opt.number = false             -- Print line number
+opt.relativenumber = false     -- Relative line numbers
 
 
 opt.wrap = false              -- Disable line wrap
@@ -48,7 +42,7 @@ opt.clipboard = 'unnamedplus'  -- allow to merge with system clipboard
 opt.cmdheight = 1              -- set command height 1
 
 opt.updatetime = 300
-opt.timeoutlen = 500
+opt.timeoutlen = 300
 
 cmd 'set iskeyword -=-'              -- allow to ignore - as one word
 opt.autochdir = true            -- Working directory will be always same
@@ -93,17 +87,7 @@ opt.foldmethod = 'manual'
 opt.cursorline = true
 opt.cursorcolumn = true
 
--- Color of line,column line and line number to know differences
--- hi CursorLine   cterm=NONE ctermbg=237 ctermfg=NONE guibg=darkred guifg=white
--- hi CursorColumn cterm=NONE ctermbg=237 ctermfg=NONE guibg=darkred guifg=white
--- hi CursorLineNr cterm=None ctermbg=237 ctermfg=50
--- This is Line number that are not current line, current line color is ^
--- hi LineNr cterm=None ctermbg=237 ctermfg=70
--- This is to set column line up so we know where we reached end of famous 80th
---opt('w','colorcolumn',"80")
 opt.colorcolumn = '80'
---vim.g.colorcolumn = "80"
--- highlight colorColumn ctermbg=238
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                  VimStay                                  │
@@ -143,39 +127,6 @@ g.vim_markdown_conceal = 2
 
 
 
-require'surround'.setup{prefix=','}
---require'nvim-autopairs'.setup{}
---require'navigator'.setup()
---require'lsp_signature'.on_attach()
+-- require'surround'.setup{prefix=','}
 require'colorizer'.setup{"*"}
---require'trouble'.setup{}
---require'lspsaga'.init_lsp_saga()
 require'FTerm'.setup{}
---require'which-key'.setup{}
-
-
---require"telescope".load_extension("frecency")
-
-
-
---miniguide = vim.api.nvim_create_namespace 'miniguide'
---function on_win(_, winid, bufnr, row)
-  --if bufnr ~= vim.api.nvim_get_current_buf() then
-    --return false -- FAIL
-  --end
---end
-
---function on_line(_, winid, bufnr, row)
-  --local indent = vim.fn.indent(row+1)
-  --for i = 1, indent-1, 2 do
-    --vim.api.nvim_buf_set_extmark(bufnr, miniguide, row, i-1, {
-      --virt_text={{"│", "Selection"}}, virt_text_pos="overlay", ephemeral=true})
-    --if tata then
-      --ree = re
-    --end
-  --end
---end
---vim.api.nvim_set_decoration_provider(miniguide, {on_win=on_win, on_line=on_line})
-
-
-

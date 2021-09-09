@@ -741,9 +741,9 @@ key_bindings:
   #- { key: Y,                           mode: Vi, action: ClearSelection          }
   #- { key: Copy,                        mode: Vi, action: ClearSelection          }
   #- { key: V,                           mode: Vi, action: ToggleNormalSelection   }
-  #- { key: V,      mods: Shift,         mode: Vi, action: ToggleLineSelection     }
-  #- { key: V,      mods: Control,       mode: Vi, action: ToggleBlockSelection    }
-  #- { key: V,      mods: Alt,           mode: Vi, action: ToggleSemanticSelection }
+   - { key: V,      mods: Shift,         mode: Vi, action: ToggleLineSelection     }
+   - { key: V,      mods: Control,       mode: Vi, action: ToggleBlockSelection    }
+   - { key: V,      mods: Alt,           mode: Vi, action: ToggleSemanticSelection }
   #- { key: Return,                      mode: Vi, action: Open                    }
   #- { key: K,                           mode: Vi, action: Up                      }
   #- { key: J,                           mode: Vi, action: Down                    }

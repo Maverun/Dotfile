@@ -21,6 +21,7 @@ require'telescope'.setup {
       disable_devicons = false,
       workspaces = {
         ["conf"]    = "/home/maverun/.config",
+        ["nvim"]    = "/home/maverun/.config/nvim",
         ["project"] = "/home/maverun/dev",
         ["wiki"]    = "/ext_drive/SynologyDrive/NotesTaking"
       }

@@ -14,7 +14,8 @@ from datetime import datetime
 from tkinter import Tk
 from prettytable import PrettyTable
 import json 
-myTerm = "alacritty"                             # My terminal of choice
+# myTerm = "alacritty"                             # My terminal of choice
+myTerm = "kitty"                             # My terminal of choice
 
 
 #monitor position, you can find order by xrandr --listactivemonitors    
@@ -469,10 +470,10 @@ keys = [ #Setting key blindings
         ),
 
     ### Go to next unused group
-    Key(sup,"bracketleft",
+    Key(super_shift,"bracketleft",
         lazy.function(custom_switch_group,"h"),
         desc="Move to previous unused group"),
-    Key(sup,"bracketright",
+    Key(super_shift,"bracketright",
         lazy.function(custom_switch_group,"l"),
         desc="Move to next unused group"),
 
@@ -611,13 +612,13 @@ groups.append(
                    DropDown("cmus",terminal("cmus")),
                    DropDown("taskerwarrior",f"{myTerm}",height = 0.7,width = 0.5,opacity = 1,y = 0.2,x = 0.2),
                    # DropDown("anime",f"{myTerm} -t \"ANIME\" -e trackma",height = 0.7,width = 0.5,opacity = 1,y = 0.2,x = 0.2),
-                   DropDown("anime",terminal('trackma','-t "ANIME"'),height = 0.7,width = 0.5,opacity = 1,y = 0.2,x = 0.2),
+                   DropDown("anime",terminal('trackma','-T "ANIME"'),height = 0.7,width = 0.5,opacity = 1,y = 0.2,x = 0.2),
                    # DropDown("notes",f"{myTerm} -t \"NOTE\" -e sh -c 'sleep 0.4 && nvim /ext_drive/SynologyDrive/NotesTaking/index.md'",height = 1, opacity=1)
-                   DropDown("notes",terminal("nvim /ext_drive/SynologyDrive/NotesTaking/index.md",'-t "NOTE"'),height = 1, opacity=1,on_focus_lost_hide=False),
+                   DropDown("notes",terminal("nvim /ext_drive/SynologyDrive/NotesTaking/index.md",'-T "NOTE"'),height = 1, opacity=1,on_focus_lost_hide=False),
                    #more Dropdown
                ]))
 
-keys.append(Key(sup,"F11",
+keys.append(Key(hyper,"c",
                 lazy.group["scratchpad"].dropdown_toggle("cmus"), desc="Dropdown cmus"))
 keys.append(Key(hyper,"w",
                 lazy.group["scratchpad"].dropdown_toggle("notes"), desc="Dropdown Notes"))
