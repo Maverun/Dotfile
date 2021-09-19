@@ -1,3 +1,15 @@
+local popup_border = {
+    {"╭", "FloatBorder"},
+    {"─", "FloatBorder"},
+    {"╮", "FloatBorder"},
+    {"│", "FloatBorder"},
+    {"╯", "FloatBorder"},
+    {"─", "FloatBorder"},
+    {"╰", "FloatBorder"},
+    {"│", "FloatBorder"},
+}
+
+
 function on_attach(client,bufnr)
     local function map(...)
         vim.api.nvim_buf_set_keymap(bufnr,'n',...)
@@ -8,7 +20,8 @@ function on_attach(client,bufnr)
     end
 
     buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
-
+    vim.lsp.handlers["textDocument/hover"] =  vim.lsp.with(vim.lsp.handlers.hover, {border = popup_border})
+    vim.lsp.handlers["textDocument/signatureHelp"] =  vim.lsp.with(vim.lsp.handlers.signature_help, {border = popup_border})
     -- Mappings.
     local opts = {noremap = true, silent = true}
     map("gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>", opts)

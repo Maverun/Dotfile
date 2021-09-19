@@ -56,6 +56,10 @@ local autocmds = {
     show_signature = {
         {'CursorHoldI','*',[[lua require'utils'.Show_func_help()]]}
     },
+    color_floating_window = {
+        -- {'ColorScheme','*','highlight NormalFloat guibg=#005500'},
+        {'ColorScheme','*','highlight FloatBorder guifg=#005500'},
+    },
     dap = {
 
         {'FileType', 'dap-repl', 'nnoremap<buffer> n', [[<cmd>lua require('dap').step_over()<CR> ]]},

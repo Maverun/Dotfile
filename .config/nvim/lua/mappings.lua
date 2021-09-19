@@ -13,28 +13,6 @@ local t = function(str)
     return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
 
-function resize(vertical, margin)
-  local cur_win = vim.api.nvim_get_current_win()
-  -- go (possibly) right
-  vim.cmd(string.format('wincmd %s', vertical and 'l' or 'j'))
-  local new_win = vim.api.nvim_get_current_win()
-
-  -- determine direction cond on increase and existing right-hand buffer
-  local not_last = not (cur_win == new_win)
-  local sign = margin > 0
-  -- go to previous window if required otherwise flip sign
-  if not_last == true then
-    vim.cmd [[wincmd p]]
-  else
-    sign = not sign
-  end
-
-  sign = sign and '+' or '-'
-  local dir = vertical and 'vertical ' or ''
-  local cmd = dir .. 'resize ' .. sign .. math.abs(margin) .. '<CR>'
-  vim.cmd(cmd)
-end
-
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                Essentials                                 │
 -- └───────────────────────────────────────────────────────────────────────────┘
@@ -43,12 +21,15 @@ map(n,"<M-s>",":source %<cr>") -- source either vim/lua for future
 map(n,';',':') -- save time pressing shift or rely on autoshift
 map(v,';',':') -- save time pressing shift or rely on autoshift
 
+map(n,'<leader>gq',':q<cr>') -- quit
 
--- unmap lightspeed fFtT, its annoying, only good is s only
-map(n,'f','f')
-map(n,'F','F')
-map(n,'t','t')
-map(n,'T','T')
+map(n,'\\k','d$o<esc>p0')
+map(n,'\\j','J')
+map(n,'<S-k>','k')
+map(n,'<S-j>','j')
+
+
+
 
 map(n,'<S-q>','@@') --screwed ex mode
 
@@ -158,17 +139,30 @@ function ruler_toggle()
     vim.opt.ruler = not vim.opt.ruler._value
     vim.opt.relativenumber = not vim.opt.relativenumber._value
 end
+
+function cursor_toggle()
+    vim.g.cursor_toggle_mave = not vim.g.cursor_toggle_mave
+    vim.opt.cursorcolumn = vim.g.cursor_toggle_mave
+    vim.opt.cursorline = vim.g.cursor_toggle_mave
+    if vim.g.cursor_toggle_mave  then
+        vim.opt.colorcolumn = '80'
+    else
+        vim.opt.colorcolumn = ''
+    end
+end
 map(n,'<F5>',':lua ruler_toggle()<CR>')
+map(n,'<F6>',':lua cursor_toggle()<CR>')
 
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                Navigation                                 │
 -- └───────────────────────────────────────────────────────────────────────────┘
 
-map(n,'\\k','d$o<esc>p0')
-map(n,'\\j','J')
-map(n,'<S-k>','k')
-map(n,'<S-j>','j')
+-- unmap lightspeed fFtT, its annoying, only good is s only
+map(n,'f','f')
+map(n,'F','F')
+map(n,'t','t')
+map(n,'T','T')
 
 --we are marking where we are before we begin search so that way we can return to orignal spot
 map(n,"/","ms/")
@@ -180,6 +174,27 @@ map(n,'<S-h>','^')
 map(n,'<S-l>','$')
 map(v,'<S-h>','^')
 map(v,'<S-l>','$')
+
+-- center the screen... since we are moving, we can expect it will be at center so it is easier to know where.
+map(n,'{','{zz')
+map(n,'}','}zz')
+map(n,'n','nzz')
+map(n,'N','Nzz')
+map(n,'[s','[snzz')
+map(n,']s',']szz')
+map(n,'N','Nzz')
+map(n,'N','Nzz')
+
+map(v,'{','{zz')
+map(v,'}','}zz')
+map(v,'n','nzz')
+map(v,'N','Nzz')
+map(v,'[s','[snzz')
+map(v,']s',']szz')
+map(v,'N','Nzz')
+map(v,'N','Nzz')
+
+
 
 --┌────────────────────────────────────────────────────────────────────────────┐
 --│                                   Window                                   │
@@ -221,10 +236,12 @@ map(v,'<S-Tab>','<gv')
 -- └───────────────────────────────────────────────────────────────────────────┘
 
 map(n,'<leader>ff',':Telescope find_files<cr>')
+map(n,'<leader>fo',':Telescope oldfiles<cr>')
 map(n,'<leader>fg',':Telescope live_grep<cr>')
 map(n,'<leader>fb',':Telescope buffers<cr>')
 map(n,'<leader>fh',':Telescope help_tags<cr>')
-map(n,'<leader>fm',':Telescope keymaps<cr>')
+map(n,'<leader>fk',':Telescope keymaps<cr>')
+map(n,'<leader>fm',':Telescope marks<cr>')
 map(n,'<leader>fr','<Cmd>lua require("telescope").extensions.frecency.frecency()<CR>')
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐

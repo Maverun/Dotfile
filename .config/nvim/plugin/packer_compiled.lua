@@ -105,6 +105,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/maverun/.local/share/nvim/site/pack/packer/start/cmp_luasnip"
   },
+  ["dashboard-nvim"] = {
+    loaded = true,
+    path = "/home/maverun/.local/share/nvim/site/pack/packer/start/dashboard-nvim"
+  },
   ["indent-blankline.nvim"] = {
     loaded = true,
     path = "/home/maverun/.local/share/nvim/site/pack/packer/start/indent-blankline.nvim"
@@ -252,10 +256,6 @@ _G.packer_plugins = {
   ["vim-signature"] = {
     loaded = true,
     path = "/home/maverun/.local/share/nvim/site/pack/packer/start/vim-signature"
-  },
-  ["vim-startify"] = {
-    loaded = true,
-    path = "/home/maverun/.local/share/nvim/site/pack/packer/start/vim-startify"
   },
   ["vim-stay"] = {
     loaded = true,

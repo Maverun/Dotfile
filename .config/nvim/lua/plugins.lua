@@ -23,7 +23,8 @@ return require("packer").startup(
     use 'lukas-reineke/indent-blankline.nvim' -- to display indent line
     use 'norcalli/nvim-colorizer.lua'                      -- to show what color look like
     use 'kshenoy/vim-signature'                            -- To display where MARK is at (ma, mb ) etc
-    use 'mhinz/vim-startify'                               -- Home page of VIM/NEOVIM
+    -- use 'mhinz/vim-startify'                               -- Home page of VIM/NEOVIM
+    use 'glepnir/dashboard-nvim'
     --use 'hoob3rt/lualine.nvim'
     use 'shadmansaleh/lualine.nvim'
 

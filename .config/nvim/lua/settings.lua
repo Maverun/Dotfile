@@ -84,10 +84,10 @@ opt.foldmethod = 'manual'
 -- │                                  Column                                   │
 -- └───────────────────────────────────────────────────────────────────────────┘
 
-opt.cursorline = true
-opt.cursorcolumn = true
+-- opt.cursorline = true
+-- opt.cursorcolumn = true
 
-opt.colorcolumn = '80'
+-- opt.colorcolumn = '80'
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                  VimStay                                  │
@@ -109,7 +109,7 @@ g.indent_blankline_space_char_highlight_list = {'Error', 'Function'}
 g.indent_blankline_use_treesitter = true
 g.indent_blankline_show_trailing_blankline_indent = false
 g.indent_blankline_show_first_indent_level = false
-g.indent_blankline_filetype_exclude = {'markdown','md','help',''}
+g.indent_blankline_filetype_exclude = {'markdown','md','help','','dashboard'}
 
 --FZF Notation FZF for notes
 g.nv_search_paths = {
