@@ -1,0 +1,57 @@
+#!/bin/bash
+
+LOCKSCREEN_WALLPAPER="$HOME/Wallpaper/Wallpaper/937353.png"
+
+mainMenu="Sleep
+Reboot
+Shutdown
+Lock
+Cancel
+"
+
+pauseMenu="now
++60
++45
++30
++15
++10
++5
++3
++2
++1"
+
+action=$(printf '%s\n' "${mainMenu[@]}" | dmenu -m 0 -i -l 20 -p 'Options:')
+echo $action
+
+[ -z "$action" ] && exit
+
+case "$action" in
+    'Shutdown')
+        #pauseTime=$(menu "Pause: " "$pauseMenu")
+
+        pauseTime=$(printf '%s\n' "${pauseMenu[@]}" | dmenu -m 0 -i -l 20 -p 'Pause:')
+        [ -z "$pauseTime" ] && exit
+
+        notify-send "System:" "Shutdown scheduled - $pauseTime"
+        shutdown -P "$pauseTime"
+    ;;
+    'Reboot')
+        pauseTime=$(menu "Pause: " "$pauseMenu")
+        [ -z "$pauseTime" ] && exit
+
+        notify-send "System:" "Reboot scheduled - $pauseTime"
+        shutdown -r "$pauseTime"
+    ;;
+    'Sleep')
+        notify-send "System:" "Suspending now"
+        systemctl suspend
+    ;;
+    'Lock')
+        notify-send "LOCKING"
+        i3lock --show-failed-attempts --color=EEEEEE --image="$LOCKSCREEN_WALLPAPER" --tiling &
+    ;;
+    'Cancel')
+        notify-send "System:" "Shutdown command cancelled"
+        shutdown -c
+    ;;
+esac

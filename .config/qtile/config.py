@@ -390,6 +390,9 @@ keys = [ #Setting key blindings
     Key(hyper,"f",
         lazy.spawn(home + "/Script/search"),
         desc="Search Engine"),
+    Key(hyper,"d",
+        lazy.spawn(home + "/Script/dictionary"),
+        desc="Define terms"),
 
     #Audio related
     Key([],"XF86AudioPlay",
