@@ -195,7 +195,8 @@ psgrep() {
     fi
 }
 
-
+set -o vi
+bindkey -v
 #screenfetch
 neofetch
 #task sync &
