@@ -380,16 +380,16 @@ ls.snippets.all = {
         -- Parsing snippets: First parameter: Snippet-Trigger, Second: Snippet body.
         -- Placeholders are parsed into choices with 1. the placeholder text(as a snippet) and 2. an empty string.
         -- This means they are not SELECTed like in other editors/Snippet engines.
-        ls.parser.parse_snippet(
-            "lspsyn",
-            "Wow! This ${1:Stuff} really ${2:works. ${3:Well, a bit.}}"
-        ),
+        -- ls.parser.parse_snippet(
+        --     "lspsyn",
+        --     "Wow! This ${1:Stuff} really ${2:works. ${3:Well, a bit.}}"
+        -- ),
 
         -- When wordTrig is set, snippets only expand as full words (lte won't expand, te will).
-        ls.parser.parse_snippet(
-            { trig = "te", wordTrig = true },
-            "${1:cond} ? ${2:true} : ${3:false}"
-        ),
+        -- ls.parser.parse_snippet(
+        --     { trig = "te", wordTrig = true },
+        --     "${1:cond} ? ${2:true} : ${3:false}"
+        -- ),
 
         -- The last entry of args passed to the user-function is the surrounding snippet.
         --s(
@@ -399,32 +399,32 @@ ls.snippets.all = {
             --end, {})
         --),
         -- It's possible to use capture-groups inside regex-triggers.
-        s(
-            { trig = "b(%d)", regTrig = true, wordTrig = true },
-            f(function(args)
-                return "Captured Text: " .. args[1].captures[1] .. "."
-            end, {})
-        ),
+        -- s(
+        --     { trig = "b(%d)", regTrig = true, wordTrig = true },
+        --     f(function(args)
+        --         return "Captured Text: " .. args[1].captures[1] .. "."
+        --     end, {})
+        -- ),
         -- Use a function to execute any shell command and print its text.
-        s("bash", f(bash, {}, "ls")),
+        -- s("bash", f(bash, {}, "ls")),
         -- Short version for applying String transformations using function nodes.
-        s("transform", {
-            i(1, "initial text"),
-            t({ "", "" }),
-            -- lambda nodes accept an l._1,2,3,4,5, which in turn accept any string transformations.
-            -- This list will be applied in order to the first node given in the second argument.
-            l(l._1:match("[^i]*$"):gsub("i", "o"):gsub(" ", "_"):upper(), 1),
-        }),
-        s("transform2", {
-            i(1, "initial text"),
-            t("::"),
-            i(2, "replacement for e"),
-            t({ "", "" }),
-            -- Lambdas can also apply transforms USING the text of other nodes:
-            l(l._1:gsub("e", l._2), { 1, 2 }),
-        }),
+        -- s("transform", {
+        --     i(1, "initial text"),
+        --     t({ "", "" }),
+        --     -- lambda nodes accept an l._1,2,3,4,5, which in turn accept any string transformations.
+        --     -- This list will be applied in order to the first node given in the second argument.
+        --     l(l._1:match("[^i]*$"):gsub("i", "o"):gsub(" ", "_"):upper(), 1),
+        -- }),
+        -- s("transform2", {
+        --     i(1, "initial text"),
+        --     t("::"),
+        --     i(2, "replacement for e"),
+        --     t({ "", "" }),
+        --     -- Lambdas can also apply transforms USING the text of other nodes:
+        --     l(l._1:gsub("e", l._2), { 1, 2 }),
+        -- }),
         -- Shorthand for repeating the text in a given node.
-        s("repeat", { i(1, "text"), t({ "", "" }), r(1) }),
+        -- s("repeat", { i(1, "text"), t({ "", "" }), r(1) }),
 }
 ls.snippets.java = {
         -- Very long example for a java class.

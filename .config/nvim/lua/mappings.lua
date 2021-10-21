@@ -28,8 +28,7 @@ map(n,'\\j','J')
 map(n,'<S-k>','k')
 map(n,'<S-j>','j')
 
-
-
+map(i,'<C-h>',[[<esc>:lua require'utils'.show_func_help()<cr>]])
 
 map(n,'<S-q>','@@') --screwed ex mode
 
@@ -174,6 +173,9 @@ map(n,'<S-h>','^')
 map(n,'<S-l>','$')
 map(v,'<S-h>','^')
 map(v,'<S-l>','$')
+map('o','<S-h>','^')
+map('o','<S-l>','$')
+
 
 -- center the screen... since we are moving, we can expect it will be at center so it is easier to know where.
 map(n,'{','{zz')

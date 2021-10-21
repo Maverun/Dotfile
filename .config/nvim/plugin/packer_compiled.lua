@@ -109,6 +109,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/maverun/.local/share/nvim/site/pack/packer/start/dashboard-nvim"
   },
+  firenvim = {
+    loaded = true,
+    path = "/home/maverun/.local/share/nvim/site/pack/packer/start/firenvim"
+  },
   ["indent-blankline.nvim"] = {
     loaded = true,
     path = "/home/maverun/.local/share/nvim/site/pack/packer/start/indent-blankline.nvim"
@@ -216,6 +220,10 @@ _G.packer_plugins = {
   ["startuptime.vim"] = {
     loaded = true,
     path = "/home/maverun/.local/share/nvim/site/pack/packer/start/startuptime.vim"
+  },
+  ["surround.nvim"] = {
+    loaded = true,
+    path = "/home/maverun/.local/share/nvim/site/pack/packer/start/surround.nvim"
   },
   tabular = {
     loaded = true,

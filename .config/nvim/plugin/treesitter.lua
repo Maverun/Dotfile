@@ -10,7 +10,7 @@ require('nvim-treesitter.configs').setup{
     },
     indent = {
         enable = true,
-        --diable = {'python'},
+        diable = {'python'},
     },
     autotag = {enable = true},
     incremental_selection = {enable = true,

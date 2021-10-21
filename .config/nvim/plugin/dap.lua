@@ -2,8 +2,9 @@
 -- │                                    DAP                                    │
 -- └───────────────────────────────────────────────────────────────────────────┘
 vim.g.dap_virtual_text=true --showing virtual text during debugging
+local dap,dapui = require('dap'), require('dapui')
 
-require("dapui").setup({
+dapui.setup({
   icons = { expanded = "▾", collapsed = "▸" },
   mappings = {
     -- Use a table to apply multiple mappings
@@ -14,7 +15,6 @@ require("dapui").setup({
     repl = "r",
   },
   sidebar = {
-    open_on_start = true,
     -- You can change the order of elements in the sidebar
     elements = {
       -- Provide as ID strings or tables with "id" and "size" keys
@@ -26,13 +26,12 @@ require("dapui").setup({
       { id = "stacks", size = 0.25 },
       { id = "watches", size = 00.25 },
     },
-    width = 50,
+    size = 50,
     position = "right", -- Can be "left" or "right"
   },
   tray = {
-    open_on_start = true,
     elements = { "repl" },
-    height = 10,
+    size = 10,
     position = "bottom", -- Can be "bottom" or "top"
   },
   floating = {
@@ -44,12 +43,20 @@ require("dapui").setup({
   },
   windows = { indent = 1 },
 })
-local dap = require('dap')
+
+
+dap.listeners.after.event_initialized['dapui_config'] = function() dapui.open() end
+dap.listeners.after.event_terminated['dapui_config'] = function() dapui.close() end
+dap.listeners.after.event_exited['dapui_config'] = function() dapui.close() end
+
+
 dap.adapters.python = {
   type = 'executable';
   command = '/home/maverun/dev/venvdebugpy/bin/python';
   args = { '-m', 'debugpy.adapter' };
 }
+
+
 dap.configurations.python = {
   {
     -- The first three options are required by nvim-dap

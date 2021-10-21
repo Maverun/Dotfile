@@ -49,13 +49,16 @@ local autocmds = {
         {'FileType','man', [[:lua vim.api.nvim_buf_set_keymap(0,"n","K",":lua vim.api.nvim_feedkeys('K','n',true)<CR>",{noremap=true,silent=true})]]},
         {'FileType','help',[[:lua vim.api.nvim_buf_set_keymap(0,"n","K",":lua vim.api.nvim_feedkeys('K','n',true)<CR>",{noremap=true,silent=true})]]},
     },
+    quit = {
+        {'FileType','dashboard', [[:lua vim.api.nvim_buf_set_keymap(0,"n","q","<esc>:q<cr>",{noremap=true,silent=true})]]},
+    },
     --search_nohl = {
     --{'CmdlineEnter', '/,\\?','set hlsearch'};
     --{'CmdlineLeave','/,\\?','set nohlsearch'};
     --}
-    show_signature = {
-        {'CursorHoldI','*',[[lua require'utils'.Show_func_help()]]}
-    },
+    -- show_signature = {
+    --     {'CursorHoldI','*',[[lua require'utils'.Show_func_help()]]}
+    -- },
     color_floating_window = {
         -- {'ColorScheme','*','highlight NormalFloat guibg=#005500'},
         {'ColorScheme','*','highlight FloatBorder guifg=#005500'},

@@ -24,7 +24,7 @@ return require("packer").startup(
     use 'norcalli/nvim-colorizer.lua'                      -- to show what color look like
     use 'kshenoy/vim-signature'                            -- To display where MARK is at (ma, mb ) etc
     -- use 'mhinz/vim-startify'                               -- Home page of VIM/NEOVIM
-    use 'glepnir/dashboard-nvim'
+    use 'glepnir/dashboard-nvim'                           -- Home page of Neovim
     --use 'hoob3rt/lualine.nvim'
     use 'shadmansaleh/lualine.nvim'
 
@@ -115,8 +115,15 @@ return require("packer").startup(
     use 'theHamsta/nvim-dap-virtual-text'
     use 'rcarriga/nvim-dap-ui'
     --use 'puremourning/vimspector'
+    use "blackCauldron7/surround.nvim"
 
     use 'L3MON4D3/LuaSnip'
+    use {
+        'glacambre/firenvim',
+        run = function() vim.fn['firenvim#install'](0) end 
+    }
+
+    use {'subnut/nvim-ghost.nvim', run = ':call nvim_ghost#installer#install()'}
     end,
     {
         display = {

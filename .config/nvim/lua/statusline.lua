@@ -133,7 +133,7 @@ end
 
 -- from https://github.com/nvim-lua/lsp-status.nvim/blob/master/lua/lsp-status/diagnostics.lua
 local function get_lsp_diagnostics(bufnr)
-    local result = {}
+    local result = {
     local levels = {
         errors = "Error",
         warnings = "Warning",

@@ -87,7 +87,7 @@ end
 ]]
 
 function M.toggle_cursor_column()
-    if vim.g.cursor_toggle_mave == false or vim.g.cursor_toggle_mave == nil then return end
+    if not vim.g.cursor_toggle_mave then return end
     local wininfo = vim.fn.getwininfo()
     local cwind = vim.api.nvim_get_current_win()
     for _, win in pairs(wininfo) do

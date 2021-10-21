@@ -44,7 +44,7 @@ opt.cmdheight = 1              -- set command height 1
 opt.updatetime = 300
 opt.timeoutlen = 300
 
-cmd 'set iskeyword -=-'              -- allow to ignore - as one word
+cmd 'set iskeyword -=_'              -- allow to ignore _ as one word
 opt.autochdir = true            -- Working directory will be always same
 -- opt.filetype = 'plugin'
 cmd 'set fillchars+=vert:▏'          -- Setting Window Vertical border to thin
@@ -53,15 +53,16 @@ opt.conceallevel = 2            -- allow to view markdown ease
 
 opt.completeopt = "menuone,noselect"
 
-opt.listchars = {
-    tab = '',
-    conceal = '┊',
-    nbsp = 'ﮊ',
-    extends = '>',
-    precedes = '<',
-    trail = '·',
-    eol = '﬋',
-}
+-- opt.listchars = {
+--     tab = '',
+--     conceal = '┊',
+--     nbsp = 'ﮊ',
+--     extends = '>',
+--     precedes = '<',
+--     trail = '·',
+--     eol = '﬋',
+-- }
+
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                    Tab                                    │
 -- └───────────────────────────────────────────────────────────────────────────┘
