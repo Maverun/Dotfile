@@ -2,11 +2,14 @@ vim.g.mapleader=' ' -- setting space as a leader
 local n = 'n'
 local i = 'i'
 local v = 'v'
+local o = 'o'
 
 local function map(mode, lhs, rhs, opts)
-  local options = {noremap = true}
-  if opts then options = vim.tbl_extend('force', options, opts) end
-  vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+    -- if there is more than one mode, this allow to do them all, making editing easier
+    if type(mode) == 'table' then for i,v in ipairs(mode) do map(v,lhs,rhs,options) end return end
+    local options = {noremap = true}
+    if opts then options = vim.tbl_extend('force', options, opts) end
+    vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
 local t = function(str)
@@ -33,8 +36,7 @@ map(i,'<C-h>',[[<esc>:lua require'utils'.show_func_help()<cr>]])
 map(n,'<S-q>','@@') --screwed ex mode
 
 -- Save
-map(n,"<C-s>",":w<CR>")
-map(i,"<C-s>","<ESC>:w<CR>")
+map({n,i},"<C-s>","<cmd>update<CR>")
 
 -- Easy Caps
 map(i,'<M-u>','<Esc>viwUi')
@@ -60,25 +62,16 @@ map(i,'<M-CR>','<Esc>O<Esc>0i')
 
 --Shfift Line up or down
 
-map(v,'<Up>',':m-2<CR>gv')
-map(v,'<Down>',":m '>+1<CR>gv")
---map(v,'<S-Up>',':m-2<CR>gv')
---map(v,'<S-Down>',":m '>+1<CR>gv")
---map(v,'<S-k>',':m-2<CR>gv')
---map(v,'<S-j>',":m '>+1<CR>gv")
+map({n,v},'<Up>',':m-2<CR>gv')
+map({n,v},'<Down>',":m '>+1<CR>gv")
+--map({n,v},'<S-Up>',':m-2<CR>gv')
+--map({n,v},'<S-Down>',":m '>+1<CR>gv")
+--map({n,v},'<S-k>',':m-2<CR>gv')
+--map({n,v},'<S-j>',":m '>+1<CR>gv")
 
-map(n,'<Up>','<Esc>:m-2<CR>')
-map(n,'<Down>',"<Esc>:m+1<CR>")
---map(n,'<S-Up>','<Esc>:m-2<CR>')
---map(n,'<S-Down>',"<Esc>:m+1<CR>")
---map(n,'<S-k>','<Esc>:m-2<CR>')
---map(n,'<S-j>',"<Esc>:m+1<CR>")
 
 map(i,'<S-Up>','<Esc>:m-2<CR>')
 map(i,'<S-Down>',"<Esc>:m+1<CR>")
-
-
-
 
 
 --Dupe the line during insert mode, same with visual mode
@@ -102,15 +95,10 @@ map(n,'<F2>',':NvimTreeToggle<CR>')
 map(n,'<M-m>',':Startify<CR>')
 
 -- Mouse Middle Click Disable
-map(n,'<MiddleMouse>','<LeftMouse>')
-map(n,'<2-MiddleMouse>','<LeftMouse>')
-map(n,'<3-MiddleMouse>','<LeftMouse>')
-map(n,'<4-MiddleMouse>','<LeftMouse>')
-
-map(i,'<MiddleMouse>','<LeftMouse>')
-map(i,'<2-MiddleMouse>','<LeftMouse>')
-map(i,'<3-MiddleMouse>','<LeftMouse>')
-map(i,'<4-MiddleMouse>','<LeftMouse>')
+map({n,i},'<MiddleMouse>','<LeftMouse>')
+map({n,i},'<2-MiddleMouse>','<LeftMouse>')
+map({n,i},'<3-MiddleMouse>','<LeftMouse>')
+map({n,i},'<4-MiddleMouse>','<LeftMouse>')
 
 --CheatSheet
 map(n,'<leader>?',":Cheatsheet<CR>")
@@ -162,6 +150,9 @@ map(n,'f','f')
 map(n,'F','F')
 map(n,'t','t')
 map(n,'T','T')
+-- hop.nvim, replaced with lightspeed to see how it goes.
+map({n,v,o},'s','<cmd>HopWordAC<CR>')
+map({n,v,o},'S','<cmd>HopWordBC<CR>')
 
 --we are marking where we are before we begin search so that way we can return to orignal spot
 map(n,"/","ms/")
@@ -169,34 +160,18 @@ map(n,"?","ms?")
 
 -- instead of moving cursor to top and bottom, we can move left and right fast instead reaching manual way
 -- this also mean I dont have to do I<esc> or A<esc>
-map(n,'<S-h>','^')
-map(n,'<S-l>','$')
-map(v,'<S-h>','^')
-map(v,'<S-l>','$')
-map('o','<S-h>','^')
-map('o','<S-l>','$')
-
+map({n,v,o},'<S-h>','^')
+map({n,v,o},'<S-l>','$')
 
 -- center the screen... since we are moving, we can expect it will be at center so it is easier to know where.
-map(n,'{','{zz')
-map(n,'}','}zz')
-map(n,'n','nzz')
-map(n,'N','Nzz')
-map(n,'[s','[snzz')
-map(n,']s',']szz')
-map(n,'N','Nzz')
-map(n,'N','Nzz')
-
-map(v,'{','{zz')
-map(v,'}','}zz')
-map(v,'n','nzz')
-map(v,'N','Nzz')
-map(v,'[s','[snzz')
-map(v,']s',']szz')
-map(v,'N','Nzz')
-map(v,'N','Nzz')
-
-
+map({n,v},'{','{zz')
+map({n,v},'}','}zz')
+map({n,v},'n','nzz')
+map({n,v},'N','Nzz')
+map({n,v},'[s','[snzz')
+map({n,v},']s',']szz')
+map({n,v},'N','Nzz')
+map({n,v},'N','Nzz')
 
 --┌────────────────────────────────────────────────────────────────────────────┐
 --│                                   Window                                   │
@@ -303,19 +278,7 @@ map('t', '<leader>tt','<C-\\><C-n>:lua require("FTerm").toggle()<cr>')
 map(v,'<leader>h',':<c-u>HSHighlight 9<CR> ')
 map(v,'<leader>r',':<c-u>HSRmHighlight<CR>')
 
-function luasnip_choice()
-    local snip = require('luasnip')
-    if snip.choice_active() then
-        print("yes")
-        return t '<Plug>luasnip-next-choice'
-    end
-    return t "<C-E>"
-end
-
-vim.cmd[[imap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>']]
-vim.cmd[[vmap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>']]
-vim.cmd[[smap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>']]
---map(i,'<C-E>',"<esc>:lua luasnip_choice()<cr>",{silent=true})
+map({i,v,'s'},'<C-E>',[[luasnip#choice_active() ? '<Plug>luasnip-next-choice':'<C-E>']],{silent = true, expr = true,noremap = false})
 
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
@@ -350,14 +313,6 @@ map(n,'\\de',':lua require"dap".run_last()<CR>')
 --map(n,'<leader>vfu','<Plug> VimspectorUpFrame')
 --map(n,'<leader>vfd','<Plug> VimspectorDownFrame')
 --map(n,'<leader>ve','<Plug> VimspectorBalloonEval')
-
-
-
-
-
-
-
-
 
 
 

@@ -3,7 +3,7 @@ vim.o.completeopt = "menuone,noselect"
 -- nvim-cmp setup
 local cmp = require 'cmp'
 cmp.setup {
-    completion = {autocomplete = false  },
+    -- completion = {autocomplete = true  },
     snippet = {
         expand = function(args)
             require('luasnip').lsp_expand(args.body)
@@ -45,11 +45,10 @@ cmp.setup {
 
 
     sources = {
-        { name = 'luasnip' },
+        { name = 'luasnip', priority = 99 },
         { name = 'nvim_lsp' },
-        { name = 'buffer' },
+        { name = 'buffer', priority = 90 },
         { name = 'nvim_lua' },
     },
 }
-
 

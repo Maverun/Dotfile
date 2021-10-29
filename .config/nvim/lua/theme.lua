@@ -1,4 +1,3 @@
-
 local fn = vim.fn
 local o = vim.o
 local cmd = vim.cmd
@@ -16,7 +15,6 @@ vim.g.tokyodark_color_gamma = "1.1"
 vim.g.tokyonight_style = "night"
 
 cmd("colorscheme tokyonight")
---cmd("colorscheme tokyodark")
 --highlight('TSComment','#0087ff','None')
 
 --cmd 'hi WindowLine guifg=#4C4D5A guibg=#151623'

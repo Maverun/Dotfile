@@ -25,8 +25,7 @@ return require("packer").startup(
     use 'kshenoy/vim-signature'                            -- To display where MARK is at (ma, mb ) etc
     -- use 'mhinz/vim-startify'                               -- Home page of VIM/NEOVIM
     use 'glepnir/dashboard-nvim'                           -- Home page of Neovim
-    --use 'hoob3rt/lualine.nvim'
-    use 'shadmansaleh/lualine.nvim'
+    use 'nvim-lualine/lualine.nvim'
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                   Auto                                    │
@@ -46,7 +45,8 @@ return require("packer").startup(
     use 'unblevable/quick-scope' -- Show highlight key for f,F,t,T, best thing.
     use 'majutsushi/tagbar'      -- display tags
     use 'kyazdani42/nvim-tree.lua'
-    use 'ggandor/lightspeed.nvim'
+    -- use 'ggandor/lightspeed.nvim'
+    use 'phaazon/hop.nvim'
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                   Notes                                   │
@@ -123,7 +123,6 @@ return require("packer").startup(
         run = function() vim.fn['firenvim#install'](0) end 
     }
 
-    use {'subnut/nvim-ghost.nvim', run = ':call nvim_ghost#installer#install()'}
     end,
     {
         display = {
