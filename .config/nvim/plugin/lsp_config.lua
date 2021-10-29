@@ -125,47 +125,24 @@ require'lspconfig'.vls.setup {
   cmd = {vls_binary},
 }
 
--- lua lsp settings
---local system_name
---if vim.fn.has("mac") == 1 then
-  --system_name = "macOS"
---elseif vim.fn.has("unix") == 1 then
-  --system_name = "Linux"
---elseif vim.fn.has('win32') == 1 then
-  --system_name = "Windows"
---else
-  --print("Unsupported system for sumneko")
---end
+ local signs = {
+    { name = "LspDiagnosticsSignError", text = "" },
+    { name = "LspDiagnosticsSignWarning", text = "" },
+    { name = "LspDiagnosticsSignHint", text = "" },
+    { name = "LspDiagnosticsSignInformation", text = "" },
+  }
 
----- set the path to the sumneko installation; if you previously installed via the now deprecated :LspInstall, use
-----local sumneko_root_path ='~/langservers/lua-language-server'
-----local sumneko_binary = sumneko_root_path .. '/bin/'..system_name .. '/lua-language-server'
---local sumneko_root_path = vim.fn.expand(vim.fn.expand('~/langservers/lua-language-server'))
---local sumneko_binary = sumneko_root_path .. '/bin/'..system_name..'/lua-language-server'
+  local sign_names = {
+    "DiagnosticSignError",
+    "DiagnosticSignWarn",
+    "DiagnosticSignInfo",
+    "DiagnosticSignHint",
+  }
 
---local runtime_path = vim.split(package.path, ';')
---table.insert(runtime_path, "lua/?.lua")
---table.insert(runtime_path, "lua/?/init.lua")
+  for i, sign in ipairs(signs) do
+    vim.fn.sign_define(sign_names[i], { texthl = sign_names[i], text = sign.text, numhl = "" })
+  end
 
---require'lspconfig'.sumneko_lua.setup {
--- replace the default lsp diagnostic letters with prettier symbols
-vim.fn.sign_define("LspDiagnosticsSignError", {text = "", numhl = "LspDiagnosticsDefaultError"})
-vim.fn.sign_define("LspDiagnosticsSignWarning", {text = "", numhl = "LspDiagnosticsDefaultWarning"})
-vim.fn.sign_define("LspDiagnosticsSignInformation", {text = "", numhl = "LspDiagnosticsDefaultInformation"})
-vim.fn.sign_define("LspDiagnosticsSignHint", {text = "", numhl = "LspDiagnosticsDefaultHint"})
 
--- diagnostics highlights
 
---local cmd = vim.cmd
 
---cmd "hi LspDiagnosticsSignError guifg=#f9929b"
---cmd "hi LspDiagnosticsVirtualTextError guifg=#BF616A"
-
---cmd "hi LspDiagnosticsSignWarning guifg=#EBCB8B"
---cmd "hi LspDiagnosticsVirtualTextWarning guifg=#EBCB8B"
-
---cmd "hi LspDiagnosticsSignInformation guifg=#A3BE8C"
---cmd "hi LspDiagnosticsVirtualTextInformation guifg=#A3BE8C"
-
---cmd "hi LspDiagnosticsSignHint guifg=#b6bdca"
---cmd "hi LspDiagnosticsVirtualTextHint guifg=#b6bdca"

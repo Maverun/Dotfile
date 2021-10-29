@@ -42,15 +42,14 @@ require('nvim-treesitter.configs').setup{
         ["ic"] = "@class.inner",
             },-- end of keymaps
         },--end of select
+
     swap = {
       enable = true,
       swap_next = {
         ["<leader>a"] = "@parameter.inner",
-        ['<leader>b'] = "@block.inner",
       },
       swap_previous = {
         ["<leader>A"] = "@parameter.inner",
-        ['<leader>B'] = "@block.inner",
       },
     },
     }--end of textobjects
