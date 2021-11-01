@@ -60,15 +60,21 @@ map(i,'<C-F>','<Esc>dea')
 map(i,'<S-CR>','<Esc>o')
 map(i,'<M-CR>','<Esc>O<Esc>0i')
 
---Shfift Line up or down
+--shift Line up or down
 
-map({n,v},'<Up>',':m-2<CR>gv')
-map({n,v},'<Down>',":m '>+1<CR>gv")
---map({n,v},'<S-Up>',':m-2<CR>gv')
---map({n,v},'<S-Down>',":m '>+1<CR>gv")
---map({n,v},'<S-k>',':m-2<CR>gv')
---map({n,v},'<S-j>',":m '>+1<CR>gv")
+map(v,'<Up>',':m-2<CR>gv')
+map(v,'<Down>',":m '>+1<CR>gv")
+--map(v,'<S-Up>',':m-2<CR>gv')
+--map(v,'<S-Down>',":m '>+1<CR>gv")
+--map(v,'<S-k>',':m-2<CR>gv')
+--map(v,'<S-j>',":m '>+1<CR>gv")
 
+map(n,'<Up>','<Esc>:m-2<CR>')
+map(n,'<Down>',"<Esc>:m+1<CR>")
+--map(n,'<S-Up>','<Esc>:m-2<CR>')
+--map(n,'<S-Down>',"<Esc>:m+1<CR>")
+--map(n,'<S-k>','<Esc>:m-2<CR>')
+--map(n,'<S-j>',"<Esc>:m+1<CR>")
 
 map(i,'<S-Up>','<Esc>:m-2<CR>')
 map(i,'<S-Down>',"<Esc>:m+1<CR>")
@@ -117,6 +123,7 @@ function escape()
     return t':update<CR>'
 end
 map(i,'<esc>','<esc>:lua escape()<cr>', {silent=true})
+map('t','<esc>','<C-\\><C-n>') -- escape terminal trap!
 
 -- adding where it doesnt swap with old into reg, we will just use same one. so it make sense that way
 map(v,'p','"_dp')
