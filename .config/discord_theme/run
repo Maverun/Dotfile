@@ -1,0 +1,3 @@
+#!/usr/bash
+
+/home/maverun/.local/bin/beautifuldiscord --css main.css

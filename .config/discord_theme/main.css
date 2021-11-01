@@ -1,0 +1,116 @@
+@import url(https://github.com/monstrousdev/themes/blob/master/black-hole/style.css)
+
+/*Mave edits work */
+:root {
+    --guild-icon-width: 35px;
+    --guild-icon-height: 35px;
+}
+/* .iconSizeLarge-161qtT .childWrapper-anI2G9, .wrapper-1BJsBx {height:var(--guild-icon-height); width: var(--guild-icon-width);} */
+/* .guild-1EfMGQ {height:var(--guild-icon-height); width: var(--guild-icon-width);} */
+/* .guilds-wrapper .guilds .guild { width: var(--guild-icon-width); height: var(--guild-icon-height);} */
+/* .guilds-wrapper .guilds .guild .guild-inner { line-height: var(--guild-icon-height); } */
+/* .guilds-wrapper .guilds .guild .guild-inner a { width: var(--guild-icon-width); height: var(--guild-icon-height); } */
+/* .guilds-wrapper .guilds .guild .avatar-small { background-size: var(--guild-icon-width),var(--guild-icon-height);} */
+/* .guilds-wrapper .guilds .friends-icon{width: var(--guild-icon-width); height: var(--guild-icon-height); } */
+/* .guilds-wrapper .guilds .friends-online{width:30px;font-size:8px;} */
+/* .guilds-wrapper .guilds .guild+.guild {margin-top: 3px;} */
+/* .channels-Ie2l6A{width:200px;} */
+/* .membersWrap-2h-GB4{min-width:60px;max-width:190px;} */
+/* .membersGroup-v9BXpm{font-size:10px;} */
+/* .username-1cB_5E{font-size:12px;} */
+/* .activityText-sLG0UL{font-size:10px;} */
+/* .channelTextArea-rNsIhG{margin-left:-10px;} */
+/* .flex-spacer{margin-left:0px;} */
+
+@media only screen and (max-width:1000px){
+    /* side panel. make it thin and on hover with full width */
+    .sidebar-2K8pFh {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        clip: rect(0px, 40px, 100vh, 0px);
+        transition: clip .25s ease-in-out;
+        z-index: 5;
+    }
+    .sidebar-2K8pFh:hover {
+        clip: rect(0px, 240px, 100vh, 0px);
+    }
+
+    /* main chat field */
+    .chat-3bRxxu {
+        margin-left: 30px;
+    }
+
+    /* make stuff from side panel visible again (fixing related bugs) */
+    .scroller-2wx7Hm {
+        background: var(--background-secondary);
+    }
+
+    /* title bar with banner */
+    .header-2o-2hj {
+        background: var(--background-secondary) !important;
+    }
+    .container-2Rl01u {
+        z-index: 10;
+    }
+
+    /* username at bottom */
+    .panels-j1Uci_ {
+        z-index: 10;
+    }
+
+    /* search bar in DM at top */
+    .searchBar-6Kv8R2 {
+        z-index: 10 !important;
+    }
+
+    /* compact DM avatar margin and padding */
+    .channel-2QD9_O {
+        margin-left: 0 !important;
+    }
+    .layout-2DM8Md {
+        padding: 0 4px !important;
+    }
+
+    /* compact username */
+    .container-3baos1 {
+        padding: 0 5px !important;
+    }
+
+    /* compact channel icons padding */
+    .content-3at_AU {
+        padding: 0 6px !important;
+    }
+
+    /* make mentions visible when sidebar compact */
+    .sidebar-2K8pFh:not(:hover) .iconBase-2IHuka.mentionsBadge-7f5lud {
+        position: absolute;
+        left: 4px;
+    }
+
+    /* buttom work */
+    .buttonContainer-DHceWr {
+        top: unset !important;
+        right: unset !important;
+        left: 0;
+        bottom: 0;
+        z-index: 3;
+    }
+
+    .buttonContainer-DHceWr .container-3npvBV {
+        padding: 0 !important;
+        top: unset !important;
+        transform: translate(calc(100% + 2px), calc(-100% + 2px));
+    }
+
+    .buttonContainer-DHceWr .wrapper-2aW0bm {
+        grid-auto-flow: dense !important;
+        height: unset !important;
+        width: 32px;
+        /*background-color: transparent !important;*/
+    }
+
+    .buttonContainer-DHceWr .button-1ZiXG9:not(:nth-of-type(2)) {
+        display: none;
+    }
+}
