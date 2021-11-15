@@ -185,7 +185,7 @@ def custom_swap(qtile,key):
     current = data.get("current",data.get("current_stack",None))
     current = 0 if current is None and name == "treetab" else current
     #If it at edge, then we can go next screen
-    if is_atEdge(data,name,current,key) or (name == "max" and key in "hl"):
+    if is_atEdge(qtile,data,name,current,key) or (name == "max" and key in "hl"):
         return swap_across_screen(qtile,key)
     if name == "stack" and key in "hl":
         #terrible but what choice do we got? but 2 stack is enough
