@@ -290,8 +290,9 @@ end
 
 -- args is a table, where 1 is the text in Placeholder 1, 2 the text in
 -- placeholder 2,...
-local function mirror(args,comment,extra)
+local function mirror(args,snip,comment,extra)
     if not extra then extra = '%s' end
+    print(args,commen,extra)
     if comment then return comment_line(string.format(extra,args[1][1]),{}) end
     return string.format(extra,args[1][1])
 end
@@ -464,7 +465,7 @@ ls.snippets.java = {
 ls.snippets.tex = {
         -- rec_ls is self-referencing. That makes this snippet 'infinite' eg. have as many
         -- \item as necessary by utilizing a choiceNode.
-        s("ls", {
+        s("item", {
             t({ "\\begin{itemize}", "\t\\item " }),
             i(1),
             d(2, rec_ls, {}),
@@ -567,15 +568,3 @@ ls.snippets.lua = {
         }),
     }
 
---[[
--- Beside defining your own snippets you can also load snippets from "vscode-like" packages
--- that expose snippets in json files, for example <https://github.com/rafamadriz/friendly-snippets>.
--- Mind that this will extend  `ls.snippets` so you need to do it after your own snippets or you
--- will need to extend the table yourself instead of setting a new one.
-]]
-
---require("luasnip/loaders/from_vscode").load({ include = { "python" } }) -- Load only python snippets
---require("luasnip/loaders/from_vscode").load({ paths = { "./my-snippets" } }) -- Load snippets from my-snippets folder
-
----- You can also use lazy loading so you only get in memory snippets of languages you use
---require("luasnip/loaders/from_vscode").lazy_load()-- You can pass { path = "./my-snippets/"} as well

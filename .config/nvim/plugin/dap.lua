@@ -1,7 +1,9 @@
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                    DAP                                    │
 -- └───────────────────────────────────────────────────────────────────────────┘
-vim.g.dap_virtual_text=true --showing virtual text during debugging
+-- vim.g.dap_virtual_text=true --showing virtual text during debugging
+require'nvim-dap-virtual-text'.setup()
+
 local dap,dapui = require('dap'), require('dapui')
 
 dapui.setup({

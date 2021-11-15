@@ -42,7 +42,7 @@ map({n,i},"<C-s>","<cmd>update<CR>")
 map(i,'<M-u>','<Esc>viwUi')
 map(n,'<M-u>','viwU')
 
-map(n,'<leader>q',':bp<bar>sp<bar>bn<bar>bd<CR>')
+map(n,'\\q',':bp<bar>sp<bar>bn<bar>bd<CR>')
 -- Close buffer without closing window
 -- If i understood this.. it mean, go to
 -- previous buffer | split new one | buffer next | buffer delete it
@@ -61,6 +61,7 @@ map(i,'<S-CR>','<Esc>o')
 map(i,'<M-CR>','<Esc>O<Esc>0i')
 
 --shift Line up or down
+--shifting left and right (onlys params) are done in treesitter configs with left and right arrow key
 
 map(v,'<Up>',':m-2<CR>gv')
 map(v,'<Down>',":m '>+1<CR>gv")
@@ -101,10 +102,10 @@ map(n,'<F2>',':NvimTreeToggle<CR>')
 map(n,'<M-m>',':Startify<CR>')
 
 -- Mouse Middle Click Disable
-map({n,i},'<MiddleMouse>','<LeftMouse>')
-map({n,i},'<2-MiddleMouse>','<LeftMouse>')
-map({n,i},'<3-MiddleMouse>','<LeftMouse>')
-map({n,i},'<4-MiddleMouse>','<LeftMouse>')
+map({v,n,i},'<MiddleMouse>','<LeftMouse>')
+map({v,n,i},'<2-MiddleMouse>','<LeftMouse>')
+map({v,n,i},'<3-MiddleMouse>','<LeftMouse>')
+map({v,n,i},'<4-MiddleMouse>','<LeftMouse>')
 
 --CheatSheet
 map(n,'<leader>?',":Cheatsheet<CR>")
@@ -147,6 +148,7 @@ end
 map(n,'<F5>',':lua ruler_toggle()<CR>')
 map(n,'<F6>',':lua cursor_toggle()<CR>')
 
+map(n,'<Esc><Esc>','<Cmd>firenvim#focus_page()<CR>')
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                Navigation                                 │
@@ -285,8 +287,10 @@ map('t', '<leader>tt','<C-\\><C-n>:lua require("FTerm").toggle()<cr>')
 map(v,'<leader>h',':<c-u>HSHighlight 9<CR> ')
 map(v,'<leader>r',':<c-u>HSRmHighlight<CR>')
 
-map({i,v,'s'},'<C-E>',[[luasnip#choice_active() ? '<Plug>luasnip-next-choice':'<C-E>']],{silent = true, expr = true,noremap = false})
-
+-- map({i,v,'s'},'<C-E>',[[luasnip#choice_active()?'<Plug>luasnip-next-choice':'<C-E>']],{silent = true, expr = true,noremap = false})
+-- map({i,v,'s'},'<C-E>','<Plug>luasnip-next-choice',{noremap = false})
+vim.api.nvim_set_keymap("i", "<C-E>", "<Plug>luasnip-next-choice", {})
+vim.api.nvim_set_keymap("s", "<C-E>", "<Plug>luasnip-next-choice", {})
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                    Dap                                    │

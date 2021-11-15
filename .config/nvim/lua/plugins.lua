@@ -46,7 +46,7 @@ return require("packer").startup(
     use 'majutsushi/tagbar'      -- display tags
     use 'kyazdani42/nvim-tree.lua'
     -- use 'ggandor/lightspeed.nvim'
-    use 'phaazon/hop.nvim'
+    use {'phaazon/hop.nvim',config=function() require'hop'.setup() end}
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                   Notes                                   │
@@ -123,6 +123,7 @@ return require("packer").startup(
         run = function() vim.fn['firenvim#install'](0) end 
     }
 
+    use 'lervag/vimtex'
     end,
     {
         display = {

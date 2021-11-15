@@ -28,12 +28,14 @@ def terminal(command,extra = ''):
 def debug_qtile(qtile):
     logger.warning(str(qtile.current_layout.name))
     logger.warning(json.dumps(qtile.current_layout.info(),indent=3))
-    logger.warning(str(qtile.current_layout.clients))
-    logger.warning(json.dumps(qtile.cmd_groups(),indent=3))
+    # logger.warning(str(qtile.current_layout.clients))
+    # logger.warning(json.dumps(qtile.cmd_groups(),indent=3))
     # logger.warning(str(qtile.current_screen.current_layout))
 
 
-def is_atEdge(data,name,current,key):
+def is_atEdge(qtile,data,name,current,key):
+    #if there is screen above or not, if there is none, then always false for jk
+    if get_next_screen_index(qtile,key) == -1 and key in 'jk': return False
     #if it only 1 window, always true
     if len(data["clients"]) in (0,1): return True 
     #always cuz only one window
@@ -95,7 +97,8 @@ def custom_focus(qtile,key):
     # logger.warning(json.dumps(data,indent=3))
     current = 0 if current is None and name == "treetab" else current
     #If it at edge, then we can go next screen
-    if is_atEdge(data,name,current,key) or (name == "max" and key in "hl"):
+    if is_atEdge(qtile,data,name,current,key) or (name == "max" and key in "hl"):
+        logger.warning("under here")
         next_screen = get_next_screen_index(qtile,key)
         #for w/e reason it couldn't find screen, just forget about it
         if next_screen == -1: return 
@@ -306,8 +309,8 @@ Gkey        = ["mod4","control","shift","mod1"]
 hyper       = ["mod4","control","shift","mod1"]
 
 keys = [ #Setting key blindings
-    # Key(sup,"v",lazy.function(debug_qtile)),
-    Key(sup,"v",lazy.function(list_keyblinds)),
+    Key(sup,"v",lazy.function(debug_qtile)),
+    Key(sup,"o",lazy.function(list_keyblinds)),
     # Key(sup, "Left", lazy.screen.prev_group()),
     # cycle to next group
     # Key(sup, "Right", lazy.screen.next_group()),

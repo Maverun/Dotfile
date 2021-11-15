@@ -71,7 +71,7 @@ ZSH_THEME="xiong-chiamiov-plus"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git git-prompt zsh-autosuggestions zsh-syntax-highlighting taskwarrior)
+plugins=(git git-prompt zsh-autosuggestions zsh-syntax-highlighting taskwarrior zsh-vi-mode)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -195,8 +195,38 @@ psgrep() {
     fi
 }
 
+
+# # Change cursor shape for different vi modes.
+# function zle-keymap-select {
+#   if [[ ${KEYMAP} == vicmd ]] ||
+#      [[ $1 = 'block' ]]; then
+#     echo -ne '\e[1 q'
+#   elif [[ ${KEYMAP} == main ]] ||
+#        [[ ${KEYMAP} == viins ]] ||
+#        [[ ${KEYMAP} = '' ]] ||
+#        [[ $1 = 'beam' ]]; then
+#     echo -ne '\e[5 q'
+#   fi
+# }
+# zle -N zle-keymap-select
+# zle-line-init() {
+#     zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
+#     echo -ne "\e[5 q"
+# }
+# zle -N zle-line-init
+# echo -ne '\e[5 q' # Use beam shape cursor on startup.
+# preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
+
 set -o vi
 bindkey -v
+# bindkey 'H' beginning-of-line
+# bindkey 'L' end-of-line
+# bindkey '^[[H' beginning-of-line
+# bindkey '^[[F' end-of-line
+zvm_bindkey vicmd 'H' 'beginning-of-line'
+zvm_bindkey vicmd 'L' 'end-of-line'
+# ZVM_VI_HIGHLIGHT_FOREGROUND=#008800           # Hex value
+ZVM_VI_HIGHLIGHT_BACKGROUND=#33467C           # Hex value
 #screenfetch
 neofetch
 #task sync &

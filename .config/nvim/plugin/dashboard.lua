@@ -16,7 +16,7 @@ g.dashboard_default_executive = "telescope"
 g.dashboard_custom_section = {
    a = { description = { "  Find File                 SPC f f" }, command = "Telescope find_files" },
    b = { description = { "  Recents                   SPC f o" }, command = "Telescope oldfiles" },
-   c = { description = { "  Frecency                  SPC f o" }, command = "Telescope frecency" },
+   c = { description = { "  Frecency                  SPC f r" }, command = "Telescope frecency" },
    d = { description = { "  Find Word                 SPC f g" }, command = "Telescope live_grep" },
    e = { description = { "洛 New File                  SPC f n" }, command = "DashboardNewFile" },
    f = { description = { "  Bookmarks                 SPC f m" }, command = "Telescope marks" },
