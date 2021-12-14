@@ -66,7 +66,8 @@ return require("packer").startup(
 -- └───────────────────────────────────────────────────────────────────────────┘
 
     use 'neovim/nvim-lspconfig'                             -- LSP Config that allow us to use instead of coc
-    use 'kabouzeid/nvim-lspinstall'                         -- Ease of Install Language Servers
+    -- use 'kabouzeid/nvim-lspinstall'                         -- Ease of Install Language Servers
+    use 'williamboman/nvim-lsp-installer'
     --use 'glepnir/lspsaga.nvim'                               -- Powerful tools to allow uses of code, such as read doc, rename at once etc
     -- use "ray-x/lsp_signatre.nvim"                           -- Allow to show Params signature when typings
     -- use {'ray-x/navigator.lua', requires = {'ray-x/guihua.lua', run = 'cd lua/fzy && make',opt=true}}
@@ -77,7 +78,7 @@ return require("packer").startup(
 -- └───────────────────────────────────────────────────────────────────────────┘
 
     use 'tpope/vim-fugitive'                                 -- GIT
-    use 'tpope/vim-commentary'
+    -- use 'tpope/vim-commentary'
     use 'numtostr/FTerm.nvim'                               -- Floating Terminal
 
     --use 'junegunn/fzf'                                      -- Allowing Fuzzle Finder Search!
@@ -95,8 +96,10 @@ return require("packer").startup(
     use 'hrsh7th/cmp-nvim-lsp'
     use 'hrsh7th/cmp-buffer'
     use 'hrsh7th/cmp-nvim-lua'
+    use 'hrsh7th/cmp-path'
     use 'saadparwaiz1/cmp_luasnip'
     use 'tweekmonster/startuptime.vim'                       -- Debug to see system health
+    use 'onsails/lspkind-nvim'
 
     use 'nvim-lua/popup.nvim'                                -- Popup API
     use 'nvim-lua/plenary.nvim'                              -- allow to reuse those function provided
@@ -116,15 +119,31 @@ return require("packer").startup(
     use 'rcarriga/nvim-dap-ui'
     --use 'puremourning/vimspector'
     use "blackCauldron7/surround.nvim"
+    use "bfredl/nvim-ipy"
+    use "ivanov/vim-ipython"
 
     use 'L3MON4D3/LuaSnip'
     use {
         'glacambre/firenvim',
-        run = function() vim.fn['firenvim#install'](0) end 
+        run = function() vim.fn['firenvim#install'](0) end
     }
+--┌────────────────────────────────────────────────────────────────────────────┐
+--│                                  Orgmode                                   │
+--└────────────────────────────────────────────────────────────────────────────┘
+
+use {'nvim-orgmode/orgmode', config = function()
+            require('orgmode').setup{}
+        end
+}
+
+use {'lukas-reineke/headlines.nvim',config = function() require'headlines'.setup() end}
+use {'akinsho/org-bullets.nvim',config = function() require'org-bullets'.setup() end}
+
 
     use 'lervag/vimtex'
-    end,
+    use {'numToStr/Comment.nvim', config = function() require("Comment").setup{} end}
+
+end,
     {
         display = {
             border = { "┌", "─", "┐", "│", "┘", "─", "└", "│" }

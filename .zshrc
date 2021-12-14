@@ -159,6 +159,10 @@ alias jctl="journalctl -p 3 -xb"
 #Search with Package manager
 alias pacmansearch='pacman -Ss'
 
+#Disable/enable screensaver, better not to disable often but just in case you need to...
+alias disableScreenSaver='xset s off & xset s noblank & xset -dpms'
+alias enableScreenSaver='xset s on & xset s blank & xset dpms'
+
 # function precmd {
 #     PROMPT="%F{cyan}%t%f|%F{green}%1~$(git_super_status)%F{green}➜ %f%{$reset_color%}"
 # }

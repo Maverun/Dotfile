@@ -15,7 +15,7 @@ task sync &
 
 
 #process_list=(redshift-gtk lightcord ckb-next clipmenud trackma-gtk thunderbird gnome-clocks pavucontrol)
-process_list=(redshift-gtk discord-canary clipmenud thunderbird kdeconnect-app gnome-clocks element-desktop)
+process_list=(redshift-gtk discord-canary clipmenud thunderbird kdeconnect-app gnome-clocks element-desktop dunst)
 
 for p in "${process_list[@]}"
 do
@@ -43,13 +43,13 @@ else
 fi
 
 
-if pgrep cmus >/dev/null
-then
-    echo "its running"
-else
-    #xfce4-terminal -T cmus -e 'sh -ic "cmus; exec bash"'
-    alacritty -T cmus -e 'sh -ic "cmus; exec bash"'
-fi
+#if pgrep cmus >/dev/null
+#then
+#    echo "its running"
+#else
+#    #xfce4-terminal -T cmus -e 'sh -ic "cmus; exec bash"'
+#    alacritty -T cmus -e 'sh -ic "cmus; exec bash"'
+#fi
 
 if [ $DESKTOP_SESSION = "bspwn" ]
 then
@@ -60,6 +60,7 @@ then
         tint2 &
 fi
 
+firefox
 timeshift --create --comments "Daily backup" &
 #gnome-clocks --gapplication-service &
-
+kitty --class=weechat weechat

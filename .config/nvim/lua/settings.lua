@@ -53,15 +53,16 @@ opt.conceallevel = 2            -- allow to view markdown ease
 
 opt.completeopt = "menuone,noselect"
 
--- opt.listchars = {
---     tab = '',
---     conceal = '┊',
---     nbsp = 'ﮊ',
---     extends = '>',
---     precedes = '<',
---     trail = '·',
---     eol = '﬋',
--- }
+opt.listchars = {
+    -- tab = '',
+    tab = '  ',
+    conceal = '┊',
+    nbsp = 'ﮊ',
+    extends = '>',
+    precedes = '<',
+    trail = '·',
+    eol = '﬋',
+}
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                    Tab                                    │
@@ -69,11 +70,11 @@ opt.completeopt = "menuone,noselect"
 
 local indent = 4
 
-opt.expandtab = true                           -- Use spaces instead of tabs
-opt.shiftwidth = indent                        -- Size of an indent
-opt.smartindent = true                         -- Insert indents automatically
-opt.tabstop = indent                           -- Number of spaces tabs count for
-opt.shiftround = true                          -- Round indent
+-- opt.expandtab = true                           -- Use spaces instead of tabs
+-- opt.shiftwidth = indent                        -- Size of an indent
+-- opt.smartindent = true                         -- Insert indents automatically
+-- opt.tabstop = indent                           -- Number of spaces tabs count for
+-- opt.shiftround = true                          -- Round indent
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                   Fold                                    │
@@ -102,8 +103,9 @@ cmd 'set viewoptions-=options'
 -- └───────────────────────────────────────────────────────────────────────────┘
 
 g.indent_blankline_char = '│'
-g.indent_blankline_char_highlight_list = {'Error', 'Function'}
-g.indent_blankline_space_char_highlight_list = {'Error', 'Function'}
+-- g.indent_blankline_char_highlight_list = {'Error', 'Function'}
+-- g.indent_blankline_char_highlight_list = {'comment', 'conceal'}
+-- g.indent_blankline_space_char_highlight_list = {'comment', 'Function'}
 --g.indent_blankline_strict_tabs = true
 -- Custom Highlight group
 --g.indent_blankline_char_highlight_list = {'aqua_ind' , 'grey_ind', 'yellow_ind','algea_ind'}
@@ -131,3 +133,15 @@ g.vim_markdown_conceal = 2
 -- require'surround'.setup{prefix=','}
 require'colorizer'.setup{"*"}
 require'FTerm'.setup{}
+--there is plugins for this suda.nvim, but doesn't feel like a worth it  since I wont be editing in permission often.
+vim.cmd[[
+" Temporary workaround for: https://github.com/neovim/neovim/issues/1716
+if has("nvim")
+  command! W w !sudo -n tee % > /dev/null || echo "Press <leader>w to authenticate and try again"
+  map <leader>w :new<cr>:term sudo true<cr>
+else
+  command! W w !sudo tee % > /dev/null
+end
+]]
+
+

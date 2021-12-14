@@ -82,7 +82,9 @@ local art = {
 }--end of header
 
 -- for some reason, math.random(#art) doesn't work so i have to do this way.
-local get_number = (os.date("*t").sec % #art) + 1
+math.randomseed( os.time() ) -- For random header.
+-- local get_number = (os.date("*t").sec % #art) + 1
+local get_number = math.random(#art)
 local result = art[get_number]
 g.dashboard_custom_header = result
 g.dashboard_custom_footer = { '' }

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import os
-import re
+# import re
 import socket
-import subprocess
+# import subprocess
 from libqtile.config import Click, Drag, Group, KeyChord, Key, Match, Screen, ScratchPad, DropDown
 from libqtile import qtile
 from libqtile.command import lazy
@@ -12,7 +12,6 @@ from typing import List  # noqa: F401
 from libqtile.log_utils import logger
 from datetime import datetime 
 from tkinter import Tk
-from prettytable import PrettyTable
 import json 
 # myTerm = "alacritty"                             # My terminal of choice
 myTerm = "kitty"                             # My terminal of choice
@@ -22,12 +21,79 @@ myTerm = "kitty"                             # My terminal of choice
 monitor_position = [[-1, 2,-1],#top
                     [ 3, 0, 1]]#middle
 
+#Tokyonight colors, I like those.
+colors = {
+    'bg_dark' : "#1f2335",
+    'bg' : "#24283b",
+    'bg_highlight' : "#292e42",
+    'terminal_black' : "#414868",
+    # 'fg' : "#c0caf5",
+    'fg' : '#ffffff',
+    'fg_dark' : "#a9b1d6",
+    'fg_gutter' : "#3b4261",
+    'dark3' : "#545c7e",
+    'comment' : "#565f89",
+    'dark5' : "#737aa2",
+    'blue0' : "#3d59a1",
+    'blue' : "#7aa2f7",
+    'cyan' : "#7dcfff",
+    'blue1' : "#2ac3de",
+    'blue2' : "#0db9d7",
+    'blue5' : "#89ddff",
+    'blue6' : "#B4F9F8",
+    'blue7' : "#394b70",
+    'magenta' : "#bb9af7",
+    'magenta2' : "#ff007c",
+    'purple' : "#74438F",
+    'orange' : "#ff9e64",
+    'yellow' : "#e0af68",
+    'green' : "#9ece6a",
+    'green1' : "#73daca",
+    'green2' : "#41a6b5",
+    'teal' : "#1abc9c",
+    'red' : "#f7768e",
+    'red1' : "#db4b4b",
+  }
+
+class Map(dict):
+    """dot.notation access to dictionary attributes"""
+    def __init__(self, *args, **kwargs):
+        super(Map, self).__init__(*args, **kwargs)
+        for arg in args:
+            if isinstance(arg, dict):
+                for k, v in arg.items():
+                    self[k] = v
+
+        if kwargs:
+            for k, v in kwargs.items():
+                self[k] = v
+
+    def __getattr__(self, attr):
+        return self.get(attr)
+
+    def __setattr__(self, key, value):
+        self.__setitem__(key, value)
+
+    def __setitem__(self, key, value):
+        super(Map, self).__setitem__(key, value)
+        self.__dict__.update({key: value})
+
+    def __delattr__(self, item):
+        self.__delitem__(item)
+
+    def __delitem__(self, key):
+        super(Map, self).__delitem__(key)
+        del self.__dict__[key]
+
+colors = Map(colors)
+
 def terminal(command,extra = ''):
     return f"{myTerm} {extra} -e sh -c 'sleep 0.4 && {command}'"
 
 def debug_qtile(qtile):
     logger.warning(str(qtile.current_layout.name))
     logger.warning(json.dumps(qtile.current_layout.info(),indent=3))
+    qtile.cmd_display_kb('mod4')
     # logger.warning(str(qtile.current_layout.clients))
     # logger.warning(json.dumps(qtile.cmd_groups(),indent=3))
     # logger.warning(str(qtile.current_screen.current_layout))
@@ -347,25 +413,6 @@ keys = [ #Setting key blindings
     #End of CHORD
                 ],mode="Program Launcher"),
 
-    #Keyboard hotkey G1-G6 
-    # Key(Gkey,"F12",
-        # lazy.spawn("flameshot gui"),
-        # desc="Run Screenshot mode"),
-    # Key(Gkey,"F11",
-        # lazy.spawn(home + "/Script/add_todo"),
-        # desc="Add todo task to TODO.MD"),
-    # Key(Gkey,"F10",
-        # lazy.spawn(home + "/Script/config_edit"),
-        # desc="Confit Edit"),
-    # Key(Gkey,"F9",
-        # lazy.spawn('rofi -modi run,drun,window -show drun -show-icons -sidebar-mode -kb-mode-next "Alt+Tab"'),
-        # desc="Rofi Appfinder"),
-    # Key(Gkey,"F8",
-        # lazy.spawn(home + "/Script/kill_process"),
-        # desc="Confit Edit"),
-    # Key(Gkey,"F7",
-        # lazy.spawn(home + "/Script/search"),
-        # desc="Search Engine"),
 
     #Screenshot modes
     KeyChord(hyper,"s",[
@@ -489,6 +536,71 @@ keys = [ #Setting key blindings
 # │                                  Window                                   │
 # └───────────────────────────────────────────────────────────────────────────┘
 
+    KeyChord(sup,"n",[
+        Key([],"h",
+            lazy.layout.shrink_main(),#Make sense since, right is shrinking to left
+            desc="Grow master pane"),
+        Key([],"j",
+            lazy.layout.grow(),
+            desc="Grow down of current window"),
+        Key([],"k",
+            lazy.layout.shrink(),
+            desc="Grow up of current window"),
+        Key([],"l",
+            lazy.layout.grow_main(), #make sense since to growing to right
+            desc="Grow right of current window"),
+        Key([],"n",
+            lazy.layout.reset(),
+            desc="Reset it looks"),
+        Key([], "m",
+            lazy.layout.maximize(),
+            desc='toggle window between minimum and maximum sizes'
+            ),
+        Key([],"r",
+            lazy.layout.rotate(), #Stack
+            lazy.layout.flip(), #Monotall, maybe tile?
+            desc="Rotate layout"),
+        Key([],"Return", #Stack only 
+            lazy.layout.toggle_split(),
+            desc="Split stack"),
+
+    ], mode="Resize"),
+
+    KeyChord(sup,'m',[
+        Key([],"h",
+            lazy.function(custom_send,"h"),
+            desc="Send window to left screen"),
+        Key([],"j",
+            lazy.function(custom_send,"j"),
+            desc="Send window to down screen"),
+        Key([],"k",
+            lazy.function(custom_send,"k"),
+            desc="Send window to up screen"),
+        Key([],"l",
+            lazy.function(custom_send,"l"),
+            desc="Send window to right screen"),
+
+        #Swap window around
+        Key(['shift'],"h",
+            lazy.function(custom_swap,"h"),
+            desc="Swap to left of current window"),
+
+        Key(['shift'],"j",
+            lazy.function(custom_swap,"j"),
+            desc="Swap to down of current window"),
+
+        Key(['shift'],"k",
+            lazy.function(custom_swap,"k"),
+            desc="Swap to up of current window"),
+
+        Key(['shift'],"l",
+            lazy.function(custom_swap,"l"),
+            desc="Swap to right of current window"),
+    ], mode="Moving"),
+
+    KeyChord(sup,'Escape',[
+        Key([],'x',lazy.layout.shrink_main())
+    ], mode="test"),
     #Window focus key hjkl
     Key(sup,"h",
         lazy.function(custom_focus,"h"),
@@ -547,24 +659,10 @@ keys = [ #Setting key blindings
     Key(super_alt,"l",
         lazy.layout.grow_main(), #make sense since to growing to right
         desc="Grow right of current window"),
-    Key(sup, "n",
-        lazy.layout.normalize(),
-        desc='normalize window size ratios'
-        ),
-    Key(super_alt,"n",
-        lazy.layout.reset(),
-        desc="Reset it looks"),
-    Key(super_alt, "m",
-        lazy.layout.maximize(),
-        desc='toggle window between minimum and maximum sizes'
-        ),
-    Key(super_alt,"r",
-        lazy.layout.rotate(), #Stack
-        lazy.layout.flip(), #Monotall, maybe tile?
-        desc="Rotate layout"),
-    Key(super_alt,"Return", #Stack only 
-        lazy.layout.toggle_split(),
-        desc="Split stack"),
+    # Key(sup, "n",
+    #     lazy.layout.normalize(),
+    #     desc='normalize window size ratios'
+    #     ),
     Key(super_shift, "f",
         lazy.window.toggle_floating(),
         desc='toggle floating'
@@ -584,12 +682,17 @@ keys = [ #Setting key blindings
 group_names = [("|1|MAIN", {'layout': 'monadtall'}),
                ("|2|DEV", {'layout': 'monadtall'}),
                ("|3|SYS", {'layout': 'monadtall'}),
-               ("|4|CHAT", {'layout': 'monadtall',"matches":[
+               ("|4|CHAT", {'layout': 'stack',"matches":[
                    Match(wm_class="lightcord"),
                    Match(wm_class="element"),
+                   Match(wm_class="discord"),
+                   Match(title="weechat"),
                ],#End of Match
-                            }),#end of |6| CHAT
-               ("|5|VBOX", {'layout': 'monadtall'}),
+            }),#end of |6| CHAT
+               ("|5|Email", {'layout': 'monadtall','matches':[
+                   Match(wm_class='Mail'),
+                   Match(wm_class='Thunderbird')
+    ]}),
                ("|6|DOC", {'layout': 'monadtall',"matches":[
                    Match(wm_class="Zathura"),
                    Match(wm_class="cherrytree"),
@@ -673,14 +776,6 @@ layouts = [
     layout.Floating(**layout_theme)
 ]
 
-colors = [["#282c34", "#282c34"], # panel background
-          ["#3d3f4b", "#434758"], # background for current screen tab
-          ["#ffffff", "#ffffff"], # font color for group names
-          ["#ff5555", "#ff5555"], # border line color for current tab
-          ["#74438f", "#74438f"], # border line color for 'other tabs' and color for 'odd widgets'
-          ["#4f76c7", "#4f76c7"], # color for the 'even widgets'
-          ["#e1acff", "#e1acff"]] # window name
-
 prompt = "{0}@{1}: ".format(os.environ["USER"], socket.gethostname())
 
 ##### DEFAULT WIDGET SETTINGS #####
@@ -688,7 +783,8 @@ widget_defaults = dict(
     font="Ubuntu Mono",
     fontsize = 12,
     padding = 2,
-    background=colors[2]
+    background= colors.bg,
+    foreground = colors.fg,
 )
 extension_defaults = widget_defaults.copy()
 
@@ -707,8 +803,7 @@ def create_widiget_list(ignore = []):
         widget.Sep(
             linewidth = 0,
             padding = 6,
-            foreground = colors[2],
-            background = colors[0]
+            background = colors.bg,
         ),
         widget.AGroupBox(
             font = "Ubuntu Bold",
@@ -718,14 +813,12 @@ def create_widiget_list(ignore = []):
             padding_y = 5,
             padding_x = 3,
             borderwidth = 0,
-            foreground = colors[2],
-            background = colors[4],
+            background = colors.purple,
         ),
         widget.Sep(
             linewidth = 0,
             padding = 2,
-            foreground = colors[2],
-            background = colors[0]
+            background = colors.bg
         ),
         widget.GroupBox(
             font = "Ubuntu Bold",
@@ -735,137 +828,131 @@ def create_widiget_list(ignore = []):
             padding_y = 5,
             padding_x = 3,
             borderwidth = 3,
-            active = colors[2],
-            inactive = colors[2],
+            active = colors.fg,
+            inactive = colors.fg,
             rounded = False,
-            highlight_color = colors[1],
+            highlight_color = colors.bg_dark,
             highlight_method = "line",
-            this_current_screen_border = colors[6],
-            this_screen_border = colors [4],
-            other_current_screen_border = colors[6],
-            other_screen_border = colors[4],
-            foreground = colors[2],
-            background = colors[0],
+            this_current_screen_border = colors.teal,
+            this_screen_border = colors.purple,
+            other_current_screen_border = colors.teal,
+            other_screen_border = colors.purple,
+            background = colors.bg,
             use_mouse_wheel = False,
             disable_drag = True,
         ),
         widget.Sep(
             linewidth = 0,
             padding = 6,
-            foreground = colors[2],
-            background = colors[0]
+            background = colors.bg
         ),
         # widget.TaskList(
-            # background=colors[0],
-            # foreground = colors[6],
-            # max_title_width = 100,
+        #     background=colors.bg,
+        #     foreground = colors.teal,
+        #     max_title_width = 100,
         # ),
         widget.Prompt(
             prompt = prompt,
             font = "Ubuntu Mono",
             padding = 10,
-            foreground = colors[3],
-            background = colors[1]
+            foreground = colors.red1,
+            background = colors.bg_dark
         ),
         widget.Sep(
             linewidth = 0,
             padding = 40,
-            foreground = colors[2],
-            background = colors[0]
+            background = colors.bg
         ),
         widget.WindowName(
-            foreground = colors[6],
-            background = colors[0],
+            foreground = colors.teal,
+            background = colors.bg,
             padding = 0
         ),
         widget.Systray(
-            background = colors[0],
+            background = colors.bg,
             padding = 5
         ),
         widget.Sep(
             linewidth = 0,
             padding = 6,
-            foreground = colors[0],
-            background = colors[0]
+            foreground = colors.bg,
+            background = colors.bg
         ),
         
         widget.Chord(
-            foreground = colors[2],
-            background = colors[3]
+            chords_colors = {
+                'Program Launcher':(colors.red1,colors.fg),
+                "Screenshot Mode":(colors.fg,colors.red1),
+                "Resize":(colors.green,colors.bg),
+                "Moving":(colors.yellow,colors.bg),
+            }#end of dict
         ),
-        #Pattern begin here
+        #Pattern begin here, The moment this seen this,it will start add in sign that separator from other
         "PATTERN",
-        widget.Net(
-            # interface = "enp6s0",
-            format = '{down} ↓↑ {up}',
-            foreground = colors[2],
-            background = colors[4],
-            padding = 5
-        ),
-        [widget.TextBox(
-            text = " 🌡",
-            padding = 2,
-            foreground = colors[2],
-            background = colors[5],
-            fontsize = 11
-        ),
-        widget.ThermalSensor(
-            foreground = colors[2],
-            background = colors[5],
-            threshold = 90,
-            padding = 5
-        )],
         widget.CheckUpdates(
             update_interval = 1800,
             distro = "Arch_checkupdates",
             display_format = "⟳ {updates} Updates",
             mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e sudo pacman -Syu')},
-            background = colors[4],
-            foreground = colors[2],
+            background = colors.purple,
+        ),
+        widget.Net(
+            # interface = "enp6s0",
+            format = '{down} ↓↑ {up}',
+            background = colors.blue0,
+            padding = 5
+        ),
+        [widget.TextBox(
+            text = " 🌡",
+            padding = 2,
+            background = colors.purple,
+            fontsize = 11
+        ),
+        widget.ThermalSensor(
+            background = colors.purple,
+            threshold = 90,
+            padding = 5
+        )],
+        widget.NvidiaSensors(
+            background = colors.blue0,
+            format = '{temp}°C|{fan_speed}|{perf}'
         ),
         [widget.TextBox(
             text = " 🖬",
-            foreground = colors[2],
-            background = colors[5],
+            background = colors.purple,
             padding = 0,
             fontsize = 14
         ),
         widget.Memory(
-            foreground = colors[2],
-            background = colors[5],
+            background = colors.purple,
             mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e htop')},
             padding = 5
         )],
         widget.CPU(
-            foreground = colors[2],
-            background = colors[4],
+            background = colors.blue0,
         ),
         [widget.TextBox(
             text = " Vol:",
-            foreground = colors[2],
-            background = colors[5],
+            background = colors.purple,
             padding = 0
         ),
         widget.Volume(
-            foreground = colors[2],
-            background = colors[5],
+            background = colors.purple,
             padding = 5
         )],
         [widget.CurrentLayoutIcon(
             custom_icon_paths = [os.path.expanduser("~/.config/qtile/icons")],
-            foreground = colors[0],
-            background = colors[4],
+            foreground = colors.bg,
+            background = colors.blue0,
             padding = 0,
             scale = 0.7
         ),
         widget.CurrentLayout(
-            foreground = colors[2],
-            background = colors[4],
+            background = colors.blue0,
             padding = 5
         )],
         widget.Clock(
-            foreground = colors[2],
-            background = colors[5],
+            background = colors.purple,
             format = "%A, %B %d - %I:%M %p "
         ),
     ]
@@ -884,7 +971,7 @@ def create_widiget_list(ignore = []):
             else: fg = ele.background
             t = widget.TextBox(
                 text = text_box_split,
-                background = colors[0],
+                background = colors.bg,
                 foreground = fg,
                 padding = 0,
                 fontsize = 37,
@@ -903,15 +990,44 @@ def init_primary_widget():
     return widgets_screen1
 
 def init_secondary_widget():
-    widgets_screen1 = create_widiget_list()
+    widgets_screen1 = create_widiget_list([9])
     # del widgets_screen1[6:7]               # Slicing removes unwanted widgets (systray)
     return widgets_screen1                 # Monitor 2 will display all widgets in widgets_list
 
 def init_screens():
+    #they are kinda based of monitor position, can find more info about this at top of this files
     return [Screen(top=bar.Bar(widgets=init_secondary_widget(), opacity=1.0, size=20)),
             Screen(top=bar.Bar(widgets=init_secondary_widget(), opacity=1.0, size=20)),
             Screen(top=bar.Bar(widgets=init_secondary_widget(), opacity=1.0, size=20)),
             Screen(top=bar.Bar(widgets=init_primary_widget(), opacity=1.0, size=20))]
+
+
+# @hook.subscribe.enter_chord
+# def enterChord(name):
+    
+#     logger.warning("hello")
+#     logger.warning(name)
+#     logger.warning(colors[2])
+
+@hook.subscribe.client_new
+def client_new(client):
+    logger.warning("under client new")
+    logger.warning(client)
+    logger.warning(client.name)
+
+
+@hook.subscribe.client_name_updated
+def client_name_update(client):
+    if client.name == 'weechat': client.togroup("|4|CHAT")
+    logger.warning('under the updated client')
+    logger.warning(client)
+    logger.warning(client.name)
+    logger.warning(json.dumps(qtile.cmd_groups(),indent=2))
+
+# @hook.subscribe.startup_complete
+# def sortingWindow():
+
+
 
 if __name__ in ["config", "__main__"]:
     screens = init_screens()

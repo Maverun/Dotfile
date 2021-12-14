@@ -69,6 +69,11 @@ local autocmds = {
         {'FileType', 'dap-repl', 'nnoremap<buffer> s', [[<cmd>lua require('dap').step_into()<CR>]]},
         {'FileType', 'dap-repl', 'nnoremap<buffer> c', [[<cmd>lua require('dap').continue()<CR>]]}
     },
+    latex = {
+		{'FileType','tex','set wrap'},
+		{'FileType','tex','nnoremap<buffer>j gj'},
+		{'FileType','tex','nnoremap<buffer>k gk'},
+	}
 }
 
 nvim_create_augroups(autocmds)

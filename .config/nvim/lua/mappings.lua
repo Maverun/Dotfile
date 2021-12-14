@@ -2,6 +2,7 @@ vim.g.mapleader=' ' -- setting space as a leader
 local n = 'n'
 local i = 'i'
 local v = 'v'
+local t = 't'
 local o = 'o'
 
 local function map(mode, lhs, rhs, opts)
@@ -12,7 +13,7 @@ local function map(mode, lhs, rhs, opts)
     vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
-local t = function(str)
+local termcodes = function(str)
     return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
 
@@ -20,9 +21,10 @@ end
 -- │                                Essentials                                 │
 -- └───────────────────────────────────────────────────────────────────────────┘
 
+map(n,'<leader>/',':%s/<c-r><c-w>')
+
 map(n,"<M-s>",":source %<cr>") -- source either vim/lua for future
-map(n,';',':') -- save time pressing shift or rely on autoshift
-map(v,';',':') -- save time pressing shift or rely on autoshift
+map({n,v},';',':') -- save time pressing shift or rely on autoshift
 
 map(n,'<leader>gq',':q<cr>') -- quit
 
@@ -31,7 +33,7 @@ map(n,'\\j','J')
 map(n,'<S-k>','k')
 map(n,'<S-j>','j')
 
-map(i,'<C-h>',[[<esc>:lua require'utils'.show_func_help()<cr>]])
+map(i,'<C-s>',[[<esc>:lua require'utils'.show_func_help()<cr>]])
 
 map(n,'<S-q>','@@') --screwed ex mode
 
@@ -53,7 +55,6 @@ map(n,'\\q',':bp<bar>sp<bar>bn<bar>bd<CR>')
 -- Map Ctrl-Backspace to delete previous word in insert mode
 -- Cuz as I am using new keyboard where double press backspace give C-Backspace
 -- So i can use it for general stuff other tha vim
-
 map(i,'<C-BS>','<C-W>')
 map(i,'<C-F>','<Esc>dea')
 
@@ -119,16 +120,16 @@ map(n,'<F1>',':PasteImg')
 function escape()
     -- this is since we got telescope prompt that will set buftype that which we are unable to save
     if vim.bo.buftype == 'prompt' then
-        return t'<esc>'
+        return termcodes'<esc>'
     end
-    return t':update<CR>'
+    return termcodes':update<CR>'
 end
 map(i,'<esc>','<esc>:lua escape()<cr>', {silent=true})
 map('t','<esc>','<C-\\><C-n>') -- escape terminal trap!
 
 -- adding where it doesnt swap with old into reg, we will just use same one. so it make sense that way
-map(v,'p','"_dp')
-map(v,'P','"_dP')
+map(v,'p','"_dP')
+-- map(v,'P','"_dP')
 
 function ruler_toggle()
     vim.opt.ruler = not vim.opt.ruler._value
@@ -194,10 +195,10 @@ map(n,'<M-k>',":lua require'utils'.resize(false,-2)<CR>", {silent = true})
 map(n,'<M-l>',":lua require'utils'.resize(true,2)<CR>", {silent = true})
 
 -- better window navigation
-map(n,'<C-h>','<C-w>h')
-map(n,'<C-j>','<C-w>j')
-map(n,'<C-k>','<C-w>k')
-map(n,'<C-l>','<C-w>l')
+map({t,n},'<C-h>','<C-w>h')
+map({t,n},'<C-j>','<C-w>j')
+map({t,n},'<C-k>','<C-w>k')
+map({t,n},'<C-l>','<C-w>l')
 
 --Buffer next page or previously
 -- gbn is nice optional, F12,F11 is just in case
@@ -256,27 +257,12 @@ map(n,'<leader>fr','<Cmd>lua require("telescope").extensions.frecency.frecency()
 --map(n, "gR", "<cmd>LspTrouble lsp_references<cr>")
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
--- │                                  LSPSAGA                                  │
--- └───────────────────────────────────────────────────────────────────────────┘
-
---Hover docs
---map(n,'<Space>k',':Lspsaga hover_doc<CR>')
---scroll up and down
---map(n,'<C-n>',':lua require("lspsaga.action").smart_scroll_with_saga(1)<CR>')
---map(n,'<C-p>',':lua require("lspsaga.action").smart_scroll_with_saga(-1)<CR>')
---Check signature of functions - we will use default lsp
---map(n,'<Space>s',':Lspsaga signature_help<CR>')
--- Rename whole file related to this
---map(n,'<Space>r',':Lspsaga rename<CR>')
--- preview definitons
---map(n,'<Space>d',':Lspsaga preview_definition<CR>')
-
--- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                               FloatTerminal                               │
 -- └───────────────────────────────────────────────────────────────────────────┘
 
 map(n, '<leader>tt',':lua require("FTerm").toggle()<cr>')
 map('t', '<leader>tt','<C-\\><C-n>:lua require("FTerm").toggle()<cr>')
+map(n, '<leader>tp',':lua require("FTerm").run("python ' .. vim.fn.expand("%:t")..'")<CR>')
 
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐

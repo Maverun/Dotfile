@@ -75,7 +75,7 @@ local lua_setting = {
       },
       workspace = {
         -- Make the server aware of Neovim runtime files
-        library = vim.api.nvim_get_runtime_file("", true),
+        -- library = vim.api.nvim_get_runtime_file("", true),
         preloadFileSize = 150,
       },
       -- Do not send telemetry data containing a randomized but unique identifier
@@ -86,38 +86,23 @@ local lua_setting = {
   },
 }
 
---local lspconfig = require'lspconfig'
---local lspinstall = require'lspinstall'
+local lsp_installer = require('nvim-lsp-installer')
+lsp_installer.on_server_ready(function(server)
+    local opts = {on_attach = on_attach}
 
-local function setup_servers()
-    local ignoreServers = {}
-    require'lspinstall'.setup()
-    local lspconfig = require'lspconfig'
-    local servers = require'lspinstall'.installed_servers()
-    for _, server in pairs(servers) do
-        if server == 'lua' then
-            lspconfig[server].setup(lua_setting)
-        elseif contain(ignoreServers,server) == false then
-            lspconfig[server].setup{on_attach = on_attach}
-            --lspconfig[server].setup{on_attach = on_attach}
-        end
+    -- (optional) Customize the options passed to the server
+    -- if server.name == "tsserver" then
+    --     opts.root_dir = function() ... end
+    -- end
+    if server.name == 'sumneko_lua' then
+        opts = lua_setting
     end
-end
 
-setup_servers()
+    -- This setup() function is exactly the same as lspconfig's setup function.
+    -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+    server:setup(opts)
+end)
 
--- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
-require'lspinstall'.post_install_hook = function ()
-  setup_servers() -- reload installed servers
-  vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
-end
-
-
---for k, lang in pairs(servers) do
-    --lspconf[lang].setup {
-        --root_dir = vim.loop.cwd
-    --}
---end
 
 -- remove the lsp servers with their configs you don want
 local vls_binary = '/usr/local/bin/vls'
