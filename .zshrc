@@ -76,6 +76,10 @@ plugins=(git git-prompt zsh-autosuggestions zsh-syntax-highlighting taskwarrior 
 source $ZSH/oh-my-zsh.sh
 
 export EDITOR=nvim
+# set PATH so it includes user's private ~/.local/bin if it exists
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
@@ -91,8 +95,9 @@ export NASN=/ext_drive/SynologyDrive/Discord*Bot/Github/Nurevam
 # export MANPAGER="nvim -c 'set ft=man' -"
 export MANPAGER="nvim +Man!"
 
-#ALIAS
-
+# ┌────────────────────────────────────────────────────────────────────────────┐
+# │                                   Alias                                    │
+# └────────────────────────────────────────────────────────────────────────────┘
 #LS with EXA version
 alias ls='exa -l --color=always --group-directories-first' # my preferred listing
 alias la='exa -a --color=always --group-directories-first'  # all files and dirs
@@ -142,6 +147,7 @@ alias e='nvim'
 alias school='cd /ext_drive/SynologyDrive/Student\ Work\ Folder/University/Forth\ Year'
 alias nurevam='cd /ext_drive/SynologyDrive/Discord\ Bot/Github/Nurevam/'
 alias drive='cd /ext_drive/SynologyDrive/'
+alias drive='cd /ext_drive/SynologyDrive/orgmode'
 alias configs='cd ~/.config/'
 alias dev='cd ~/dev/'
 
@@ -152,6 +158,7 @@ alias get_key='xev'
 #git related
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias lazyconfig='lazygit --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+alias lg='lazygit'
 
 # get error messages from journalctl
 alias jctl="journalctl -p 3 -xb"
@@ -163,9 +170,9 @@ alias pacmansearch='pacman -Ss'
 alias disableScreenSaver='xset s off & xset s noblank & xset -dpms'
 alias enableScreenSaver='xset s on & xset s blank & xset dpms'
 
-# function precmd {
-#     PROMPT="%F{cyan}%t%f|%F{green}%1~$(git_super_status)%F{green}➜ %f%{$reset_color%}"
-# }
+# ┌────────────────────────────────────────────────────────────────────────────┐
+# │                                  Function                                  │
+# └────────────────────────────────────────────────────────────────────────────┘
 
 $Function
 function cheat(){ curl cheat.sh/"$@"; }
@@ -200,38 +207,12 @@ psgrep() {
 }
 
 
-# # Change cursor shape for different vi modes.
-# function zle-keymap-select {
-#   if [[ ${KEYMAP} == vicmd ]] ||
-#      [[ $1 = 'block' ]]; then
-#     echo -ne '\e[1 q'
-#   elif [[ ${KEYMAP} == main ]] ||
-#        [[ ${KEYMAP} == viins ]] ||
-#        [[ ${KEYMAP} = '' ]] ||
-#        [[ $1 = 'beam' ]]; then
-#     echo -ne '\e[5 q'
-#   fi
-# }
-# zle -N zle-keymap-select
-# zle-line-init() {
-#     zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
-#     echo -ne "\e[5 q"
-# }
-# zle -N zle-line-init
-# echo -ne '\e[5 q' # Use beam shape cursor on startup.
-# preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
 
 set -o vi
 bindkey -v
-# bindkey 'H' beginning-of-line
-# bindkey 'L' end-of-line
-# bindkey '^[[H' beginning-of-line
-# bindkey '^[[F' end-of-line
 zvm_bindkey vicmd 'H' 'beginning-of-line'
 zvm_bindkey vicmd 'L' 'end-of-line'
-# ZVM_VI_HIGHLIGHT_FOREGROUND=#008800           # Hex value
 ZVM_VI_HIGHLIGHT_BACKGROUND=#33467C           # Hex value
-#screenfetch
 neofetch
 #task sync &
 task +School or +Work
