@@ -147,7 +147,7 @@ alias e='nvim'
 alias school='cd /ext_drive/SynologyDrive/Student\ Work\ Folder/University/Forth\ Year'
 alias nurevam='cd /ext_drive/SynologyDrive/Discord\ Bot/Github/Nurevam/'
 alias drive='cd /ext_drive/SynologyDrive/'
-alias drive='cd /ext_drive/SynologyDrive/orgmode'
+alias orgmode='cd /ext_drive/SynologyDrive/orgmode'
 alias configs='cd ~/.config/'
 alias dev='cd ~/dev/'
 

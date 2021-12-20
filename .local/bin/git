@@ -11,7 +11,7 @@ case "$*" in
 	;;
 esac
 
-if [[ "$PWD" == *"$HOME"* ]] && [ -z "$C" ]; then
+if [[ ! -d .git ]] && [[ "$PWD" == *"$HOME"* ]] && [ -z "$C" ]; then
 	$git --git-dir=$HOME/.cfg/ --work-tree=$HOME "$@"
 else
 	$git "$@"
