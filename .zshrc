@@ -175,7 +175,11 @@ alias enableScreenSaver='xset s on & xset s blank & xset dpms'
 # └────────────────────────────────────────────────────────────────────────────┘
 
 $Function
-function cheat(){ curl cheat.sh/"$@"; }
+function cheat(){ 
+	old="$IFS"
+	IFS="+"
+	curl cheat.sh/"$*"; }
+	IFS=$old
 
 extract () {
     if [ -f $1 ] ; then
