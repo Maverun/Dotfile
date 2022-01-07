@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from logging import currentframe
 import os
 # import re
 import socket
@@ -6,7 +7,7 @@ import socket
 from libqtile.config import Click, Drag, Group, KeyChord, Key, Match, Screen, ScratchPad, DropDown
 from libqtile import qtile
 from libqtile.command import lazy
-from libqtile import layout, bar, widget, hook
+from libqtile import layout, bar, widget, hook,extension
 from libqtile.lazy import lazy
 from typing import List  # noqa: F401
 from libqtile.log_utils import logger
@@ -90,10 +91,31 @@ colors = Map(colors)
 def terminal(command,extra = ''):
     return f"{myTerm} {extra} -e sh -c 'sleep 0.4 && {command}'"
 
-def debug_qtile(qtile):
-    logger.warning(str(qtile.current_layout.name))
-    logger.warning(json.dumps(qtile.current_layout.info(),indent=3))
-    qtile.cmd_display_kb('mod4')
+
+def debug_qtile(qtile_):
+    logger.warning("under debug qtile")
+    data = qtile.cmd_windows()
+    currentWindow = qtile.current_window
+    chatLayout = qtile._select("group","|4|CHAT").layout
+    if chatLayout.name == 'stack':
+        def move_client(client,n):
+            client.focus(True)
+            chatLayout.current_stack.remove(client)
+            chatLayout.stacks[n].add(client)
+            chatLayout.stacks[n].focus(client)
+            chatLayout.group.layout_all()
+        clientPos = chatLayout.stacks
+        for c in clientPos[0].clients:
+            if 'Element' in c.name or "weechat" in c.name:
+                move_client(c,1)
+        for c in clientPos[1].clients:
+            if 'Discord' in c.name:
+                move_client(c,0)
+    # back to where currently window was at before sorting things out.
+    currentWindow.focus(True)
+    pass
+    
+    # qtile.cmd_display_kb('mod4')
     # logger.warning(str(qtile.current_layout.clients))
     # logger.warning(json.dumps(qtile.cmd_groups(),indent=3))
     # logger.warning(str(qtile.current_screen.current_layout))
@@ -164,7 +186,6 @@ def custom_focus(qtile,key):
     current = 0 if current is None and name == "treetab" else current
     #If it at edge, then we can go next screen
     if is_atEdge(qtile,data,name,current,key) or (name == "max" and key in "hl"):
-        logger.warning("under here")
         next_screen = get_next_screen_index(qtile,key)
         #for w/e reason it couldn't find screen, just forget about it
         if next_screen == -1: return 
@@ -259,7 +280,7 @@ def custom_swap(qtile,key):
         #then terrible idea? We shall see
         layout.cmd_up() #focus on other window
         layout.cmd_client_to_previous() #swap back to other stack (new window)
-        layout.cmd_next() #now return to main window we origibal swap
+        layout.cmd_next() #now return to main window we original swap
     elif name == "treetab": return 
     elif key == "h": layout.cmd_shuffle_left()
     elif key == "j": layout.cmd_shuffle_down()
@@ -283,7 +304,7 @@ def custom_send(qtile,key):
     #Now focus that screen
     qtile.focus_screen(new_screen_index) 
     #We command active window move to that new screen
-    active_win.toscreen()
+    active_win.cmd_toscreen()
     #and set it focus
     active_win.focus(warp=True)
   
@@ -301,7 +322,7 @@ def custom_switch_group(qtile,direction):
     screen = qtile.current_screen 
     #Now we will create array of groups so we can check
     data_group = list(data.keys())
-    #since its not dynamic, no need to repeat call it
+    #since its not dynamic(well it is kinda, but for now this currently), no need to repeat call it
     length = len(data_group)
     current_index = data_group.index(qtile.current_group.name)
     toward_side = 1 if direction == "l" else - 1
@@ -376,7 +397,10 @@ hyper       = ["mod4","control","shift","mod1"]
 
 keys = [ #Setting key blindings
     Key(sup,"v",lazy.function(debug_qtile)),
-    Key(sup,"o",lazy.function(list_keyblinds)),
+    Key(sup,"slash",lazy.function(list_keyblinds)),
+    Key(sup,"z",lazy.display_kb()),
+    Key(sup,"o",lazy.run_extension(extension.WindowList())),
+
     # Key(sup, "Left", lazy.screen.prev_group()),
     # cycle to next group
     # Key(sup, "Right", lazy.screen.next_group()),
@@ -684,8 +708,8 @@ group_names = [("|1|MAIN", {'layout': 'monadtall'}),
                ("|3|SYS", {'layout': 'monadtall'}),
                ("|4|CHAT", {'layout': 'stack',"matches":[
                    Match(wm_class="lightcord"),
-                   Match(wm_class="element"),
                    Match(wm_class="discord"),
+                   Match(wm_class="element"),
                    Match(title="weechat"),
                ],#End of Match
             }),#end of |6| CHAT
@@ -716,6 +740,10 @@ for i, (name, kwargs) in enumerate(group_names, 1):
 # │                             Group ScratchPad                              │
 # └───────────────────────────────────────────────────────────────────────────┘
 
+#     Key(hyper, "slash",
+#         lazy.spawn(f"zathura {home}/MoonlanderLayout.pdf"),
+#         desc='Show keyboard layout'
+#         ),
 groups.append(
                ScratchPad("scratchpad",[
                    DropDown("cmus",terminal("cmus")),
@@ -724,11 +752,14 @@ groups.append(
                    DropDown("anime",terminal('trackma','-T "ANIME"'),height = 0.7,width = 0.5,opacity = 1,y = 0.2,x = 0.2),
                    # DropDown("notes",f"{myTerm} -t \"NOTE\" -e sh -c 'sleep 0.4 && nvim /ext_drive/SynologyDrive/NotesTaking/index.md'",height = 1, opacity=1)
                    DropDown("notes",terminal("nvim /ext_drive/SynologyDrive/NotesTaking/index.md",'-T "NOTE"'),height = 1, opacity=1,on_focus_lost_hide=False),
+                   DropDown("MoonlanderLayout",f"zathura {home}/MoonlanderLayout.pdf",height = 1, opacity=1,on_focus_lost_hide=False),
                    #more Dropdown
                ]))
 
 keys.append(Key(hyper,"c",
                 lazy.group["scratchpad"].dropdown_toggle("cmus"), desc="Dropdown cmus"))
+keys.append(Key(hyper,"slash",
+                lazy.group["scratchpad"].dropdown_toggle("MoonlanderLayout"), desc="Dropdown Keyboard Layout"))
 keys.append(Key(hyper,"w",
                 lazy.group["scratchpad"].dropdown_toggle("notes"), desc="Dropdown Notes"))
 keys.append(Key(hyper,"a",
@@ -1009,25 +1040,66 @@ def init_screens():
 #     logger.warning(name)
 #     logger.warning(colors[2])
 
-@hook.subscribe.client_new
-def client_new(client):
-    logger.warning("under client new")
-    logger.warning(client)
-    logger.warning(client.name)
+# @hook.subscribe.client_new
+# def client_new(client):
+#     logger.warning("under client new")
+#     logger.warning(client)
+#     logger.warning(client.name)
 
 
 @hook.subscribe.client_name_updated
 def client_name_update(client):
-    if client.name == 'weechat': client.togroup("|4|CHAT")
-    logger.warning('under the updated client')
-    logger.warning(client)
-    logger.warning(client.name)
-    logger.warning(json.dumps(qtile.cmd_groups(),indent=2))
+    if client.name == 'weechat': 
+        logger.warning("moving weechat to |4|CHAT")
+        client.togroup("|4|CHAT")
+        client.focus(False)
+        client.group.layout.cmd_client_to_stack(1)
+        client.group.layout.layout_all()
 
-# @hook.subscribe.startup_complete
-# def sortingWindow():
+    # logger.warning('under the updated client')
+    # logger.warning(client)
+    # logger.warning(client.name)
+    # logger.warning(json.dumps(qtile.cmd_groups(),indent=2))
 
+@hook.subscribe.startup_complete
+def afterStartup():
+    logger.warning("startup done")
+    killClient = ['Clocks','KDE Connect']
+    data = qtile.cmd_windows()
+    #we are killing client that come with startup, we need them to run in the background..
+    #idk if there is a better way than this but eh.
+    client_list_toKill = [x['id'] for x  in data if x['name'] in killClient]
+    for wid in client_list_toKill:
+        # wid = [x for x in data if x['name'] == client][0]['id']
+        qtile.windows_map.get(wid).kill()
 
+    #i want to make discord/element/weechat in correct order
+    #left side of stack should be disocrd only, and right side of stack should only have weechat and element.
+    currentWindow = qtile.current_window
+    chatLayout = qtile._select("group","|4|CHAT").layout
+    if chatLayout.name == 'stack':
+        def move_client(client,n):
+            client.focus(True)
+            chatLayout.current_stack.remove(client)
+            chatLayout.stacks[n].add(client)
+            chatLayout.stacks[n].focus(client)
+            chatLayout.group.layout_all()
+        chatLayout.focus_first()
+        clientPos = chatLayout.stacks
+        for c in clientPos[0].clients:
+            if 'Element' in c.name or "weechat" in c.name:
+                move_client(c,1)
+        for c in clientPos[1].clients:
+            if 'Discord' in c.name:
+                move_client(c,0)
+    # back to where currently window was at before sorting things out.
+    currentWindow.focus(True)
+#
+
+@hook.subscribe.client_focus
+def focusClient(w):
+    logger.warning("there is change of focus and that window is ")
+    logger.warning(w)
 
 if __name__ in ["config", "__main__"]:
     screens = init_screens()
