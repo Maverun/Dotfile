@@ -170,6 +170,9 @@ alias pacmansearch='pacman -Ss'
 alias disableScreenSaver='xset s off & xset s noblank & xset -dpms'
 alias enableScreenSaver='xset s on & xset s blank & xset dpms'
 
+#SSH with kitty uses, since ssh remote does not have terminfo so we are just using alias for it
+alias ssh='kitty +kitten ssh'
+
 # ┌────────────────────────────────────────────────────────────────────────────┐
 # │                                  Function                                  │
 # └────────────────────────────────────────────────────────────────────────────┘
