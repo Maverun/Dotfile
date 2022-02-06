@@ -95,7 +95,7 @@ map(n,'dv','"_d')
 --
 map(n,'<leader><space>',':nohlsearch<CR>')
 
-map(n,'<C-t>',':TagbarToggle<CR>')
+map(n,'<C-t>',':SymbolsOutline<CR>')
 map(n,'<F2>',':NvimTreeToggle<CR>')
 
 --Startify Plugins Hotkeys
@@ -149,7 +149,7 @@ end
 map(n,'<F5>',':lua ruler_toggle()<CR>')
 map(n,'<F6>',':lua cursor_toggle()<CR>')
 
-map(n,'<Esc><Esc>','<Cmd>firenvim#focus_page()<CR>')
+map(n,'<Esc><Esc>',':call firenvim#focus_page()<CR>')
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                Navigation                                 │
@@ -263,6 +263,7 @@ map(n,'<leader>fr','<Cmd>lua require("telescope").extensions.frecency.frecency()
 map(n, '<leader>tt',':lua require("FTerm").toggle()<cr>')
 map('t', '<leader>tt','<C-\\><C-n>:lua require("FTerm").toggle()<cr>')
 map(n, '<leader>tp',':lua require("FTerm").run("python ' .. vim.fn.expand("%:t")..'")<CR>')
+map(n, '<leader>tj',':lua require("FTerm").run("javac ' .. vim.fn.expand("%:t")..' && java '.. vim.fn.expand("%:t:r") ..'")<CR>')
 
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐

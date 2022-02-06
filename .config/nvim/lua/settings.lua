@@ -102,17 +102,34 @@ cmd 'set viewoptions-=options'
 -- │                                IndentLine                                 │
 -- └───────────────────────────────────────────────────────────────────────────┘
 
-g.indent_blankline_char = '│'
 -- g.indent_blankline_char_highlight_list = {'Error', 'Function'}
 -- g.indent_blankline_char_highlight_list = {'comment', 'conceal'}
 -- g.indent_blankline_space_char_highlight_list = {'comment', 'Function'}
 --g.indent_blankline_strict_tabs = true
 -- Custom Highlight group
 --g.indent_blankline_char_highlight_list = {'aqua_ind' , 'grey_ind', 'yellow_ind','algea_ind'}
-g.indent_blankline_use_treesitter = true
-g.indent_blankline_show_trailing_blankline_indent = false
-g.indent_blankline_show_first_indent_level = false
-g.indent_blankline_filetype_exclude = {'markdown','md','help','','dashboard'}
+-- g.indent_blankline_use_treesitter = true
+-- g.indent_blankline_char = '│'
+-- g.indent_blankline_show_trailing_blankline_indent = false
+-- g.indent_blankline_show_first_indent_level = false
+-- g.indent_blankline_filetype_exclude = {'markdown','md','help','','dashboard'}
+
+require("indent_blankline").setup {
+    space_char_blankline = " ",
+    show_current_context = true,
+    -- show_current_context_start = true,
+    char = '│',
+    show_trailing_blankline_indent = false,
+    show_first_indent_level = false,
+    filetype_exclude = {'markdown','md','help','','dashboard'},
+}
+
+    -- fg = "#c0caf5",
+    -- fg_dark = "#a9b1d6",
+vim.cmd[[
+    highlight IndentBlanklineContextChar guifg=#a9b1d6 gui=nocombine
+    highlight IndentBlanklineContextStart guisp=#a9b1d6 gui=underline
+]]
 
 --FZF Notation FZF for notes
 g.nv_search_paths = {

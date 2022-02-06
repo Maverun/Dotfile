@@ -43,7 +43,9 @@ return require("packer").startup(
 -- └───────────────────────────────────────────────────────────────────────────┘
 
     use 'unblevable/quick-scope' -- Show highlight key for f,F,t,T, best thing.
-    use 'majutsushi/tagbar'      -- display tags
+    -- use 'majutsushi/tagbar'      -- display tags
+    use 'simrat39/symbols-outline.nvim' --display tags
+
     use 'kyazdani42/nvim-tree.lua'
     -- use 'ggandor/lightspeed.nvim'
     use {'phaazon/hop.nvim',config=function() require'hop'.setup() end}
@@ -78,6 +80,7 @@ return require("packer").startup(
 -- └───────────────────────────────────────────────────────────────────────────┘
 
     use 'tpope/vim-fugitive'                                 -- GIT
+    use 'tpope/vim-sleuth'                                 -- auto ajust shiftwidth/expandtab
     -- use 'tpope/vim-commentary'
     use 'numtostr/FTerm.nvim'                               -- Floating Terminal
 
