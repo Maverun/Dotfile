@@ -71,7 +71,8 @@ ZSH_THEME="xiong-chiamiov-plus"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git git-prompt zsh-autosuggestions zsh-syntax-highlighting taskwarrior zsh-vi-mode)
+# plugins=(git git-prompt zsh-autosuggestions zsh-syntax-highlighting taskwarrior zsh-vi-mode)
+plugins=(git git-prompt zsh-syntax-highlighting taskwarrior zsh-vi-mode)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -94,6 +95,9 @@ export NASN=/ext_drive/SynologyDrive/Discord*Bot/Github/Nurevam
 #NVIM as manpager
 # export MANPAGER="nvim -c 'set ft=man' -"
 export MANPAGER="nvim +Man!"
+
+export JDTLS_HOME=$HOME/.local/share/nvim/lsp_servers/jdtls
+export JAVA_HOME=/usr/ # In case you don't have java in path or want to use a version in particular
 
 # ┌────────────────────────────────────────────────────────────────────────────┐
 # │                                   Alias                                    │
@@ -172,6 +176,7 @@ alias enableScreenSaver='xset s on & xset s blank & xset dpms'
 
 #SSH with kitty uses, since ssh remote does not have terminfo so we are just using alias for it
 alias ssh='kitty +kitten ssh'
+alias icat="kitty +kitten icat --align=left" #photo preview on kitty terminal. Yeah mate.
 
 # ┌────────────────────────────────────────────────────────────────────────────┐
 # │                                  Function                                  │

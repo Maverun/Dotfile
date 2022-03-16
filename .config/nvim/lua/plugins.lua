@@ -100,10 +100,11 @@ return require("packer").startup(
     use 'hrsh7th/cmp-buffer'
     use 'hrsh7th/cmp-nvim-lua'
     use 'hrsh7th/cmp-path'
+    use "hrsh7th/cmp-nvim-lsp-signature-help"
+
     use 'saadparwaiz1/cmp_luasnip'
     use 'tweekmonster/startuptime.vim'                       -- Debug to see system health
     use 'onsails/lspkind-nvim'
-
     use 'nvim-lua/popup.nvim'                                -- Popup API
     use 'nvim-lua/plenary.nvim'                              -- allow to reuse those function provided
     use 'nvim-telescope/telescope.nvim'                      -- Powerful tools to see data
@@ -113,7 +114,7 @@ return require("packer").startup(
     use "nvim-telescope/telescope-frecency.nvim"
 
     -- use "blackCauldron7/surround.nvim"                       -- allow to surround word!
-
+    use { 'echasnovski/mini.nvim', branch = 'stable' }
     -- use 'tjdevries/train.nvim'                               -- To be Gitgud, Rumor say master UP AND DOWN SON!
     -- use 'ThePrimeagen/vim-be-good'                           -- be faster with moment. train train!
 
@@ -122,14 +123,16 @@ return require("packer").startup(
     use 'rcarriga/nvim-dap-ui'
     --use 'puremourning/vimspector'
     use "blackCauldron7/surround.nvim"
-    use "bfredl/nvim-ipy"
-    use "ivanov/vim-ipython"
+    -- use "bfredl/nvim-ipy"
+    -- use "ivanov/vim-ipython"
 
     use 'L3MON4D3/LuaSnip'
     use {
         'glacambre/firenvim',
         run = function() vim.fn['firenvim#install'](0) end
     }
+
+    use {'knubie/vim-kitty-navigator', run = 'cp ./*.py ~/.config/kitty/'}
 --┌────────────────────────────────────────────────────────────────────────────┐
 --│                                  Orgmode                                   │
 --└────────────────────────────────────────────────────────────────────────────┘

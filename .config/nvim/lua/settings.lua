@@ -42,7 +42,7 @@ opt.clipboard = 'unnamedplus'  -- allow to merge with system clipboard
 opt.cmdheight = 1              -- set command height 1
 
 opt.updatetime = 300
-opt.timeoutlen = 300
+opt.timeoutlen = 200
 
 cmd 'set iskeyword -=_'              -- allow to ignore _ as one word
 opt.autochdir = true            -- Working directory will be always same
@@ -148,6 +148,7 @@ g.vim_markdown_conceal = 2
 
 
 -- require'surround'.setup{prefix=','}
+require'mini.surround'.setup()
 require'colorizer'.setup{"*"}
 require'FTerm'.setup{}
 --there is plugins for this suda.nvim, but doesn't feel like a worth it  since I wont be editing in permission often.

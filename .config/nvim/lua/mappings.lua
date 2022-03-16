@@ -35,7 +35,7 @@ map(n,'<S-j>','j')
 
 map(i,'<C-s>',[[<esc>:lua require'utils'.show_func_help()<cr>]])
 
-map(n,'<S-q>','@@') --screwed ex mode
+-- map(n,'<S-q>','@@') --screwed ex mode
 
 -- Save
 map({n,i},"<C-s>","<cmd>update<CR>")

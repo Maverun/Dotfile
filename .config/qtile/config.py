@@ -15,7 +15,7 @@ from datetime import datetime
 from tkinter import Tk
 import json 
 # myTerm = "alacritty"                             # My terminal of choice
-myTerm = "kitty"                             # My terminal of choice
+myTerm = "kitty -o allow_remote_control=yes --single-instance --listen-on unix:@mykitty"                             # My terminal of choice
 
 
 #monitor position, you can find order by xrandr --listactivemonitors    

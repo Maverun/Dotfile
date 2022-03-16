@@ -57,6 +57,7 @@ local function contain(t,s)
     return false
 end
 
+-- workspace.checkThirdParty = false     ; to disable that thingy configure work environment?
 local lua_setting = {
   --cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
   on_attach = on_attach,
