@@ -1,0 +1,72 @@
+
+
+set input_bar_bottom=1
+
+nmap ";" ":"
+nmap "LEFT" "fh"
+nmap "RIGHT" "fl"
+nmap "UP" "fk"
+nmap "DOWN" "fj"
+
+#####################################
+#	  Colors/themes
+#####################################
+#    bg_dark = "#1f2335",
+#    terminal_black = "#414868",
+#    fg = "#c0caf5",
+#    fg_dark = "#a9b1d6",
+#    fg_gutter = "#3b4261",
+#    dark3 = "#545c7e",
+#    comment = "#565f89",
+#    dark5 = "#737aa2",
+#    blue0 = "#3d59a1",
+#    blue = "#7aa2f7",
+#    cyan = "#7dcfff",
+#    blue1 = "#2ac3de",
+#    purple = "#9d7cd8",
+#    orange = "#ff9e64",
+#    yellow = "#e0af68",
+#    green = "#9ece6a",
+#    green1 = "#73daca",
+#    green2 = "#41a6b5",
+#    teal = "#1abc9c",
+#    red = "#db4b4b",
+
+REDEFINE_COLOR "WHITE" 192 202 245
+REDEFINE_COLOR "BLACK" 31 35 53
+DEFINE_COLOR "ALTBLACK" 65 72 104
+REDEFINE_COLOR "BLUE" 61 89 161
+REDEFINE_COLOR "CYAN" 125 207 255
+DEFINE_COLOR "PURPLE" 157 124 216
+DEFINE_COLOR "ORANGE" 255 158 100
+REDEFINE_COLOR "YELLOW" 224 175 104
+REDEFINE_COLOR "GREEN" 158 206 106
+DEFINE_COLOR "GREEN1" 115 218 202
+DEFINE_COLOR "GREEN2" 65 166 181
+DEFINE_COLOR "TEAL" 26 188 156
+REDEFINE_COLOR "RED" 219 75 75
+
+color "type=DEFAULT fg=WHITE bg=BLACK bold=0 italic=0"
+color "type=NORMAL fg=YELLOW bg=BLACK bold=0 italic=0"
+color "type=WELCOME fg=PURPLE bg=BLACK bold=0"
+color "type=MODE fg=GREEN bg=BLACK bold=0"
+color "type=GRID_EVEN fg=WHITE bg=BLACK"
+color "type=GRID_ODD fg=WHITE bg=BLACK"
+color "type=CELL_ID fg=WHITE bg=BLACK bold=0"
+color "type=CELL_FORMAT fg=purple bg=BLACK bold=0"
+color "type=CELL_CONTENT fg=WHITE bg=BLACK bold=0"
+color "type=INFO_MSG fg=GREEN bg=BLACK bold=0"
+color "type=ERROR_MSG fg=BLACK bg=RED bold=1"
+color "type=INPUT fg=CYAN bg=BLACK"
+color "type=CELL_ERROR fg=BLACK bg=RED bold=1"
+color "type=HEADINGS fg=BLUE bg=BLACK bold=0"
+color "type=HEADINGS_ODD fg=BLUE bg=BLACK bold=0"
+color "type=CELL_SELECTION fg=WHITE bg=ALTBLACK bold=0"
+color "type=CELL_SELECTION_SC fg=WHITE bg=ALTBLACK bold=1"
+color "type=NUMB fg=ORANGE bg=BLACK bold=0"
+color "type=CELL_NEGATIVE fg=RED bg=BLACK bold=0"
+color "type=EXPRESSION fg=YELLOW bg=BLACK bold=0"
+# To not italicize strings, replace italic=1 with italic=0 on following line
+color "type=STRG fg=GREEN bg=BLACK bold=0 italic=0"
+color "type=DATEF fg=YELLOW bg=BLACK"
+3
