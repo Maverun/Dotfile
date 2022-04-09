@@ -148,7 +148,17 @@ g.vim_markdown_conceal = 2
 
 
 -- require'surround'.setup{prefix=','}
-require'mini.surround'.setup()
+require'mini.surround'.setup({
+    mappings = {
+    add = ',sa', -- Add surrounding
+    delete = ',sd', -- Delete surrounding
+    find = ',sf', -- Find surrounding (to the right)
+    find_left = ',sF', -- Find surrounding (to the left)
+    highlight = ',sh', -- Highlight surrounding
+    replace = ',sr', -- Replace surrounding
+    update_n_lines = ',sn', -- Update `n_lines`
+    }
+})
 require'colorizer'.setup{"*"}
 require'FTerm'.setup{}
 --there is plugins for this suda.nvim, but doesn't feel like a worth it  since I wont be editing in permission often.

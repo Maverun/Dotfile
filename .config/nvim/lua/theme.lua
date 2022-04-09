@@ -6,12 +6,12 @@ local function highlight(group, fg, bg)
     cmd("highlight " .. group .. " guifg=" .. fg .. " guibg=" .. bg)
 end
 
-
+-- print(color.blue2)
+-- print(util.darken(color.blue2,0.3))
 vim.g.tokyodark_transparent_background = false
 vim.g.tokyodark_enable_italic_comment = true
 vim.g.tokyodark_enable_italic = true
 vim.g.tokyodark_color_gamma = "1.1"
-
 vim.g.tokyonight_style = "night"
 
 cmd("colorscheme tokyonight")
@@ -19,8 +19,6 @@ cmd("colorscheme tokyonight")
 
 --cmd 'hi WindowLine guifg=#4C4D5A guibg=#151623'
 --cmd' set winhighlight=VertSplit:WindowLine'
-vim.cmd[[highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline]]
-vim.cmd[[highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline]]
 
 local diagnostic =  {
       'diagnostics',

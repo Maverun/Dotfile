@@ -156,15 +156,15 @@ map(n,'<Esc><Esc>',':call firenvim#focus_page()<CR>')
 -- └───────────────────────────────────────────────────────────────────────────┘
 
 -- unmap lightspeed fFtT, its annoying, only good is s only
-map(n,'f','f')
-map(n,'F','F')
-map(n,'t','t')
-map(n,'T','T')
+-- map(n,'f','f')
+-- map(n,'F','F')
+-- map(n,'t','t')
+-- map(n,'T','T')
 -- hop.nvim, replaced with lightspeed to see how it goes.
 map({n,v,o},'s','<cmd>HopWordAC<CR>')
 map({n,v,o},'S','<cmd>HopWordBC<CR>')
 
---we are marking where we are before we begin search so that way we can return to orignal spot
+--we are marking where we are before we begin search so that way we can return to original spot
 map(n,"/","ms/")
 map(n,"?","ms?")
 

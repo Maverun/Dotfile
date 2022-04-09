@@ -59,10 +59,10 @@ local autocmds = {
     -- show_signature = {
     --     {'CursorHoldI','*',[[lua require'utils'.Show_func_help()]]}
     -- },
-    color_floating_window = {
-        -- {'ColorScheme','*','highlight NormalFloat guibg=#005500'},
-        {'ColorScheme','*','highlight FloatBorder guifg=#005500'},
-    },
+    -- color_floating_window = {
+    --     -- {'ColorScheme','*','highlight NormalFloat guibg=#005500'},
+    --     {'ColorScheme','*','highlight FloatBorder guifg=#005500'},
+    -- },
     dap = {
 
         {'FileType', 'dap-repl', 'nnoremap<buffer> n', [[<cmd>lua require('dap').step_over()<CR> ]]},
@@ -70,10 +70,13 @@ local autocmds = {
         {'FileType', 'dap-repl', 'nnoremap<buffer> c', [[<cmd>lua require('dap').continue()<CR>]]}
     },
     latex = {
-		{'FileType','tex','set wrap'},
-		{'FileType','tex','nnoremap<buffer>j gj'},
-		{'FileType','tex','nnoremap<buffer>k gk'},
-	}
+        {'FileType','tex','set wrap'},
+        {'FileType','tex','nnoremap<buffer>j gj'},
+        {'FileType','tex','nnoremap<buffer>k gk'},
+	},
+    hop = {
+        { 'ColorScheme', '*', 'highlight HopNextKey2 guifg=#0a94ac'};
+    },
 }
 
 nvim_create_augroups(autocmds)

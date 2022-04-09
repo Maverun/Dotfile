@@ -296,14 +296,14 @@ end
 -- placeholder 2,...
 local function mirror(args,snip,comment,extra)
     if not extra then extra = '%s' end
-    print(args,commen,extra)
+    print(args,comment,extra)
     if comment then return comment_line(string.format(extra,args[1][1]),{}) end
     return string.format(extra,args[1][1])
 end
 
-ls.snippets = {}
+snip = {}
 
-ls.snippets.all = {
+snip.all = {
     s('headline', {
         i(1),
         d(2,headline,{1})
@@ -432,7 +432,7 @@ ls.snippets.all = {
         -- Shorthand for repeating the text in a given node.
         -- s("repeat", { i(1, "text"), t({ "", "" }), r(1) }),
 }
-ls.snippets.java = {
+snip.java = {
         -- Very long example for a java class.
         s("fn", {
             d(6, jdocsnip, { 2, 4, 5 }),
@@ -467,7 +467,7 @@ ls.snippets.java = {
             t({ "", "}" }),
         }),
     }
-ls.snippets.tex = {
+snip.tex = {
     --starter of files
     s('starter',{
         t({'\\documentclass{article}','','\\usepackage[utf8]{inputenc}','\\usepackage[T1]{fontenc}','\\usepackage[proportional]{libertine}','\\frenchspacing','\\usepackage[kerning,spacing]{microtype}'}),
@@ -538,7 +538,7 @@ ls.snippets.tex = {
     s('bf', { t '\\textbf{', i(1), t '}' }),
 }
 
-ls.snippets.python = {
+snip.python = {
         s({trig='main',wordTrig=true,name="Main setup",desc="Main setup to show that this is a scripts."},{
             t({'def main():','\tpass','','','if __name__ == "__main__":','\tmain()'}),
     }),
@@ -574,7 +574,7 @@ ls.snippets.python = {
 
     }
 
-ls.snippets.lua = {
+snip.lua = {
         s({trig="if", wordTrig=true}, {
             t({"if "}),
             i(1),
@@ -596,7 +596,7 @@ ls.snippets.lua = {
             t({')',''}),
             i(0),
             t({'','end '}),
-            f(mirror,{2},true,'function %s end')
+            f(mirror,{2},{comment = true, extra = 'function %s end'})
             }),
 
         s({trig='for',wordTrig=true},{
@@ -635,6 +635,8 @@ ls.snippets.lua = {
 
 
 
-ls.snippets.org = {
+snip.org = {
     s('item', { t {'\t- [ ] ' }, i(1),d(2,recursive_item,{},'\t- [ ] ')}),
 }
+
+ls.add_snippets(nil,snip)
