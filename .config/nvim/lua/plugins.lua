@@ -46,7 +46,7 @@ return require("packer").startup(
     -- use 'majutsushi/tagbar'      -- display tags
     use 'simrat39/symbols-outline.nvim' --display tags
 
-    use 'kyazdani42/nvim-tree.lua'
+    -- use 'kyazdani42/nvim-tree.lua'
     -- use 'ggandor/lightspeed.nvim'
     use {'phaazon/hop.nvim',config=function() require'hop'.setup() end}
 
@@ -56,12 +56,12 @@ return require("packer").startup(
 
 
     use 'godlygeek/tabular'
-    use 'plasticboy/vim-markdown' --vim markdown for vimwiki
-    use 'iamcco/markdown-preview.nvim'
+    -- use 'plasticboy/vim-markdown' --vim markdown for vimwiki
+    -- use 'iamcco/markdown-preview.nvim'
     use 'Pocco81/HighStr.nvim'
-    use 'alok/notational-fzf-vim'
-    use 'lervag/wiki.vim'
-    use 'jbyuki/venn.nvim'
+    -- use 'alok/notational-fzf-vim'
+    -- use 'lervag/wiki.vim'
+    -- use 'jbyuki/venn.nvim'
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                LSP Relate                                 │
@@ -88,9 +88,9 @@ return require("packer").startup(
     --use 'junegunn/fzf.vim'                                  -- FZF well u know fuzzy finder thingy
 
     --use 'jalvesaq/Nvim-R'                                    -- In replace of Rstudio
-    use 'mizlan/iswap.nvim'                                  -- Allow to Swap params ease
+    -- use 'mizlan/iswap.nvim'                                  -- Allow to Swap params ease
     use 'ekickx/clipboard-image.nvim'                        -- Allow to paste img as a url of path (Auto create picture files locally)
-    use 'sudormrfbin/cheatsheet.nvim'                        -- Cheat sheet to remind you
+    -- use 'sudormrfbin/cheatsheet.nvim'                        -- Cheat sheet to remind you
     use {'nvim-treesitter/nvim-treesitter', run =':TSUpdate'}-- Treesitter rules all
     use 'nvim-treesitter/playground'                        -- Allow to Debug
     use 'nvim-treesitter/nvim-treesitter-textobjects'
@@ -122,7 +122,6 @@ return require("packer").startup(
     use 'theHamsta/nvim-dap-virtual-text'
     use 'rcarriga/nvim-dap-ui'
     --use 'puremourning/vimspector'
-    use "blackCauldron7/surround.nvim"
     -- use "bfredl/nvim-ipy"
     -- use "ivanov/vim-ipython"
 
