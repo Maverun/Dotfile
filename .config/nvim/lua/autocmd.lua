@@ -100,68 +100,85 @@ augroup('dashboard_custom',{clear = true})
 aucmd('FileType',{
     group = 'dashboard_custom',
     pattern = 'dashboard',
-    callback = function() api.nvim_buf_set_keymap(0,'n','q','<esc>:q<cr>',{noremap = true, silent = true}) end,
+    callback = function()
+	api.nvim_buf_set_keymap(0,'n','q','<esc>:q<cr>',{noremap = true, silent = true})
+	api.nvim_buf_set_keymap(0,'n','f',':enew<cr>:set laststatus=2<cr>',{noremap = true, silent = true})
+    end,
     desc = "Able to quit at dashboard",
 })
 
-aucmd('FileType',{
-    group = 'dashboard_custom',
-    pattern = 'dashboard',
-    callback = function() api.nvim_buf_set_keymap(0,'n','f',':enew<cr>:set laststatus=2<cr>',{noremap = true, silent = true}) end,
-    desc = "Able to create new files at dashboard",
-})
+-- aucmd('FileType',{
+--     group = 'dashboard_custom',
+--     pattern = 'dashboard',
+--     callback = function() api.nvim_buf_set_keymap(0,'n','f',':enew<cr>:set laststatus=2<cr>',{noremap = true, silent = true}) end,
+--     desc = "Able to create new files at dashboard",
+-- })
 
 augroup('dap',{clear = true})
 aucmd('FileType',{
     group = 'dap',
     pattern = 'dap-repl',
-    callback = function() api.nvim_buf_set_keymap(0,'n','n',":lua require.('dap').step_over()",{noremap = true, silent = true}) end,
+    callback = function()
+        api.nvim_buf_set_keymap(0,'n','n',":lua require.('dap').step_over()",{noremap = true, silent = true})
+        api.nvim_buf_set_keymap(0,'n','s',":lua require.('dap').step_into()",{noremap = true, silent = true})
+        api.nvim_buf_set_keymap(0,'n','c',":lua require.('dap').continue()",{noremap = true, silent = true})
+    end,
     desc = "During Dap repl mode, we can just press key to do instead of command",
 })
-
-aucmd('FileType',{
-    group = 'dap',
-    pattern = 'dap-repl',
-    callback = function() api.nvim_buf_set_keymap(0,'n','s',":lua require.('dap').step_into()",{noremap = true, silent = true}) end,
-    desc = "During Dap repl mode, we can just press key to do instead of command",
-})
-
-
-aucmd('FileType',{
-    group = 'dap',
-    pattern = 'dap-repl',
-    callback = function() api.nvim_buf_set_keymap(0,'n','c',":lua require.('dap').continue()",{noremap = true, silent = true}) end,
-    desc = "During Dap repl mode, we can just press key to do instead of command",
-})
+-- aucmd('FileType',{
+--     group = 'dap',
+--     pattern = 'dap-repl',
+--     callback = function() api.nvim_buf_set_keymap(0,'n','n',":lua require.('dap').step_over()",{noremap = true, silent = true}) end,
+--     desc = "During Dap repl mode, we can just press key to do instead of command",
+-- })
+--
+-- aucmd('FileType',{
+--     group = 'dap',
+--     pattern = 'dap-repl',
+--     callback = function() api.nvim_buf_set_keymap(0,'n','s',":lua require.('dap').step_into()",{noremap = true, silent = true}) end,
+--     desc = "During Dap repl mode, we can just press key to do instead of command",
+-- })
+--
+--
+-- aucmd('FileType',{
+--     group = 'dap',
+--     pattern = 'dap-repl',
+--     callback = function() api.nvim_buf_set_keymap(0,'n','c',":lua require.('dap').continue()",{noremap = true, silent = true}) end,
+--     desc = "During Dap repl mode, we can just press key to do instead of command",
+-- })
 
 augroup('wrapText',{clear = true})
 aucmd('FileType',{
     group = 'wrapText',
-    pattern = {'tex','text'},
-    callback = function() vim.opt.wrap = true end,
+    pattern = {'tex','text','orgmode'},
+    callback = function()
+	vim.opt.wrap = true
+	api.nvim_buf_set_keymap(0,'n','j','gj',{noremap = true, silent = true})
+	api.nvim_buf_set_keymap(0,'n','k','gk',{noremap = true, silent = true})
+    end,
     desc = "setting wrap since it is only for text so reading paragraph will be annoying",
 })
 
-aucmd('FileType',{
-    group = 'wrapText',
-    pattern = {'tex','text'},
-    callback = function() api.nvim_buf_set_keymap(0,'n','j','gj',{noremap = true, silent = true}) end,
-    desc = "Since there is wrap, this allow to go through each line instead of skip to newline due to wrap",
-})
-
-aucmd('FileType',{
-    group = 'wrapText',
-    pattern = {'tex','text'},
-    callback = function() api.nvim_buf_set_keymap(0,'n','k','gk',{noremap = true, silent = true}) end,
-    desc = "Since there is wrap, this allow to go through each line instead of skip to newline due to wrap",
-})
+-- aucmd('FileType',{
+--     group = 'wrapText',
+--     pattern = {'tex','text'},
+--     callback = function()  end,
+--     desc = "Since there is wrap, this allow to go through each line instead of skip to newline due to wrap",
+-- })
+--
+-- aucmd('FileType',{
+--     group = 'wrapText',
+--     pattern = {'tex','text'},
+--     callback = function() api.nvim_buf_set_keymap(0,'n','k','gk',{noremap = true, silent = true}) end,
+--     desc = "Since there is wrap, this allow to go through each line instead of skip to newline due to wrap",
+-- })
 
 augroup('hop',{clear = true})
 aucmd('ColorScheme',{
     group = 'hop',
     pattern = '*',
     command = 'highlight HopNextKey2 guifg=#0a94ac',
-    desc = "setting wrap since it is only for text so reading paragraph will be annoying",
+    desc = "Setting hop 2nd char easier to see, since original/default is harder to see",
 })
 
 -- local autocmds = {
