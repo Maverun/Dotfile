@@ -2,11 +2,14 @@
 
 set input_bar_bottom=1
 
+nmap "H" "0w"
+nmap "L" "$"
+
 nmap ";" ":"
-nmap "LEFT" "fh"
-nmap "RIGHT" "fl"
-nmap "UP" "fk"
-nmap "DOWN" "fj"
+nmap "<LEFT>" "fh"
+nmap "<RIGHT>" "fl"
+nmap "<UP>" "fk"
+nmap "<DOWN>" "fj"
 
 #####################################
 #	  Colors/themes

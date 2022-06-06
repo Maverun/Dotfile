@@ -148,7 +148,6 @@ alias v='nvim'
 alias e='nvim'
 
 #Path
-alias school='cd /ext_drive/SynologyDrive/Student\ Work\ Folder/University/Forth\ Year'
 alias nurevam='cd /ext_drive/SynologyDrive/Discord\ Bot/Github/Nurevam/'
 alias drive='cd /ext_drive/SynologyDrive/'
 alias orgmode='cd /ext_drive/SynologyDrive/orgmode'
@@ -227,7 +226,7 @@ zvm_bindkey vicmd 'L' 'end-of-line'
 ZVM_VI_HIGHLIGHT_BACKGROUND=#33467C           # Hex value
 neofetch
 #task sync &
-task +School or +Work
+task project:
 task calendar
 
 # Faster key repeat and delay
