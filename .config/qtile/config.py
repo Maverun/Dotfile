@@ -16,6 +16,7 @@ from tkinter import Tk
 import json 
 # myTerm = "alacritty"                             # My terminal of choice
 myTerm = "kitty -o allow_remote_control=yes --single-instance --listen-on unix:@mykitty"                             # My terminal of choice
+defaultTerm = 'kitty'
 
 
 #monitor position, you can find order by xrandr --listactivemonitors    
@@ -88,8 +89,9 @@ class Map(dict):
 
 colors = Map(colors)
 
-def terminal(command,extra = ''):
-    return f"{myTerm} {extra} -e sh -c 'sleep 0.4 && {command}'"
+def terminal(command,extra = '',default=False):
+    term = defaultTerm if default else myTerm
+    return f"{term} {extra} -e sh -c 'sleep 0.4 && {command}'"
 
 
 def debug_qtile(qtile_):
@@ -691,6 +693,10 @@ keys = [ #Setting key blindings
         lazy.window.toggle_floating(),
         desc='toggle floating'
         ),
+    Key(super_shift, "g",
+        lazy.window.bring_to_front()(),
+        desc='bring window to front.'
+        ),
     Key(super_shift, "m",
         lazy.window.toggle_fullscreen(),
         desc='toggle fullscreen'
@@ -727,7 +733,9 @@ group_names = [("|1|MAIN", {'layout': 'monadtall'}),
                     Match(wm_class="vlc"),
                ]}),
                 ("|9|Game", {'layout': 'monadtall', 'matches':[
-                    Match(wm_class='Minecraft_*')]})
+                    Match(wm_class='Minecraft_*'),
+                    Match(wm_class='gw2-64.exe')
+                 ]}) #end of 9 game.
                ]
 
 groups = [Group(name, **kwargs) for name, kwargs in group_names]
@@ -746,12 +754,13 @@ for i, (name, kwargs) in enumerate(group_names, 1):
 #         ),
 groups.append(
                ScratchPad("scratchpad",[
-                   DropDown("cmus",terminal("cmus")),
-                   DropDown("taskerwarrior",f"{myTerm}",height = 0.7,width = 0.5,opacity = 1,y = 0.2,x = 0.2),
+                   DropDown("cmus",terminal("cmus",default=True)),
+                   DropDown("taskerwarrior",f"{defaultTerm}",height = 0.7,width = 0.5,opacity = 1,y = 0.2,x = 0.2),
                    # DropDown("anime",f"{myTerm} -t \"ANIME\" -e trackma",height = 0.7,width = 0.5,opacity = 1,y = 0.2,x = 0.2),
-                   DropDown("anime",terminal('trackma','-T "ANIME"'),height = 0.7,width = 0.5,opacity = 1,y = 0.2,x = 0.2),
+                   DropDown("anime",terminal('trackma','-T "ANIME"',default=True),height = 0.7,width = 0.5,opacity = 1,y = 0.2,x = 0.2),
                    # DropDown("notes",f"{myTerm} -t \"NOTE\" -e sh -c 'sleep 0.4 && nvim /ext_drive/SynologyDrive/NotesTaking/index.md'",height = 1, opacity=1)
-                   DropDown("notes",terminal("nvim /ext_drive/SynologyDrive/NotesTaking/index.md",'-T "NOTE"'),height = 1, opacity=1,on_focus_lost_hide=False),
+                   DropDown("notes",terminal("nvim /ext_drive/SynologyDrive/orgmode/refile.org",'-T "NOTE"',default=True),height = 1, opacity=1,on_focus_lost_hide=False),
+                   DropDown("kabmat",terminal("sh -c kabmat",'-T "KABMAT"',default=True),height = 1, opacity=1,on_focus_lost_hide=False),
                    DropDown("MoonlanderLayout",f"zathura {home}/MoonlanderLayout.pdf",height = 1, opacity=1,on_focus_lost_hide=False),
                    #more Dropdown
                ]))
@@ -762,6 +771,8 @@ keys.append(Key(hyper,"slash",
                 lazy.group["scratchpad"].dropdown_toggle("MoonlanderLayout"), desc="Dropdown Keyboard Layout"))
 keys.append(Key(hyper,"w",
                 lazy.group["scratchpad"].dropdown_toggle("notes"), desc="Dropdown Notes"))
+keys.append(Key(hyper,"g",
+                lazy.group["scratchpad"].dropdown_toggle("kabmat"), desc="Dropdown Kabmat"))
 keys.append(Key(hyper,"a",
                 lazy.group["scratchpad"].dropdown_toggle("anime"), desc="Dropdown Animes Listing"))
 keys.append(Key(hyper,'Return',
