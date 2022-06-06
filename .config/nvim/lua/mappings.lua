@@ -20,8 +20,7 @@ end
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                Essentials                                 │
 -- └───────────────────────────────────────────────────────────────────────────┘
-
-map(n,'<leader>/',':%s/<c-r><c-w>')
+map(n,'<leader>/',':%s/<c-r><c-w>',{desc = "Search/Sub current word"})
 
 map(n,"<M-s>",":source %<cr>") -- source either vim/lua for future
 map({n,v},';',':') -- save time pressing shift or rely on autoshift
@@ -89,11 +88,11 @@ map(v,'<M-d>','"dygvo<esc>"dp')
 map(n,'<M-d>','"dyy"dp')
 
 --Send them to VOID register
-map(v,'dv','"_d')
-map(n,'dv','"_d')
+map({v,n},'dv','"_d',{desc = "VOID Delete"})
+-- map(n,'dv','"_d')
 
 --
-map(n,'<leader><space>',':nohlsearch<CR>')
+map(n,'<leader><space>',':nohlsearch<CR>', {desc = 'Remove Highlight'})
 
 map(n,'<C-t>',':SymbolsOutline<CR>')
 map(n,'<F2>',':NvimTreeToggle<CR>')
@@ -202,7 +201,6 @@ map({t,n},'<C-l>','<C-w>l')
 
 --Buffer next page or previously
 -- gbn is nice optional, F12,F11 is just in case
-
 map(n,"gbn",":bn<CR>")
 map(n,"gbp",":bp<CR>")
 
@@ -221,15 +219,14 @@ map(v,'<S-Tab>','<gv')
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                 Telescope                                 │
 -- └───────────────────────────────────────────────────────────────────────────┘
-
-map(n,'<leader>ff',':Telescope find_files<cr>')
-map(n,'<leader>fo',':Telescope oldfiles<cr>')
-map(n,'<leader>fg',':Telescope live_grep<cr>')
-map(n,'<leader>fb',':Telescope buffers<cr>')
-map(n,'<leader>fh',':Telescope help_tags<cr>')
-map(n,'<leader>fk',':Telescope keymaps<cr>')
-map(n,'<leader>fm',':Telescope marks<cr>')
-map(n,'<leader>fr','<Cmd>lua require("telescope").extensions.frecency.frecency()<CR>')
+map(n,'<leader>ff',':Telescope find_files<CR>', {desc = 'Find Files'})
+map(n,'<leader>fo',':Telescope oldfiles<CR>', {desc = 'Old Files'})
+map(n,'<leader>fg',':Telescope live_grep<CR>', {desc = 'Live Grep'})
+map(n,'<leader>fb',':Telescope buffers<CR>', {desc = 'Buffers'})
+map(n,'<leader>fh',':Telescope help_tags<CR>', {desc = 'Help Tags'})
+map(n,'<leader>fk',':Telescope keymaps<CR>', {desc = 'Keymaps'})
+map(n,'<leader>fm',':Telescope marks<CR>', {desc = 'Marks'})
+map(n,'<leader>fr','<Cmd>lua require("telescope").extensions.frecency.frecency()<CR>', {desc = 'Frecency'})
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                    FZF                                    │
@@ -244,26 +241,13 @@ map(n,'<leader>fr','<Cmd>lua require("telescope").extensions.frecency.frecency()
 ----map(n, "<Leader>?", ':Helptags<Cr>')
 --map(n, "<Leader>mm",':Maps<CR>mappings.vim')
 
-
--- ┌───────────────────────────────────────────────────────────────────────────┐
--- │                               Trouble LSPS                                │
--- └───────────────────────────────────────────────────────────────────────────┘
-
---map(n, "<leader>xx", "<cmd>LspTroubleToggle<cr>")
---map(n, "<leader>xw", "<cmd>LspTroubleToggle lsp_workspace_diagnostics<cr>")
---map(n, "<leader>xd", "<cmd>LspTroubleToggle lsp_document_diagnostics<cr>")
---map(n, "<leader>xl", "<cmd>LspTroubleToggle loclist<cr>")
---map(n, "<leader>xq", "<cmd>LspTroubleToggle quickfix<cr>")
---map(n, "gR", "<cmd>LspTrouble lsp_references<cr>")
-
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                               FloatTerminal                               │
 -- └───────────────────────────────────────────────────────────────────────────┘
-
-map(n, '<leader>tt',':lua require("FTerm").toggle()<cr>')
-map('t', '<leader>tt','<C-\\><C-n>:lua require("FTerm").toggle()<cr>')
-map(n, '<leader>tp',':lua require("FTerm").run("python ' .. vim.fn.expand("%:t")..'")<CR>')
-map(n, '<leader>tj',':lua require("FTerm").run("javac ' .. vim.fn.expand("%:t")..' && java '.. vim.fn.expand("%:t:r") ..'")<CR>')
+map(n, '<leader>tt',':lua require("FTerm").toggle()<cr>', {desc = "Fterm Toggle"})
+map('t', '<leader>tt','<C-\\><C-n>:lua require("FTerm").toggle()<cr>', {desc = 'Fterm Toggle'})
+map(n, '<leader>tp',':lua require("FTerm").run("python ' .. vim.fn.expand("%:t")..'")<CR>', { desc = "Run Python Terminal"})
+map(n, '<leader>tj',':lua require("FTerm").run("javac ' .. vim.fn.expand("%:t")..' && java '.. vim.fn.expand("%:t:r") ..'")<CR>', { desc = "Run Java Terminal"})
 
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
@@ -271,8 +255,8 @@ map(n, '<leader>tj',':lua require("FTerm").run("javac ' .. vim.fn.expand("%:t").
 -- └───────────────────────────────────────────────────────────────────────────┘
 
 
-map(v,'<leader>h',':<c-u>HSHighlight 9<CR> ')
-map(v,'<leader>r',':<c-u>HSRmHighlight<CR>')
+map(v,'<leader>h',':<c-u>HSHighlight 9<CR> ',{desc = "Highlight it"})
+map(v,'<leader>r',':<c-u>HSRmHighlight<CR>', {desc = "Remove highlight"})
 
 -- map({i,v,'s'},'<C-E>',[[luasnip#choice_active()?'<Plug>luasnip-next-choice':'<C-E>']],{silent = true, expr = true,noremap = false})
 -- map({i,v,'s'},'<C-E>','<Plug>luasnip-next-choice',{noremap = false})
@@ -282,16 +266,15 @@ vim.api.nvim_set_keymap("s", "<C-E>", "<Plug>luasnip-next-choice", {})
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                    Dap                                    │
 -- └───────────────────────────────────────────────────────────────────────────┘
-
-map(n,'\\dc',':lua require"dap".continue()<CR>')
-map(n,'\\do',':lua require"dap".step_over()<CR>')
-map(n,'\\dj',':lua require"dap".step_into()<CR>')
-map(n,'\\dl',':lua require"dap".step_out()<CR>')
-map(n,'\\db',':lua require"dap".toggle_breakpoint()<CR>')
-map(n,'\\dsc',':lua require"dap".set_breakpoint(vim.fn.input("Breakpoint Condition: "))<CR>')
-map(n,'\\dsl',':lua require"dap".set_breakpoint(nil,nil,vim.fn.input("Log point Message: "))<CR>')
-map(n,'\\dr',':lua require"dap".repl.open()<CR>')
-map(n,'\\de',':lua require"dap".run_last()<CR>')
+map(n,'\\dc',':lua require"dap".continue()<CR>',{desc = 'Continue'})
+map(n,'\\do',':lua require"dap".step_over()<CR>',{desc = "Step Over"})
+map(n,'\\dj',':lua require"dap".step_into()<CR>',{desc = "Step Into"})
+map(n,'\\dl',':lua require"dap".step_out()<CR>',{desc = "Step Out"})
+map(n,'\\db',':lua require"dap".toggle_breakpoint()<CR>',{desc = "Toggle Breakpoint"})
+map(n,'\\dsc',':lua require"dap".set_breakpoint(vim.fn.input("Breakpoint Condition: "))<CR>',{desc = "Breakpoint Conditions"})
+map(n,'\\dsl',':lua require"dap".set_breakpoint(nil,nil,vim.fn.input("Log point Message: "))<CR>',{desc = "Log Point MSG"})
+map(n,'\\dr',':lua require"dap".repl.open()<CR>',{desc = "Repl Open"})
+map(n,'\\de',':lua require"dap".run_last()<CR>',{desc = "Run Last"})
 
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
