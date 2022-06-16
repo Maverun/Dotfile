@@ -108,7 +108,7 @@ map({v,n,i},'<3-MiddleMouse>','<LeftMouse>')
 map({v,n,i},'<4-MiddleMouse>','<LeftMouse>')
 
 --CheatSheet
-map(n,'<leader>?',":Cheatsheet<CR>")
+map(n,'<leader>?',":CheatSH<CR>")
 
 --ISwap params
 map(n,'\\s',':ISwap<CR>')

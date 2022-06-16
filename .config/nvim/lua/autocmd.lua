@@ -114,14 +114,14 @@ aucmd('FileType',{
 --     desc = "Able to create new files at dashboard",
 -- })
 
-augroup('dap',{clear = true})
+augroup('dapCustom',{clear = true})
 aucmd('FileType',{
-    group = 'dap',
+    group = 'dapCustom',
     pattern = 'dap-repl',
     callback = function()
-        api.nvim_buf_set_keymap(0,'n','n',":lua require.('dap').step_over()",{noremap = true, silent = true})
-        api.nvim_buf_set_keymap(0,'n','s',":lua require.('dap').step_into()",{noremap = true, silent = true})
-        api.nvim_buf_set_keymap(0,'n','c',":lua require.('dap').continue()",{noremap = true, silent = true})
+        api.nvim_buf_set_keymap(0,'n','n',":lua require('dap').step_over()<CR>",{noremap = true, silent = true})
+        api.nvim_buf_set_keymap(0,'n','s',":lua require('dap').step_into()<CR>",{noremap = true, silent = true})
+        api.nvim_buf_set_keymap(0,'n','c',":lua require('dap').continue()<CR>",{noremap = true, silent = true})
     end,
     desc = "During Dap repl mode, we can just press key to do instead of command",
 })

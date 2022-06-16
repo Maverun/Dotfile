@@ -91,6 +91,7 @@ return require("packer").startup(
     -- use 'mizlan/iswap.nvim'                                  -- Allow to Swap params ease
     use 'ekickx/clipboard-image.nvim'                        -- Allow to paste img as a url of path (Auto create picture files locally)
     -- use 'sudormrfbin/cheatsheet.nvim'                        -- Cheat sheet to remind you
+    use 'Djancyp/cheat-sheet' -- using cheat.sh while in nvim.
     use {'nvim-treesitter/nvim-treesitter', run =':TSUpdate'}-- Treesitter rules all
     use 'nvim-treesitter/playground'                        -- Allow to Debug
     use 'nvim-treesitter/nvim-treesitter-textobjects'

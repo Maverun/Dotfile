@@ -54,7 +54,8 @@ dap.listeners.after.event_exited['dapui_config'] = function() dapui.close() end
 
 dap.adapters.python = {
   type = 'executable';
-  command = '/home/maverun/dev/venvdebugpy/bin/python';
+  -- command = '/home/maverun/dev/venvdebugpy/bin/python';
+  command = '/usr/bin/python';
   args = { '-m', 'debugpy.adapter' };
 }
 
