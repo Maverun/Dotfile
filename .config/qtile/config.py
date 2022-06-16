@@ -419,7 +419,7 @@ keys = [ #Setting key blindings
         lazy.spawncmd(),
         desc='Launches My qtile Terminal'
         ),
-    Key(super_shift, "Return",
+    Key(sup, "y",
         lazy.spawn("dmenu_run -m 0 -p 'Run: '"),
         # lazy.spawn("rofi -show drun -config ~/.config/rofi/themes/dt-dmenu.rasi -display-drun \"Run: \" -drun-display-format \"{name}\""),
         desc='Run Launcher'
@@ -433,8 +433,7 @@ keys = [ #Setting key blindings
             Key([],"s",lazy.spawn(home + "/Script/shutdownMenu"),lazy.ungrab_chord(), desc="Shutdown Menu"),
             Key([],"l",
                 lazy.spawn('rofi -modi run,drun,window -show drun -show-icons -sidebar-mode -kb-mode-next "Alt+Tab"'),
-                Key([],"c",lazy.spawn("gnome-clocks"),lazy.ungrab_chord(), desc="Clocks"),
-                # lazy.ungrab_chord(),
+                lazy.ungrab_chord(),
                 desc="Rofi Appfinder"),
     #End of CHORD
                 ],mode="Program Launcher"),
