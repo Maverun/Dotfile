@@ -15,8 +15,8 @@ task sync &
 firefox &
 # kitty --class=weechat weechat &
 
-#process_list=(redshift-gtk lightcord ckb-next clipmenud trackma-gtk thunderbird gnome-clocks pavucontrol)
-process_list=(redshift-gtk discord-canary clipmenud thunderbird kdeconnect-app gnome-clocks element-desktop dunst)
+# process_list=(redshift-gtk discord-canary clipmenud thunderbird kdeconnect-app gnome-clocks element-desktop dunst)
+process_list=(redshift-gtk discord-canary clipmenud thunderbird kdeconnect-app gnome-clocks dunst)
 
 for p in "${process_list[@]}"
 do
