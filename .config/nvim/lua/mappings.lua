@@ -110,9 +110,6 @@ map({v,n,i},'<4-MiddleMouse>','<LeftMouse>')
 --CheatSheet
 map(n,'<leader>?',":CheatSH<CR>")
 
---ISwap params
-map(n,'\\s',':ISwap<CR>')
-
 --Images Paste (Useful for notes/markdown)
 map(n,'<F1>',':PasteImg')
 
@@ -154,20 +151,16 @@ map(n,'<Esc><Esc>',':call firenvim#focus_page()<CR>')
 -- │                                Navigation                                 │
 -- └───────────────────────────────────────────────────────────────────────────┘
 
--- unmap lightspeed fFtT, its annoying, only good is s only
--- map(n,'f','f')
--- map(n,'F','F')
--- map(n,'t','t')
--- map(n,'T','T')
--- hop.nvim, replaced with lightspeed to see how it goes.
-map({n,v,o},'s','<cmd>HopWordAC<CR>')
-map({n,v,o},'S','<cmd>HopWordBC<CR>')
+-- hop.nvim
+map({n,v,o},'s','<cmd>HopWordAC<CR>',{desc="HOP TO NEXT FOLKS!"})
+map({n,v,o},'S','<cmd>HopWordBC<CR>',{desc="HOP TO PREVIOUS FOLKS!"})
 
 --we are marking where we are before we begin search so that way we can return to original spot
 map(n,"/","ms/")
 map(n,"?","ms?")
 
 -- instead of moving cursor to top and bottom, we can move left and right fast instead reaching manual way
+-- I dont really use default mapping of H/L so this is good oppounity to replaces it
 -- this also mean I dont have to do I<esc> or A<esc>
 map({n,v,o},'<S-h>','^')
 map({n,v,o},'<S-l>','$')
@@ -296,6 +289,10 @@ map(n,'\\de',':lua require"dap".run_last()<CR>',{desc = "Run Last"})
 --map(n,'<leader>ve','<Plug> VimspectorBalloonEval')
 
 
+--┌────────────────────────────────────────────────────────────────────────────┐
+--│                                 Iron.nvim                                  │
+--└────────────────────────────────────────────────────────────────────────────┘
 
+map(n,'<leader>sr',':vs<CR>:IronReplHere<CR>')
 
 

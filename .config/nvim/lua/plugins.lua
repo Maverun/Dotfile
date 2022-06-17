@@ -23,7 +23,6 @@ return require("packer").startup(
     use 'lukas-reineke/indent-blankline.nvim' -- to display indent line
     use 'norcalli/nvim-colorizer.lua'                      -- to show what color look like
     use 'kshenoy/vim-signature'                            -- To display where MARK is at (ma, mb ) etc
-    -- use 'mhinz/vim-startify'                               -- Home page of VIM/NEOVIM
     use 'glepnir/dashboard-nvim'                           -- Home page of Neovim
     use 'nvim-lualine/lualine.nvim'
 
@@ -43,7 +42,6 @@ return require("packer").startup(
 -- └───────────────────────────────────────────────────────────────────────────┘
 
     use 'unblevable/quick-scope' -- Show highlight key for f,F,t,T, best thing.
-    -- use 'majutsushi/tagbar'      -- display tags
     use 'simrat39/symbols-outline.nvim' --display tags
 
     -- use 'kyazdani42/nvim-tree.lua'
@@ -70,10 +68,6 @@ return require("packer").startup(
     use 'neovim/nvim-lspconfig'                             -- LSP Config that allow us to use instead of coc
     -- use 'kabouzeid/nvim-lspinstall'                         -- Ease of Install Language Servers
     use 'williamboman/nvim-lsp-installer'
-    --use 'glepnir/lspsaga.nvim'                               -- Powerful tools to allow uses of code, such as read doc, rename at once etc
-    -- use "ray-x/lsp_signatre.nvim"                           -- Allow to show Params signature when typings
-    -- use {'ray-x/navigator.lua', requires = {'ray-x/guihua.lua', run = 'cd lua/fzy && make',opt=true}}
-    --use "folke/lsp-trouble.nvim"                             -- Allow to see all lsp message, error,warning etc at once
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                Essentials                                 │
@@ -114,7 +108,6 @@ return require("packer").startup(
     use 'tami5/sql.nvim'
     use "nvim-telescope/telescope-frecency.nvim"
 
-    -- use "blackCauldron7/surround.nvim"                       -- allow to surround word!
     use { 'echasnovski/mini.nvim', branch = 'stable' }
     -- use 'tjdevries/train.nvim'                               -- To be Gitgud, Rumor say master UP AND DOWN SON!
     -- use 'ThePrimeagen/vim-be-good'                           -- be faster with moment. train train!
@@ -133,17 +126,18 @@ return require("packer").startup(
     }
 
     use {'knubie/vim-kitty-navigator', run = 'cp ./*.py ~/.config/kitty/'}
+    use 'hkupty/iron.nvim'
 --┌────────────────────────────────────────────────────────────────────────────┐
 --│                                  Orgmode                                   │
 --└────────────────────────────────────────────────────────────────────────────┘
 
-use {'nvim-orgmode/orgmode', config = function()
-            require('orgmode').setup{}
-        end
-}
+    use {'nvim-orgmode/orgmode', config = function()
+                require('orgmode').setup{}
+            end
+    }
 
-use {'lukas-reineke/headlines.nvim',config = function() require'headlines'.setup() end}
-use {'akinsho/org-bullets.nvim',config = function() require'org-bullets'.setup() end}
+    use {'lukas-reineke/headlines.nvim',config = function() require'headlines'.setup() end}
+    use {'akinsho/org-bullets.nvim',config = function() require'org-bullets'.setup() end}
 
 
     use 'lervag/vimtex'
