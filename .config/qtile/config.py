@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from logging import currentframe
 import os
+import time
 # import re
 import socket
 # import subprocess
@@ -726,7 +727,7 @@ group_names = [("|1|MAIN", {'layout': 'monadtall'}),
                    Match(wm_class="Zathura"),
                    Match(wm_class="cherrytree"),
                ]}),
-               ("|7|MUS", {'layout': 'monadtall'}),
+               ("|7|Extra", {'layout': 'monadtall'}),
                ("|8|VID", {'layout': 'monadtall',"matches":[
                     Match(wm_class="mpv"),
                     Match(wm_class="vlc"),
@@ -783,8 +784,8 @@ keys.append(Key(hyper,'Return',
 
 layout_theme = {"border_width": 2,
                 "margin": 8,
-                "border_focus": "e1acff",
-                "border_normal": "1D2330"
+                "border_focus": colors.teal,
+                "border_normal": "1D2330",
                 }
 
 layouts = [
@@ -837,14 +838,14 @@ def create_widiget_list(ignore = []):
 
     widget_collections = [
         widget.Image(
-            filename = "~/.config/qtile/icons/python-white.png",
+            filename = "~/.config/qtile/icons/python-teal.png",
             scale = "False",
             mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(myTerm)}
         ),
         widget.Sep(
             linewidth = 0,
-            padding = 6,
-            background = colors.bg,
+            padding = 2,
+            background = colors.teal,
         ),
         widget.AGroupBox(
             font = "Ubuntu Bold",
@@ -854,13 +855,18 @@ def create_widiget_list(ignore = []):
             padding_y = 5,
             padding_x = 3,
             borderwidth = 0,
-            background = colors.purple,
+            background = colors.blue0,
         ),
         widget.Sep(
             linewidth = 0,
             padding = 2,
-            background = colors.bg
+            background = colors.teal
         ),
+        # widget.Sep(
+        #     linewidth = 0,
+        #     padding = 6,
+        #     background = colors.bg
+        # ),
         widget.GroupBox(
             font = "Ubuntu Bold",
             fontsize = 9,
@@ -869,9 +875,10 @@ def create_widiget_list(ignore = []):
             padding_y = 5,
             padding_x = 3,
             borderwidth = 3,
-            active = colors.fg,
-            inactive = colors.fg,
             rounded = False,
+            active = colors.comment,#this one is when there is hidden group have window in
+            inactive = colors.comment,#no window inside
+            block_highlight_text_color = colors.teal, #current group on screen
             highlight_color = colors.bg_dark,
             highlight_method = "line",
             this_current_screen_border = colors.teal,
@@ -881,11 +888,6 @@ def create_widiget_list(ignore = []):
             background = colors.bg,
             use_mouse_wheel = False,
             disable_drag = True,
-        ),
-        widget.Sep(
-            linewidth = 0,
-            padding = 6,
-            background = colors.bg
         ),
         # widget.TaskList(
         #     background=colors.bg,
@@ -922,8 +924,8 @@ def create_widiget_list(ignore = []):
         
         widget.Chord(
             chords_colors = {
-                'Program Launcher':(colors.red1,colors.fg),
-                "Screenshot Mode":(colors.fg,colors.red1),
+                'Program Launcher':(colors.red1,colors.teal),
+                "Screenshot Mode":(colors.fg,colors.teal),
                 "Resize":(colors.green,colors.bg),
                 "Moving":(colors.yellow,colors.bg),
             }#end of dict
@@ -935,88 +937,103 @@ def create_widiget_list(ignore = []):
             distro = "Arch_checkupdates",
             display_format = "⟳ {updates} Updates",
             mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e sudo pacman -Syu')},
-            background = colors.purple,
+            background = colors.bg,
+            foreground = colors.teal,
+            colour_have_updates = colors.teal,
+            colour_no_updates = colors.teal,
+            padding = 5
         ),
         widget.Net(
             # interface = "enp6s0",
             format = '{down} ↓↑ {up}',
-            background = colors.blue0,
-            padding = 5
+            background = colors.bg,
+            padding = 5,
+            foreground = colors.teal,
         ),
-        [widget.TextBox(
-            text = " 🌡",
-            padding = 2,
-            background = colors.purple,
-            fontsize = 11
-        ),
-        widget.ThermalSensor(
-            background = colors.purple,
-            threshold = 90,
-            padding = 5
-        )],
-        widget.NvidiaSensors(
-            background = colors.blue0,
-            format = '{temp}°C|{fan_speed}|{perf}'
-        ),
+        # [widget.TextBox(
+        #     text = " 🌡",
+        #     padding = 2,
+        #     background = colors.bg,
+        #     fontsize = 11,
+        #     foreground = colors.teal,
+        # ),
+        # widget.ThermalSensor(
+        #     background = colors.bg,
+        #     threshold = 90,
+        #     padding = 5,
+        #     foreground = colors.teal,
+        # )],
+        # widget.NvidiaSensors(
+        #     background = colors.bg,
+        #     format = '{temp}°C|{fan_speed}|{perf}',
+        #     foreground = colors.teal,
+        # ),
         [widget.TextBox(
             text = " 🖬",
-            background = colors.purple,
+            background = colors.bg,
             padding = 0,
-            fontsize = 14
+            fontsize = 14,
+            foreground = colors.teal,
         ),
         widget.Memory(
-            background = colors.purple,
+            background = colors.bg,
             mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e htop')},
-            padding = 5
+            padding = 5,
+            foreground = colors.teal,
         )],
         widget.CPU(
-            background = colors.blue0,
+            background = colors.bg,
+            foreground = colors.teal,
+            padding = 5,
         ),
         [widget.TextBox(
             text = " Vol:",
-            background = colors.purple,
-            padding = 0
+            background = colors.bg,
+            padding = 0,
+            foreground = colors.teal,
         ),
         widget.Volume(
-            background = colors.purple,
-            padding = 5
+            background = colors.bg,
+            padding = 5,
+            foreground = colors.teal,
         )],
         [widget.CurrentLayoutIcon(
             custom_icon_paths = [os.path.expanduser("~/.config/qtile/icons")],
-            foreground = colors.bg,
-            background = colors.blue0,
+            background = colors.bg,
             padding = 0,
-            scale = 0.7
+            scale = 0.7,
+            foreground = colors.teal,
         ),
         widget.CurrentLayout(
-            background = colors.blue0,
-            padding = 5
+            background = colors.bg,
+            padding = 5,
+            foreground = colors.teal,
         )],
         widget.Clock(
-            background = colors.purple,
-            format = "%A, %B %d - %I:%M %p "
+            background = colors.bg,
+            format = "%A, %B %d - %I:%M %p ",
+            foreground = colors.teal,
+            padding = 5,
         ),
     ]
 
-    text_box_split = "ﳣ" 
+    t = widget.Sep(
+        foreground = colors.teal,
+        padding = 0,
+        linewidth=2,
+        size_percent = 100
+    )
+    # text_box_split = "ﳣ"
     widget_list = []
     run_pattern = False
     for i, ele in enumerate(widget_collections):
-        if i in ignore: continue
+        # if i in ignore: continue
+        if any(isinstance(ele,ignoreItem) for ignoreItem in ignore): continue
         if ele == "PATTERN": 
             run_pattern = True
             continue
         if run_pattern:
             #Alt odd/event
-            if isinstance(ele,list): fg = ele[1].background
-            else: fg = ele.background
-            t = widget.TextBox(
-                text = text_box_split,
-                background = colors.bg,
-                foreground = fg,
-                padding = 0,
-                fontsize = 37,
-            )
             widget_list.append(t)
         #Since we can make a list to put together a "one widget" its for patterns dont mix up
         if isinstance(ele,list):
@@ -1031,16 +1048,16 @@ def init_primary_widget():
     return widgets_screen1
 
 def init_secondary_widget():
-    widgets_screen1 = create_widiget_list([9])
+    widgets_screen1 = create_widiget_list([widget.Systray])
     # del widgets_screen1[6:7]               # Slicing removes unwanted widgets (systray)
     return widgets_screen1                 # Monitor 2 will display all widgets in widgets_list
 
 def init_screens():
     #they are kinda based of monitor position, can find more info about this at top of this files
-    return [Screen(top=bar.Bar(widgets=init_secondary_widget(), opacity=1.0, size=20)),
-            Screen(top=bar.Bar(widgets=init_secondary_widget(), opacity=1.0, size=20)),
-            Screen(top=bar.Bar(widgets=init_secondary_widget(), opacity=1.0, size=20)),
-            Screen(top=bar.Bar(widgets=init_primary_widget(), opacity=1.0, size=20))]
+    return [Screen(top=bar.Bar(widgets=init_secondary_widget(), opacity=1.0, size=20,border_width=1,border_color = colors.teal)),
+            Screen(top=bar.Bar(widgets=init_secondary_widget(), opacity=1.0, size=20,border_width=1,border_color = colors.teal)),
+            Screen(top=bar.Bar(widgets=init_secondary_widget(), opacity=1.0, size=20,border_width=1,border_color = colors.teal)),
+            Screen(top=bar.Bar(widgets=init_primary_widget(), opacity=1.0, size=20,border_width=1,border_color = colors.teal))]
 
 
 # @hook.subscribe.enter_chord
@@ -1064,7 +1081,7 @@ def client_name_update(client):
         client.togroup("|4|CHAT")
         client.focus(False)
         client.group.layout.cmd_client_to_stack(1)
-        client.group.layout.layout_all()
+        # client.group.layout.layout_all()
 
     # logger.warning('under the updated client')
     # logger.warning(client)
@@ -1073,6 +1090,7 @@ def client_name_update(client):
 
 @hook.subscribe.startup_complete
 def afterStartup():
+    time.sleep(30)
     logger.warning("startup done")
     killClient = ['Clocks','KDE Connect']
     data = qtile.cmd_windows()
@@ -1106,10 +1124,10 @@ def afterStartup():
     currentWindow.focus(True)
 #
 
-@hook.subscribe.client_focus
-def focusClient(w):
-    logger.warning("there is change of focus and that window is ")
-    logger.warning(w)
+# @hook.subscribe.client_focus
+# def focusClient(w):
+#     logger.warning("there is change of focus and that window is ")
+#     logger.warning(w)
 
 if __name__ in ["config", "__main__"]:
     screens = init_screens()
