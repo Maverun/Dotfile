@@ -469,6 +469,10 @@ keys = [ #Setting key blindings
     Key(hyper,"d",
         lazy.spawn(home + "/Script/dictionary"),
         desc="Define terms"),
+    Key(hyper,"r",
+        lazy.spawn(home + "/Script/runScript"),
+        desc="Run any script."),
+    
 
     #Audio related
     Key([],"XF86AudioPlay",
@@ -924,8 +928,9 @@ def create_widiget_list(ignore = []):
         
         widget.Chord(
             chords_colors = {
-                'Program Launcher':(colors.red1,colors.teal),
-                "Screenshot Mode":(colors.fg,colors.teal),
+                                    #background,foreground
+                'Program Launcher':(colors.red1,colors.fg),
+                "Screenshot Mode":(colors.fg_dark,colors.teal),
                 "Resize":(colors.green,colors.bg),
                 "Moving":(colors.yellow,colors.bg),
             }#end of dict

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+hidden=black
+
+# dmenu -p "Password:" -nf "$hidden" -nb "$hidden" <&- && echo 
+dmenu -p "Password:" -nf "$hidden" -nb "$hidden" <&-

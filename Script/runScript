@@ -1,0 +1,14 @@
+#!/usr/bin/bash
+orignal_var=$SUDO_ASKPASS
+export SUDO_ASKPASS="${HOME}/Script/.dpass"
+
+user_input=$(ls ${HOME}/Script/ | dmenu -m 0 -p 'Input:')
+run_it="sh ${HOME}/Script/$user_input"
+
+# if [ -x $user_input ]; then
+# 	sudo -A $run_it
+# else
+# 	eval $run_it
+# fi
+eval $run_it > /tmp/runScript.log
+export SUDO_ASKPASS=$orignal_var
