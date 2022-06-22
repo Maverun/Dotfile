@@ -9,12 +9,13 @@ local popup_border = {
     { "│", "FloatBorder" },
 }
 
-
+local navic = require('nvim-navic')
 function on_attach(client, bufnr)
     local function map(l, r, o)
         local options = { noremap = true, silent = true }
         if o then options = vim.tbl_extend('force', options, o) end
         vim.api.nvim_buf_set_keymap(bufnr, 'n', l, r, o)
+        navic.attach(client,bufnr)
     end
 
     local function buf_set_option(...)

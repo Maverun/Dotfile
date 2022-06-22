@@ -3,20 +3,6 @@ local api = vim.api
 local augroup = vim.api.nvim_create_augroup
 local aucmd = vim.api.nvim_create_autocmd
 
--- Taken from https://github.com/norcalli/nvim_utils
-local function nvim_create_augroups(definitions)
-  for group_name, definition in pairs(definitions) do
-    api.nvim_command('augroup '..group_name)
-    api.nvim_command('autocmd!')
-    for _, def in ipairs(definition) do
-      local command = table.concat(vim.tbl_flatten{'autocmd', def}, ' ')
-      api.nvim_command(command)
-    end
-    api.nvim_command('augroup END')
-  end
-end
-
-
 augroup('set_formatoptions',{clear = true})
 aucmd({'BufNewFile','BufEnter'},{
     group = 'set_formatoptions',
@@ -107,13 +93,6 @@ aucmd('FileType',{
     desc = "Able to quit at dashboard",
 })
 
--- aucmd('FileType',{
---     group = 'dashboard_custom',
---     pattern = 'dashboard',
---     callback = function() api.nvim_buf_set_keymap(0,'n','f',':enew<cr>:set laststatus=2<cr>',{noremap = true, silent = true}) end,
---     desc = "Able to create new files at dashboard",
--- })
-
 augroup('dapCustom',{clear = true})
 aucmd('FileType',{
     group = 'dapCustom',
@@ -125,28 +104,6 @@ aucmd('FileType',{
     end,
     desc = "During Dap repl mode, we can just press key to do instead of command",
 })
--- aucmd('FileType',{
---     group = 'dap',
---     pattern = 'dap-repl',
---     callback = function() api.nvim_buf_set_keymap(0,'n','n',":lua require.('dap').step_over()",{noremap = true, silent = true}) end,
---     desc = "During Dap repl mode, we can just press key to do instead of command",
--- })
---
--- aucmd('FileType',{
---     group = 'dap',
---     pattern = 'dap-repl',
---     callback = function() api.nvim_buf_set_keymap(0,'n','s',":lua require.('dap').step_into()",{noremap = true, silent = true}) end,
---     desc = "During Dap repl mode, we can just press key to do instead of command",
--- })
---
---
--- aucmd('FileType',{
---     group = 'dap',
---     pattern = 'dap-repl',
---     callback = function() api.nvim_buf_set_keymap(0,'n','c',":lua require.('dap').continue()",{noremap = true, silent = true}) end,
---     desc = "During Dap repl mode, we can just press key to do instead of command",
--- })
-
 augroup('wrapText',{clear = true})
 aucmd('FileType',{
     group = 'wrapText',
@@ -159,20 +116,6 @@ aucmd('FileType',{
     desc = "setting wrap since it is only for text so reading paragraph will be annoying",
 })
 
--- aucmd('FileType',{
---     group = 'wrapText',
---     pattern = {'tex','text'},
---     callback = function()  end,
---     desc = "Since there is wrap, this allow to go through each line instead of skip to newline due to wrap",
--- })
---
--- aucmd('FileType',{
---     group = 'wrapText',
---     pattern = {'tex','text'},
---     callback = function() api.nvim_buf_set_keymap(0,'n','k','gk',{noremap = true, silent = true}) end,
---     desc = "Since there is wrap, this allow to go through each line instead of skip to newline due to wrap",
--- })
-
 augroup('hop',{clear = true})
 aucmd('ColorScheme',{
     group = 'hop',
@@ -181,70 +124,17 @@ aucmd('ColorScheme',{
     desc = "Setting hop 2nd char easier to see, since original/default is harder to see",
 })
 
--- local autocmds = {
-    -- set_formatoptions = {
-    --     { "BufNewFile,BufEnter", "*", "setlocal formatoptions-=cro" };
-    -- };
-    -- terminal_job = {
-    --     -- conflicts with neoterm
-    --     --{ "TermOpen", "*", "startinsert" };
-    --     { "TermOpen", "*", "setlocal listchars= nonumber norelativenumber" };
-    -- };
-    -- resize_windows_proportionally = {
-    --     { "VimResized", "*", [[tabdo wincmd =]]};
-    -- };
-    -- toggle_colorcolumn = {
-    --     { "VimResized,WinEnter,BufWinEnter", "*", [[lua require'utils'.toggle_cursor_column()]]};
-    -- },
-    -- toggle_search_highlighting = {
-    --     { "InsertEnter", "*", ":nohl | redraw" };
-    -- };
-    -- lua_highlight = {
-    --     { "TextYankPost", "*", "silent! lua vim.highlight.on_yank{higroup='IncSearch', timeout=2000}" };
-    -- };
-    -- quickscope = {
-    --     { 'ColorScheme', '*', 'highlight QuickScopePrimary guifg=#afff5f gui=underline ctermfg=50 cterm=underline'};
-    --     { 'ColorScheme', '*', 'highlight QuickScopeSecondary guifg=#5fffff gui=underline ctermfg=50 cterm=underline'};
-    --
-    -- };
-    -- packer = {
-    --     {'BufWritePost','plugins.lua','PackerCompile'}
-    -- };
-    -- map_K = {
-    --     {'FileType','man', [[:lua vim.api.nvim_buf_set_keymap(0,"n","K",":lua vim.api.nvim_feedkeys('K','n',true)<CR>",{noremap=true,silent=true})]]},
-    --     {'FileType','help',[[:lua vim.api.nvim_buf_set_keymap(0,"n","K",":lua vim.api.nvim_feedkeys('K','n',true)<CR>",{noremap=true,silent=true})]]},
-    -- },
-    -- quit = {
-    --     {'FileType','dashboard', [[:lua vim.api.nvim_buf_set_keymap(0,"n","q","<esc>:q<cr>",{noremap=true,silent=true})]]},
-    -- },
-    --search_nohl = {
-    --{'CmdlineEnter', '/,\\?','set hlsearch'};
-    --{'CmdlineLeave','/,\\?','set nohlsearch'};
-    --}
-    -- show_signature = {
-    --     {'CursorHoldI','*',[[lua require'utils'.Show_func_help()]]}
-    -- },
-    -- color_floating_window = {
-    --     -- {'ColorScheme','*','highlight NormalFloat guibg=#005500'},
-    --     {'ColorScheme','*','highlight FloatBorder guifg=#005500'},
-    -- },
---     dap = {
---
---         {'FileType', 'dap-repl', 'nnoremap<buffer> n', [[<cmd>lua require('dap').step_over()<CR> ]]},
---         {'FileType', 'dap-repl', 'nnoremap<buffer> s', [[<cmd>lua require('dap').step_into()<CR>]]},
---         {'FileType', 'dap-repl', 'nnoremap<buffer> c', [[<cmd>lua require('dap').continue()<CR>]]}
---     },
---     latex = {
---         {'FileType','tex','set wrap'},
---         {'FileType','tex','nnoremap<buffer>j gj'},
---         {'FileType','tex','nnoremap<buffer>k gk'},
--- 	},
---     hop = {
---         { 'ColorScheme', '*', 'highlight HopNextKey2 guifg=#0a94ac'};
---     },
--- }
 
--- nvim_create_augroups(autocmds)
+local userWinbar = augroup('userWinbar', { clear = true })
+local winbar = require('winbar')
+winbar.setup()
+aucmd({ 'BufEnter', 'BufWinEnter' }, {
+    group = userWinbar,
+    desc = 'Adds winbar based on ft',
+    callback = function()
+	winbar.eval()
+    end
+})
 
 -- Run the program wIth @g so that we can see output, on split window
 vim.cmd [[
@@ -259,3 +149,4 @@ vim.cmd [[
 		autocmd BufEnter *.html let @g=":w\<CR> :silent !firefox % \<CR>"
 	augroup end
 ]]
+

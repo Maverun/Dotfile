@@ -25,6 +25,7 @@ return require("packer").startup(
     use 'kshenoy/vim-signature'                            -- To display where MARK is at (ma, mb ) etc
     use 'glepnir/dashboard-nvim'                           -- Home page of Neovim
     use 'nvim-lualine/lualine.nvim'
+    use 'SmiteshP/nvim-navic'
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                   Auto                                    │
