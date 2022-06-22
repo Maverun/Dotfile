@@ -27,35 +27,6 @@ M.setup = function()
 
     M.navic.setup({
         separator = ' ' .. M.separator .. ' ',
-
-        icons = {
-            File          = "%#CmpItemKindFile#" .. " " .. "%*",
-            Module        = "%#CmpItemKindModule#" .. " " .. "%*",
-            Namespace     = "%#CmpItemKindNamespace#" .. " " .. "%*",
-            Package       = "%#CmpItemKindPackage#" .. " " .. "%*",
-            Class         = "%#CmpItemKindClass#" .. " " .. "%*",
-            Method        = "%#CmpItemKindMethod#" .. " " .. "%*",
-            Property      = "%#CmpItemKindProperty#" .. " " .. "%*",
-            Field         = "%#CmpItemKindField#" .. " " .. "%*",
-            Constructor   = "%#CmpItemKindConstructor#" .. " " .. "%*",
-            Enum          = "%#CmpItemKindEnum#" .. "練" .. "%*",
-            Interface     = "%#CmpItemKindInterface#" .. "練" .. "%*",
-            Function      = "%#CmpItemKindFunction#" .. " " .. "%*",
-            Variable      = "%#CmpItemKindVariable#" .. " " .. "%*",
-            Constant      = "%#CmpItemKindConstant#" .. " " .. "%*",
-            String        = "%#CmpItemKindString#" .. " " .. "%*",
-            Number        = "%#CmpItemKindNumber#" .. " " .. "%*",
-            Boolean       = "%#CmpItemKindBoolean#" .. "◩ " .. "%*",
-            Array         = "%#CmpItemKindArray#" .. " " .. "%*",
-            Object        = "%#CmpItemKindObject#" .. " " .. "%*",
-            Key           = "%#CmpItemKindKey#" .. " " .. "%*",
-            Null          = "%#CmpItemKindNull#" .. "ﳠ " .. "%*",
-            EnumMember    = "%#CmpItemKindEnumMember#" .. " " .. "%*",
-            Struct        = "%#CmpItemKindStruct#" .. " " .. "%*",
-            Event         = "%#CmpItemKindEvent#" .. " " .. "%*",
-            Operator      = "%#CmpItemKindOperator#" .. " " .. "%*",
-            TypeParameter = "%#CmpItemKindTypeParameter#" ..  " " .. "%*",
-        },
     })
 end
 
