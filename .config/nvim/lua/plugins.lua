@@ -69,6 +69,7 @@ return require("packer").startup(
     use 'neovim/nvim-lspconfig'                             -- LSP Config that allow us to use instead of coc
     -- use 'kabouzeid/nvim-lspinstall'                         -- Ease of Install Language Servers
     use 'williamboman/nvim-lsp-installer'
+    use 'brymer-meneses/grammar-guard.nvim'
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                Essentials                                 │

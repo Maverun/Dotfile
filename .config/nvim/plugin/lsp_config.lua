@@ -38,9 +38,9 @@ function on_attach(client, bufnr)
     map("<space>r", "<cmd>lua vim.lsp.buf.rename()<CR>", { desc = 'Rename' })
     map("gr", "<cmd>lua vim.lsp.buf.references()<CR>", { desc = 'References' })
     map("<space>e", "<cmd>lua vim.diagnostic.open_float()<CR>", { desc = 'Show Line Diagnostics' })
-    map("gN", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", { desc = 'Go to previous diagnostics' })
-    map("gn", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", { desc = 'Go to next diagnostics' })
-    map("<space>q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", { desc = 'Diagnostics Loclists' })
+    map("gN", "<cmd>lua vim.diagnostic.goto_prev()<CR>", { desc = 'Go to previous diagnostics' })
+    map("gn", "<cmd>lua vim.diagnostic.goto_next()<CR>", { desc = 'Go to next diagnostics' })
+    map("<space>q", "<cmd>lua vim.diagnostic.setloclist()<CR>", { desc = 'Diagnostics Loclists' })
 
     -- Set some keybinds conditional on server capabilities
     if client.server_capabilities.document_formatting then
@@ -88,7 +88,26 @@ local lua_setting = {
         },
     },
 }
-
+local ltex_setting ={
+    on_attach = on_attach,
+    cmd = {'ltex-ls'},
+    settings = {
+            ltex = {
+                    enabled = { "latex", "tex", "bib", "markdown","org" },
+                    language = "en",
+                    diagnosticSeverity = "information",
+                    setenceCacheSize = 2000,
+                    additionalRules = {
+                            enablePickyRules = true,
+                            motherTongue = "en",
+                    },
+                    trace = { server = "verbose" },
+                    dictionary = {},
+                    disabledRules = {},
+                    hiddenFalsePositives = {},
+            },
+    },
+}
 local lsp_installer = require('nvim-lsp-installer')
 lsp_installer.on_server_ready(function(server)
     local opts = { on_attach = on_attach }
@@ -99,13 +118,26 @@ lsp_installer.on_server_ready(function(server)
     -- end
     if server.name == 'sumneko_lua' then
         opts = lua_setting
+    -- elseif server.name == 'ltex' then
+    --     opts = ltex_setting
     end
 
     -- This setup() function is exactly the same as lspconfig's setup function.
     -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
     server:setup(opts)
 end)
-
+--
+-- require('lspconfig')['ltex'].setup{
+--     on_attach = on_attach,
+--     settigns = ltex_setting
+-- }
+--
+require("grammar-guard").init()
+-- setup LSP config
+require("lspconfig").grammar_guard.setup({
+  cmd = { 'ltex-ls' }, -- add this if you install ltex-ls yourself
+	settings = ltex_setting,
+})
 
 -- remove the lsp servers with their configs you don want
 local vls_binary = '/usr/local/bin/vls'
@@ -130,3 +162,4 @@ local sign_names = {
 for i, sign in ipairs(signs) do
     vim.fn.sign_define(sign_names[i], { texthl = sign_names[i], text = sign.text, numhl = "" })
 end
+

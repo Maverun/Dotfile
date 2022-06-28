@@ -3,7 +3,8 @@
 -- └───────────────────────────────────────────────────────────────────────────┘
 --Those were default but with some changes to it.
 
-require('which-key').setup{
+wk = require('which-key')
+wk.setup{
   plugins = {
     marks = true, -- shows a list of your marks on ' and `
     registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
@@ -64,3 +65,13 @@ require('which-key').setup{
   },
 }
 
+-- Name prefix
+wk.register({
+  ["<leader>f"] = {name = "Telescope"},
+  ["<leader>o"] = {name = "Orgmode"},
+  ["<leader>t"] = {name = "FloatTerm"},
+  ["<leader>w"] = {name = "WorkSpace"},
+  ["\\d"] = {name = "DAP"},
+  ["\\s"] = {name = "Iron"},
+  ["\\c"] = {name = "Other Iron"},
+})

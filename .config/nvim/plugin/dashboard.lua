@@ -3,31 +3,19 @@
 --└────────────────────────────────────────────────────────────────────────────┘
 
 local g = vim.g
-
-g.dashboard_disable_at_vimenter = 0
-g.dashboard_disable_statusline = 1
-g.dashboard_default_executive = "telescope"
-
-
-
-
-
-
-g.dashboard_custom_section = {
-   a = { description = { "  Find File                 SPC f f" }, command = "Telescope find_files" },
-   b = { description = { "  Recents                   SPC f o" }, command = "Telescope oldfiles" },
-   c = { description = { "  Frecency                  SPC f r" }, command = "Telescope frecency" },
-   d = { description = { "  Find Word                 SPC f g" }, command = "Telescope live_grep" },
-   e = { description = { "洛 New File                  SPC f n" }, command = "DashboardNewFile" },
-   f = { description = { "  Bookmarks                 SPC f m" }, command = "Telescope marks" },
-   g = { description = { "  Load Last Session         SPC l  " }, command = "SessionLoad" },
-   h = { description = { "  Quit                      SPC g q" }, command = "q" },
+local db = require('dashboard')
+db.custom_center = {
+   { icon = ' ', desc =  "Find File                  ", shortcut = "SPC f f" , action = "Telescope find_files" },
+   { icon = ' ', desc =  "Recents                    ", shortcut = "SPC f o" , action = "Telescope oldfiles" },
+   { icon = ' ', desc =  "Frecency                   ", shortcut = "SPC f r" , action = "Telescope frecency" },
+   { icon = ' ', desc =  "Find Word                  ", shortcut = "SPC f g" , action = "Telescope live_grep" },
+   { icon = '洛', desc =  "New File                   ", shortcut = "SPC f n" , action = "DashboardNewFile" },
+   { icon = ' ', desc =  "Bookmarks                  ", shortcut = "SPC f m" , action = "Telescope marks" },
+   { icon = ' ', desc =  "Load Last Session          ", shortcut = "SPC l -" , action = "SessionLoad" },
+   { icon = ' ', desc =  "Quit                       ", shortcut = "SPC g q" , action = "q" },
 }
 
 
-g.dashboard_custom_footer = {
-   "   ",
-}
 
 local art = {
     {
@@ -86,5 +74,5 @@ math.randomseed( os.time() ) -- For random header.
 -- local get_number = (os.date("*t").sec % #art) + 1
 local get_number = math.random(#art)
 local result = art[get_number]
-g.dashboard_custom_header = result
-g.dashboard_custom_footer = { '' }
+table.insert(result," ")
+db.custom_header = result

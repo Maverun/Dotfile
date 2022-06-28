@@ -293,6 +293,6 @@ map(n,'\\de',':lua require"dap".run_last()<CR>',{desc = "Run Last"})
 --│                                 Iron.nvim                                  │
 --└────────────────────────────────────────────────────────────────────────────┘
 
-map(n,'<leader>sr',':vs<CR>:IronReplHere<CR>')
+map(n,'\\sr',':vs<CR>:IronReplHere<CR>')
 
 

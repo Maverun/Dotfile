@@ -107,7 +107,7 @@ aucmd('FileType',{
 augroup('wrapText',{clear = true})
 aucmd('FileType',{
     group = 'wrapText',
-    pattern = {'tex','text','orgmode'},
+    pattern = {'tex','text','org'},
     callback = function()
 	vim.opt.wrap = true
 	api.nvim_buf_set_keymap(0,'n','j','gj',{noremap = true, silent = true})
