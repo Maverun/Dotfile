@@ -23,7 +23,7 @@ defaultTerm = 'kitty'
 #monitor position, you can find order by xrandr --listactivemonitors    
 monitor_position = [[-1, 2,-1],#top
                     [ 3, 0, 1]]#middle
-
+startUPQtile = datetime.now()
 #Tokyonight colors, I like those.
 colors = {
     'bg_dark' : "#1f2335",
@@ -1072,11 +1072,43 @@ def init_screens():
 #     logger.warning(name)
 #     logger.warning(colors[2])
 
-# @hook.subscribe.client_new
-# def client_new(client):
-#     logger.warning("under client new")
-#     logger.warning(client)
-#     logger.warning(client.name)
+@hook.subscribe.client_new
+def client_new(client):
+    logger.warning("under client new")
+    logger.warning(client)
+    logger.warning(client.name)
+    currentTime = datetime.now()
+    if (currentTime - startUPQtile ).total_seconds() <= 60:
+        killClient = ['Clocks','KDE Connect']
+        data = qtile.cmd_windows()
+        #we are killing client that come with startup, we need them to run in the background..
+        #idk if there is a better way than this but eh.
+        client_list_toKill = [x['id'] for x  in data if x['name'] in killClient]
+        for wid in client_list_toKill:
+            # wid = [x for x in data if x['name'] == client][0]['id']
+            qtile.windows_map.get(wid).kill()
+
+        #i want to make discord/element/weechat in correct order
+        #left side of stack should be discord only, and right side of stack should only have weechat and element.
+        currentWindow = qtile.current_window
+        chatLayout = qtile._select("group","|4|CHAT").layout
+        if chatLayout.name == 'stack':
+            def move_client(client,n):
+                client.focus(True)
+                chatLayout.current_stack.remove(client)
+                chatLayout.stacks[n].add(client)
+                chatLayout.stacks[n].focus(client)
+                chatLayout.group.layout_all()
+            chatLayout.focus_first()
+            clientPos = chatLayout.stacks
+            for c in clientPos[0].clients:
+                if 'Element' in c.name or "weechat" in c.name:
+                    move_client(c,1)
+            for c in clientPos[1].clients:
+                if 'Discord' in c.name:
+                    move_client(c,0)
+        # back to where currently window was at before sorting things out.
+        currentWindow.focus(True)
 
 
 @hook.subscribe.client_name_updated
@@ -1093,41 +1125,9 @@ def client_name_update(client):
     # logger.warning(client.name)
     # logger.warning(json.dumps(qtile.cmd_groups(),indent=2))
 
-@hook.subscribe.startup_complete
-def afterStartup():
-    time.sleep(30)
-    logger.warning("startup done")
-    killClient = ['Clocks','KDE Connect']
-    data = qtile.cmd_windows()
-    #we are killing client that come with startup, we need them to run in the background..
-    #idk if there is a better way than this but eh.
-    client_list_toKill = [x['id'] for x  in data if x['name'] in killClient]
-    for wid in client_list_toKill:
-        # wid = [x for x in data if x['name'] == client][0]['id']
-        qtile.windows_map.get(wid).kill()
-
-    #i want to make discord/element/weechat in correct order
-    #left side of stack should be disocrd only, and right side of stack should only have weechat and element.
-    currentWindow = qtile.current_window
-    chatLayout = qtile._select("group","|4|CHAT").layout
-    if chatLayout.name == 'stack':
-        def move_client(client,n):
-            client.focus(True)
-            chatLayout.current_stack.remove(client)
-            chatLayout.stacks[n].add(client)
-            chatLayout.stacks[n].focus(client)
-            chatLayout.group.layout_all()
-        chatLayout.focus_first()
-        clientPos = chatLayout.stacks
-        for c in clientPos[0].clients:
-            if 'Element' in c.name or "weechat" in c.name:
-                move_client(c,1)
-        for c in clientPos[1].clients:
-            if 'Discord' in c.name:
-                move_client(c,0)
-    # back to where currently window was at before sorting things out.
-    currentWindow.focus(True)
-#
+# @hook.subscribe.startup_complete
+# def afterStartup():
+#   pass
 
 # @hook.subscribe.client_focus
 # def focusClient(w):
