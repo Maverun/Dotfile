@@ -20,8 +20,18 @@ require('orgmode').setup({
 	org_agenda_templates = {
 		f = {
 			description = "File notes",
+			template = "* %?\n  %u\n  %a",
+			target = "~/Drive/orgmode/notes.org",
+		},
+		t = {
+			description = "TODO File notes",
 			template = "* TODO %?\n  %u\n  %a",
 			target = "~/Drive/orgmode/notes.org",
+		},
+		T = {
+			description = "Temp notes(Will be Delete)",
+			template = "",
+			target = "/tmp/notes.org",
 		},
 	},
 	org_todo_keywords = { "TODO(t)", "|", "DONE", "CANCELED" },
