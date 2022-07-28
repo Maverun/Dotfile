@@ -14,7 +14,7 @@ plugins=(
     zsh-syntax-highlighting
     taskwarrior
     zsh-vi-mode
-    zsh-abbr
+    # zsh-abbr
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -28,6 +28,8 @@ fi
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+#latex package installer
+export PATH="$PATH:/usr/local/texlive/2022/bin/x86_64-linux"
 
 #Variable
 export NAS=/ext_drive/SynologyDrive/
@@ -98,7 +100,7 @@ alias get_key='xev'
 
 #git related
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-alias lazyconfig='lazygit --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+alias lgc='lazygit --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias lg='lazygit'
 
 # get error messages from journalctl
@@ -166,7 +168,7 @@ zvm_bindkey vicmd 'L' 'end-of-line'
 ZVM_VI_HIGHLIGHT_BACKGROUND=#33467C           # Hex value
 
 #cuz of vi mode, we must init it afterward
-source $ZSH/custom/plugins/zsh-abbr/zsh-abbr.zsh
+# source $ZSH/custom/plugins/zsh-abbr/zsh-abbr.zsh
 neofetch
 #task sync &
 task project:
