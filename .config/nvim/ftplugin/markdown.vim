@@ -1,1 +1,1 @@
-setlocal linebreak
+source textSetting.vim
