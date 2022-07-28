@@ -738,7 +738,8 @@ group_names = [("|1|MAIN", {'layout': 'monadtall'}),
                ]}),
                 ("|9|Game", {'layout': 'monadtall', 'matches':[
                     Match(wm_class='Minecraft_*'),
-                    Match(wm_class='gw2-64.exe')
+                    Match(wm_class='gw2-64.exe'),
+                    Match(title='Godot Engine'),
                  ]}) #end of 9 game.
                ]
 
@@ -1077,6 +1078,7 @@ def client_new(client):
     logger.warning("under client new")
     logger.warning(client)
     logger.warning(client.name)
+    # logger.warning(client.info())
     currentTime = datetime.now()
     if (currentTime - startUPQtile ).total_seconds() <= 60:
         killClient = ['Clocks','KDE Connect']
@@ -1168,6 +1170,7 @@ floating_layout = layout.Floating(float_rules=[
     Match(wm_class="feh"), #feh
     Match(wm_class="flameshot"), #flameshot
     Match(wm_class="yad"), #yad dialog
+    Match(title="Godot Engine"), #Burrito as a godot engine...
 ])
 auto_fullscreen = True
 focus_on_window_activation = "smart"
