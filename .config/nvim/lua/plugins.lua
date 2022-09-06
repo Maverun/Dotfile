@@ -57,7 +57,7 @@ return require("packer").startup(
     use 'godlygeek/tabular'
     -- use 'plasticboy/vim-markdown' --vim markdown for vimwiki
     -- use 'iamcco/markdown-preview.nvim'
-    use 'Pocco81/HighStr.nvim'
+    -- use 'Pocco81/HighStr.nvim'
     -- use 'alok/notational-fzf-vim'
     -- use 'lervag/wiki.vim'
     -- use 'jbyuki/venn.nvim'
@@ -105,6 +105,7 @@ return require("packer").startup(
     use 'nvim-lua/popup.nvim'                                -- Popup API
     use 'nvim-lua/plenary.nvim'                              -- allow to reuse those function provided
     use 'nvim-telescope/telescope.nvim'                      -- Powerful tools to see data
+    use 'crispgm/telescope-heading.nvim'
 
 
     use 'tami5/sql.nvim'
@@ -122,6 +123,7 @@ return require("packer").startup(
     -- use "ivanov/vim-ipython"
 
     use 'L3MON4D3/LuaSnip'
+    use 'rafamadriz/friendly-snippets'
     use {
         'glacambre/firenvim',
         run = function() vim.fn['firenvim#install'](0) end
@@ -138,12 +140,13 @@ return require("packer").startup(
             end
     }
 
-    use {'lukas-reineke/headlines.nvim',config = function() require'headlines'.setup() end}
-    use {'akinsho/org-bullets.nvim',config = function() require'org-bullets'.setup() end}
+    -- use {'lukas-reineke/headlines.nvim',config = function() require'headlines'.setup() end}
+    -- use {'akinsho/org-bullets.nvim',config = function() require'org-bullets'.setup() end}
 
 
     use 'lervag/vimtex'
     use {'numToStr/Comment.nvim', config = function() require("Comment").setup{} end}
+    use 'phaazon/mind.nvim'
 
 end,
     {

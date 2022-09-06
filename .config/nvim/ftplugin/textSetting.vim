@@ -14,7 +14,6 @@ setlocal linebreak
 iabbr <buffer> i I
 iabbr <buffer> cuz because
 iabbr <buffer> sys system
-iabbr <buffer> techy technically "Yeah I am lazy...sue me.
+"Yeah I am lazy...sue me.
+iabbr <buffer> techy technically 
 iabbr <buffer> mhmmm *Intense Thinking* mhmmm....
-
-

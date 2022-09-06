@@ -17,6 +17,7 @@ firefox &
 
 # process_list=(redshift-gtk discord-canary clipmenud thunderbird kdeconnect-app gnome-clocks element-desktop dunst)
 process_list=(redshift-gtk discord-canary clipmenud thunderbird kdeconnect-app gnome-clocks dunst)
+# process_list=(redshift-gtk discordCanary clipmenud thunderbird kdeconnect-app gnome-clocks dunst)
 
 for p in "${process_list[@]}"
 do

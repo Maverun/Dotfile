@@ -8,11 +8,18 @@ end
 
 -- print(color.blue2)
 -- print(util.darken(color.blue2,0.3))
-vim.g.tokyodark_transparent_background = false
-vim.g.tokyodark_enable_italic_comment = true
-vim.g.tokyodark_enable_italic = true
 vim.g.tokyodark_color_gamma = "1.1"
-vim.g.tokyonight_style = "night"
+
+require("tokyonight").setup({
+  style = 'night',
+  transparent = false,
+  styles = {
+    comments = 'italic',
+    functions = 'NONE',
+  }
+}
+)
+
 
 cmd("colorscheme tokyonight")
 --highlight('TSComment','#0087ff','None')

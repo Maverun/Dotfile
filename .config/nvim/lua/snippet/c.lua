@@ -1,4 +1,3 @@
-print("luasnip loaded c")
 local ls = require('luasnip')
 local utils = require("snippet/utils_LS");
 -- some shorthands...
