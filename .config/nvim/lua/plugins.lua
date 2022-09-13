@@ -55,7 +55,8 @@ return require("packer").startup(
 
 
     use 'godlygeek/tabular'
-    -- use 'plasticboy/vim-markdown' --vim markdown for vimwiki
+    use 'plasticboy/vim-markdown' --vim markdown for vimwiki
+    use 'gaoDean/autolist.nvim' --auto list for you.
     -- use 'iamcco/markdown-preview.nvim'
     -- use 'Pocco81/HighStr.nvim'
     -- use 'alok/notational-fzf-vim'

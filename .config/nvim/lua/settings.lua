@@ -172,4 +172,17 @@ else
 end
 ]]
 
-
+require'autolist'.setup({})
+require'mind'.setup({
+    persistence = {
+	state_path = '/ext_drive/SynologyDrive/NotesTaking/mind.json',
+	data_dir = '/ext_drive/SynologyDrive/NotesTaking/',
+    },
+    edit = {
+	data_header = "---\nTitle:\t %s\nAuthor:\t Maverun\nDate:\t "..os.date("%A, %m %B %Y").."\n---\n\n"
+	-- data_header = "---Title: %s"
+    },
+    tree = {
+	automatic_data_creation = false
+    },
+})

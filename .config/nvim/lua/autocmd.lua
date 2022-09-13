@@ -35,6 +35,14 @@ aucmd({'VimResized','WinEnter','BufWinEnter'},{
     desc = "Disable previous buffer and show only cursor line/column on current buffer",
 })
 
+augroup('mind.nvim_win_size',{clear = true})
+aucmd({'VimResized','WinEnter','WinLeave'},{
+    group = 'mind.nvim_win_size',
+    pattern = '*',
+    callback = require'utils'.mind_nvim_control_win_size,
+    desc = "Control Window size of Mind.nvim so it doesn't get in way overall",
+})
+
 augroup('toggle_search_highlighting',{clear = true})
 aucmd('InsertEnter',{
     group = 'toggle_search_highlighting',

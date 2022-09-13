@@ -17,11 +17,20 @@ local termcodes = function(str)
     return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
 
+function smart_dd()
+    -- checking if it just white space, if yes, then do void delete.
+    if vim.api.nvim_get_current_line():match("^%s*$") then
+        return "\"_dd"
+    else
+        return "dd"
+    end
+end
+
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                Essentials                                 │
 -- └───────────────────────────────────────────────────────────────────────────┘
 map(n,'<leader>/',':%s/<c-r><c-w>',{desc = "Search/Sub current word"})
-
+vim.keymap.set({n,v},'dd',smart_dd,{expr=true})
 map(n,"<M-s>",":source %<cr>") -- source either vim/lua for future
 map({n,v},';',':') -- save time pressing shift or rely on autoshift
 
@@ -65,17 +74,9 @@ map(i,'<M-CR>','<Esc>O<Esc>0i')
 
 map(v,'<Up>',':m-2<CR>gv')
 map(v,'<Down>',":m '>+1<CR>gv")
---map(v,'<S-Up>',':m-2<CR>gv')
---map(v,'<S-Down>',":m '>+1<CR>gv")
---map(v,'<S-k>',':m-2<CR>gv')
---map(v,'<S-j>',":m '>+1<CR>gv")
 
 map(n,'<Up>','<Esc>:m-2<CR>')
 map(n,'<Down>',"<Esc>:m+1<CR>")
---map(n,'<S-Up>','<Esc>:m-2<CR>')
---map(n,'<S-Down>',"<Esc>:m+1<CR>")
---map(n,'<S-k>','<Esc>:m-2<CR>')
---map(n,'<S-j>',"<Esc>:m+1<CR>")
 
 map(i,'<S-Up>','<Esc>:m-2<CR>')
 map(i,'<S-Down>',"<Esc>:m+1<CR>")
@@ -89,7 +90,6 @@ map(n,'<M-d>','"dyy"dp')
 
 --Send them to VOID register
 map({v,n},'dv','"_d',{desc = "VOID Delete"})
--- map(n,'dv','"_d')
 
 --
 map(n,'<leader><space>',':nohlsearch<CR>', {desc = 'Remove Highlight'})
@@ -152,8 +152,10 @@ map(n,'<Esc><Esc>',':call firenvim#focus_page()<CR>')
 -- └───────────────────────────────────────────────────────────────────────────┘
 
 -- hop.nvim
-map({n,v,o},'s','<cmd>HopWordAC<CR>',{desc="HOP TO NEXT FOLKS!"})
-map({n,v,o},'S','<cmd>HopWordBC<CR>',{desc="HOP TO PREVIOUS FOLKS!"})
+-- map({n,v,o},'s','<cmd>HopWordAC<CR>',{desc="HOP TO NEXT FOLKS!"})
+-- map({n,v,o},'S','<cmd>HopWordBC<CR>',{desc="HOP TO PREVIOUS FOLKS!"})
+map({n,v,o},'S',':lua require"hop".hint_words({current_line_only = true,})<CR>',{desc="HOP within current line!"})
+map({n,v,o},'s','<cmd>HopWord<CR>',{desc="HOP!"})
 
 --we are marking where we are before we begin search so that way we can return to original spot
 map(n,"/","ms/")
@@ -193,7 +195,6 @@ map({t,n},'<C-k>','<C-w>k')
 map({t,n},'<C-l>','<C-w>l')
 
 --Buffer next page or previously
--- gbn is nice optional, F12,F11 is just in case
 map(n,"gbn",":bn<CR>")
 map(n,"gbp",":bp<CR>")
 
@@ -213,26 +214,15 @@ map(v,'<S-Tab>','<gv')
 -- │                                 Telescope                                 │
 -- └───────────────────────────────────────────────────────────────────────────┘
 map(n,'<leader>ff',':Telescope find_files<CR>', {desc = 'Find Files'})
-map(n,'<leader>fo',':Telescope oldfiles<CR>', {desc = 'Old Files'})
+map(n,'<leader>fof',':lua require("telescope.builtin").find_files({search_dirs={"~/Drive/NotesTaking/"}})<CR>', {desc = 'NotesTaking Files'})
+map(n,'<leader>fO',':Telescope oldfiles<CR>', {desc = 'Old Files'})
 map(n,'<leader>fg',':Telescope live_grep<CR>', {desc = 'Live Grep'})
 map(n,'<leader>fb',':Telescope buffers<CR>', {desc = 'Buffers'})
 map(n,'<leader>fh',':Telescope help_tags<CR>', {desc = 'Help Tags'})
 map(n,'<leader>fk',':Telescope keymaps<CR>', {desc = 'Keymaps'})
 map(n,'<leader>fm',':Telescope marks<CR>', {desc = 'Marks'})
 map(n,'<leader>fr','<Cmd>lua require("telescope").extensions.frecency.frecency()<CR>', {desc = 'Frecency'})
-
--- ┌───────────────────────────────────────────────────────────────────────────┐
--- │                                    FZF                                    │
--- └───────────────────────────────────────────────────────────────────────────┘
-
---map(n, "<C-p>",":Files<Cr>")
---map(n, "<Leader>b", ':Buffers<Cr>')
---map(n, "<Leader>c", ':Commands<Cr>')
---map(n, "<Leader>m", ':Maps<Cr>')
---map(n, "<Leader>T", ':BTags<Cr>')
---map(n, "<Leader>l", ':Lines<Cr>')
-----map(n, "<Leader>?", ':Helptags<Cr>')
---map(n, "<Leader>mm",':Maps<CR>mappings.vim')
+map(n,'<leader>foh','<Cmd>lua require("telescope").extensions.heading.heading()<CR>', {desc = 'Heading List'})
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                               FloatTerminal                               │
@@ -241,15 +231,6 @@ map(n, '<leader>tt',':lua require("FTerm").toggle()<cr>', {desc = "Fterm Toggle"
 map('t', '<leader>tt','<C-\\><C-n>:lua require("FTerm").toggle()<cr>', {desc = 'Fterm Toggle'})
 map(n, '<leader>tp',':lua require("FTerm").run("python ' .. vim.fn.expand("%:t")..'")<CR>', { desc = "Run Python Terminal"})
 map(n, '<leader>tj',':lua require("FTerm").run("javac ' .. vim.fn.expand("%:t")..' && java '.. vim.fn.expand("%:t:r") ..'")<CR>', { desc = "Run Java Terminal"})
-
-
--- ┌───────────────────────────────────────────────────────────────────────────┐
--- │                                 Highlight                                 │
--- └───────────────────────────────────────────────────────────────────────────┘
-
-
-map(v,'<leader>h',':<c-u>HSHighlight 9<CR> ',{desc = "Highlight it"})
-map(v,'<leader>r',':<c-u>HSRmHighlight<CR>', {desc = "Remove highlight"})
 
 -- map({i,v,'s'},'<C-E>',[[luasnip#choice_active()?'<Plug>luasnip-next-choice':'<C-E>']],{silent = true, expr = true,noremap = false})
 -- map({i,v,'s'},'<C-E>','<Plug>luasnip-next-choice',{noremap = false})
@@ -269,26 +250,6 @@ map(n,'\\dsl',':lua require"dap".set_breakpoint(nil,nil,vim.fn.input("Log point 
 map(n,'\\dr',':lua require"dap".repl.open()<CR>',{desc = "Repl Open"})
 map(n,'\\de',':lua require"dap".run_last()<CR>',{desc = "Run Last"})
 
-
--- ┌───────────────────────────────────────────────────────────────────────────┐
--- │                                Vimspector                                 │
--- └───────────────────────────────────────────────────────────────────────────┘
-
---map(n,'<leader>vc','<Plug> VimspectorContinue')
---map(n,'<leader>vs','<Plug> VimspectorStop')
---map(n,'<leader>vr','<Plug> VimspectorRestart')
---map(n,'<leader>vp','<Plug> VimspectorPause')
---map(n,'<leader>vb','<Plug> VimspectorToggleBreakpoint')
---map(n,'<leader>vh','<Plug> VimspectorToggleConditionalBreakpoint')
---map(n,'<leader>vt','<Plug> VimspectorRunToCursor')
---map(n,'<leader>vo','<Plug> VimspectorStepOver')
---map(n,'<leader>vj','<Plug> VimspectorStepInto')
---map(n,'<leader>vl','<Plug> VimspectorStepOut')
---map(n,'<leader>vfu','<Plug> VimspectorUpFrame')
---map(n,'<leader>vfd','<Plug> VimspectorDownFrame')
---map(n,'<leader>ve','<Plug> VimspectorBalloonEval')
-
-
 --┌────────────────────────────────────────────────────────────────────────────┐
 --│                                 Iron.nvim                                  │
 --└────────────────────────────────────────────────────────────────────────────┘
@@ -296,3 +257,11 @@ map(n,'\\de',':lua require"dap".run_last()<CR>',{desc = "Run Last"})
 map(n,'\\sr',':vs<CR>:IronReplHere<CR>')
 
 
+--┌────────────────────────────────────────────────────────────────────────────┐
+--│                                 Mind.nvim                                  │
+--└────────────────────────────────────────────────────────────────────────────┘
+
+map(n,'<leader>mo',':MindOpenMain<Cr>', {desc = "Open Mind"})
+map(n,'<leader>mc',':MindClose<Cr>', {desc='Close Mind'})
+map(n,'<leader>mp',':MindOpenProject<Cr>', {desc = "Open Mind Project"})
+map(n,'<leader>ms',':MindOpenSmartProject<Cr>', {desc = "Open Mind Smart Project"})
