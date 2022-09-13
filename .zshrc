@@ -90,7 +90,7 @@ alias e='nvim'
 #Path
 alias nurevam='cd /ext_drive/SynologyDrive/Discord\ Bot/Github/Nurevam/'
 alias drive='cd /ext_drive/SynologyDrive/'
-alias orgmode='cd /ext_drive/SynologyDrive/orgmode'
+alias note='cd /ext_drive/SynologyDrive/NotesTaking/'
 alias configs='cd ~/.config/'
 alias dev='cd ~/dev/'
 
