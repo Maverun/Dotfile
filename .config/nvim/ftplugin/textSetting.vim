@@ -17,3 +17,8 @@ iabbr <buffer> sys system
 "Yeah I am lazy...sue me.
 iabbr <buffer> techy technically 
 iabbr <buffer> mhmmm *Intense Thinking* mhmmm....
+iabbr <buffer> <expr> ttt strftime('%c')
+iabbr <buffer> cbx - [ ] 
+
+
+

@@ -1,7 +1,22 @@
 
 vim.cmd('runtime /ftplugin/textSetting.vim')
 
+--┌────────────────────────────────────────────────────────────────────────────┐
+--│                                Abbrivations                                │
+--└────────────────────────────────────────────────────────────────────────────┘
+vim.cmd([[
+iabbr <buffer> h1 # 
+iabbr <buffer> h2 ## 
+iabbr <buffer> h3 ### 
+iabbr <buffer> h4 #### 
+iabbr <buffer> h5 ##### 
+iabbr <buffer> h6 ###### 
+]])
+
 local q = require"vim.treesitter.query"
+local tsutil = require'nvim-treesitter.ts_utils'
+local ts = require'nvim-treesitter'
+
 local NAMESPACE = vim.api.nvim_create_namespace("headline_star")
 
 local the_query = [[
@@ -17,6 +32,8 @@ local the_query = [[
                 (fenced_code_block) @codeblock
                 (block_quote_marker) @quote
                 (block_quote (paragraph (inline (block_continuation) @quote)))
+		(task_list_marker_unchecked) @uncheckBox
+		(task_list_marker_checked) @checkBox
 ]]
 
 local parse_query_save = function(language, query)
@@ -29,6 +46,23 @@ end
 
 query_md = parse_query_save('markdown',the_query)
 
+local function setExtmark(start_row,end_row,end_col,hl_group,conceal,start_col)
+	start_col = start_col or 0
+	vim.api.nvim_buf_set_extmark(0,NAMESPACE,start_row,0,
+	{
+	    end_row = end_row + 1,
+	    -- virt_text = {{"✿","function"}}, virt_text_pos = 'overlay'
+	    hl_group = hl_group,
+	})
+	vim.api.nvim_buf_set_extmark(0,NAMESPACE,start_row,start_col,
+	{
+	    end_col = end_col,
+	    -- virt_text = {{"✿","function"}}, virt_text_pos = 'overlay'
+	    conceal = conceal,
+	    hl_group = hl_group,
+	})
+end
+
 function refresh()
     	vim.api.nvim_buf_clear_namespace(0, NAMESPACE, 0, -1)
 	local language_tree = vim.treesitter.get_parser(0, 'markdown')
@@ -39,25 +73,22 @@ function refresh()
 	for _, captures, metadata in query_md:iter_matches(root, 0) do
 		for id, node in pairs(captures) do
 		    local capture = query_md.captures[id]
+		    -- print(capture, node)
 		    local start_row, start_column, end_row, _ =
 			unpack(vim.tbl_extend("force", { node:range() }, (metadata[id] or {}).range or {}))
-		    local level = #q.get_node_text(node,0)
-		    -- print(id,node,capture, q.get_node_text(node,bufnr),level,headlines[level], start_row,start_column,end_row)
-
+		    -- print(id,node,capture, q.get_node_text(node,0),start_row,start_column,end_row)
 		    if capture == "headline" then
-			vim.api.nvim_buf_set_extmark(0,NAMESPACE,start_row,0,
-			{
-			    end_row = end_row + 1,
-			    -- virt_text = {{"✿","function"}}, virt_text_pos = 'overlay'
-			    hl_group = 'markdownH'..level,
-			})
-			vim.api.nvim_buf_set_extmark(0,NAMESPACE,start_row,0,
-			{
-			    end_col = level,
-			    -- virt_text = {{"✿","function"}}, virt_text_pos = 'overlay'
-			    conceal = headlines[level],
-			    hl_group = 'markdownH'..level,
-			})
+			local level = #q.get_node_text(node,0)
+			setExtmark(start_row,end_row,level,"markdownH"..level,headlines[level])
+		     elseif capture == "uncheckBox" then
+
+			-- print(capture, q.get_node_text(node:next_sibling(),0),start_row,start_column)
+			local level = "[ ]"
+			-- setExtmark(start_row,end_row,start_column +#level,"markdownH6","",start_column)
+			setExtmark(start_row,end_row,start_column + #level,"markdownH6","", start_column)
+		     elseif capture == "checkBox" then
+			local level = "[x]"
+			setExtmark(start_row,end_row, start_column + #level,"TSComment","", start_column)
 		    end
 
 		end
@@ -102,13 +133,15 @@ function insert_headline(data,previous_heading,text)
 	if previous_heading.index ~= #data then
 		target_row = data[previous_heading.index + 1].start_row
 		target_end = target_row
+		cursor_target = target_row +1
 	else
 		target_row = -2
 		target_end = -1
+		cursor_target = vim.api.nvim_buf_line_count(0)
 	end
 
 	vim.api.nvim_buf_set_lines(0,target_row,target_end,false,{text})
-	vim.api.nvim_win_set_cursor(0,{target_row + 1, 0})
+	vim.api.nvim_win_set_cursor(0,{cursor_target, 0})
 end
 
 function add_neighbour_heading()
@@ -139,8 +172,35 @@ function add_outer_heading()
 	insert_headline(data,previous_heading,text_ready)
 end
 
+function toggleCheckBox()
+	save_current_cursor = vim.api.nvim_win_get_cursor(0)
+	-- the reason i do this instead of setting curosr at 0,0 is cuz of ts with "block_continuation" mess up, 
+	-- but with '^' which go to first char of line...is ideal.
+	vim.api.nvim_exec("normal ^",nil)
+	node = tsutil.get_node_at_cursor(0)
+	child = node:next_sibling()
+	text = nil
+	print(node:type(),node:child_count())
+	if node:type() == "list_marker_minus" then
+		if child:type() == "task_list_marker_unchecked" then
+			-- text = "- [x] "
+			text = "[x] "
+		elseif child:type() == "task_list_marker_checked" then
+			text = "[ ] "
+		end
+	end
+	if text then
+		-- text = text .. q.get_node_text(child:next_sibling(), 0)
+		sr,sc,er,ec = child:range()
+		vim.api.nvim_buf_set_text(0,sr,sc,er,ec,{text})
+	end
+	--restore to current cursor.
+	vim.api.nvim_win_set_cursor(0,save_current_cursor)
+
+end
+
 local markdownHeadlineStar = vim.api.nvim_create_augroup('markdownHeadlineStar', { clear = true })
-vim.api.nvim_create_autocmd({ 'BufEnter', 'TextChanged', 'InsertLeave' }, {
+vim.api.nvim_create_autocmd({ 'BufEnter','InsertLeave' }, {
     group = markdownHeadlineStar,
     desc = 'Show star conceal and highlight.',
     callback = function()
@@ -148,8 +208,8 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'TextChanged', 'InsertLeave' }, {
     end
 })
 
-
 -- vim.api.nvim_buf_set_keymap(0,'n','<leader>oh',[[:lua print(vim.inspect(find_headline()))]], {noremap = true})
 vim.api.nvim_buf_set_keymap(0,'n','<leader>oh',[[:lua add_neighbour_heading()<CR>A]], {noremap = true, desc = "Add Neighbour Heading"})
 vim.api.nvim_buf_set_keymap(0,'n','<leader>oih',[[:lua add_inner_heading()<CR>A]], {noremap = true, desc = "Add Inner Heading"})
 vim.api.nvim_buf_set_keymap(0,'n','<leader>ooh',[[:lua add_outer_heading()<CR>A]], {noremap = true, desc = "Add Outer Heading"})
+vim.api.nvim_buf_set_keymap(0,'n','<leader>c',[[:lua toggleCheckBox()<CR>]], {noremap = true, desc = "Toggle Checkbox"})
