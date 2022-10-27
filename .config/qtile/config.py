@@ -731,7 +731,9 @@ group_names = [("|1|MAIN", {'layout': 'monadtall'}),
                    Match(wm_class="Zathura"),
                    Match(wm_class="cherrytree"),
                ]}),
-               ("|7|Extra", {'layout': 'monadtall'}),
+               ("|7|Extra", {'layout': 'monadtall',"matches":[
+                    Match(wm_class="Lorien")
+                ]}),
                ("|8|VID", {'layout': 'monadtall',"matches":[
                     Match(wm_class="mpv"),
                     Match(wm_class="vlc"),
@@ -803,7 +805,11 @@ layouts = [
     # layout.Matrix(**layout_theme),
     #layout.Zoomy(**layout_theme),
     layout.MonadTall(**layout_theme),
-    layout.Max(**layout_theme),
+    layout.Max(
+        border_width= 2,
+        border_focus= colors.teal,
+        border_normal= "1D2330",
+    ),
     # layout.Tile(shift_windows=True, **layout_theme),
     layout.Stack(num_stacks=2),
     layout.TreeTab(

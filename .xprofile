@@ -44,6 +44,12 @@ else
     synology-drive autostart &
 fi
 
+if pgrep huion >/dev/null
+then
+    echo "its running"
+else
+    sh ~/huion/huiontablet/huiontablet.sh &
+fi
 
 #if pgrep cmus >/dev/null
 #then
