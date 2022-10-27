@@ -18,6 +18,12 @@ aucmd('Termopen',{
     command = 'setlocal listchars= nonumber norelativenumber',
     desc = "Setting terminal minimal, we dont want any unnecessary ",
 })
+aucmd('VimLeave',{
+    group = 'terminal_job',
+    pattern = '*',
+    command = 'set guicursor=a:block-blinkon0',
+    desc = "Fix Cursor issues?",
+})
 
 augroup('resize_windows_proportionally',{clear = true})
 aucmd('VimResized',{

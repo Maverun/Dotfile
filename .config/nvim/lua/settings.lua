@@ -172,7 +172,9 @@ else
 end
 ]]
 
-require'autolist'.setup({})
+-- require'autolist'.setup({})
+require("symbols-outline").setup()
+
 require'mind'.setup({
     persistence = {
 	state_path = '/ext_drive/SynologyDrive/NotesTaking/mind.json',

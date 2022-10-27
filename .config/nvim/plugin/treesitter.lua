@@ -9,8 +9,8 @@ require('nvim-treesitter.configs').setup{
         additional_vim_regex_highlighting = true -- <= THIS LINE is the magic! for spelling
     },
     indent = {
-        enable = true,
-        diable = {'python','orgmode'},
+        enable = false,
+        -- diable = {'python','orgmode'},
     },
     autotag = {enable = true},
     incremental_selection = {enable = true,
