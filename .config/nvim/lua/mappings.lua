@@ -152,8 +152,6 @@ map(n,'<Esc><Esc>',':call firenvim#focus_page()<CR>')
 -- └───────────────────────────────────────────────────────────────────────────┘
 
 -- hop.nvim
--- map({n,v,o},'s','<cmd>HopWordAC<CR>',{desc="HOP TO NEXT FOLKS!"})
--- map({n,v,o},'S','<cmd>HopWordBC<CR>',{desc="HOP TO PREVIOUS FOLKS!"})
 map({n,v,o},'S',':lua require"hop".hint_words({current_line_only = true,})<CR>',{desc="HOP within current line!"})
 map({n,v,o},'s','<cmd>HopWord<CR>',{desc="HOP!"})
 
@@ -232,8 +230,6 @@ map('t', '<leader>tt','<C-\\><C-n>:lua require("FTerm").toggle()<cr>', {desc = '
 map(n, '<leader>tp',':lua require("FTerm").run("python ' .. vim.fn.expand("%:t")..'")<CR>', { desc = "Run Python Terminal"})
 map(n, '<leader>tj',':lua require("FTerm").run("javac ' .. vim.fn.expand("%:t")..' && java '.. vim.fn.expand("%:t:r") ..'")<CR>', { desc = "Run Java Terminal"})
 
--- map({i,v,'s'},'<C-E>',[[luasnip#choice_active()?'<Plug>luasnip-next-choice':'<C-E>']],{silent = true, expr = true,noremap = false})
--- map({i,v,'s'},'<C-E>','<Plug>luasnip-next-choice',{noremap = false})
 vim.api.nvim_set_keymap("i", "<C-E>", "<Plug>luasnip-next-choice", {})
 vim.api.nvim_set_keymap("s", "<C-E>", "<Plug>luasnip-next-choice", {})
 
