@@ -113,19 +113,21 @@ function M.mind_nvim_control_win_size()
     current_size = vim.api.nvim_win_get_width(0)
     -- if we are less than 2, it is fine but more than 2 window, we need to narrow down mind.
     -- this can happen often when you open up mind files.
-    if #wininfo < 3 then return end
+    -- if #wininfo < 3 then return end
     local setWidth = require'mind'.opts.ui.width
     local targetwin = cwind
     for _, win in pairs(wininfo) do
+        -- print(_,win['bufnr'], win['variables']['netrw_prvfile'])
         -- get filetype of that window it checking and compare if that where I am in.
         local ft = vim.api.nvim_buf_get_option(win['bufnr'], 'filetype')
         if ft == "mind" and cwind ~= win['winid'] then
             setWidth = 10
             targetwin = win['winid']
         end
-        if ft == "mind" then break end
+        if ft == "mind" then
+            vim.api.nvim_win_set_width(targetwin,setWidth)
+        end
     end
-    vim.api.nvim_win_set_width(targetwin,setWidth)
 
 
 end

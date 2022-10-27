@@ -20,28 +20,28 @@ local ts = require'nvim-treesitter'
 local NAMESPACE = vim.api.nvim_create_namespace("headline_star")
 
 local the_query = [[
-                (atx_heading [
-                    (atx_h1_marker)
-                    (atx_h2_marker)
-                    (atx_h3_marker)
-                    (atx_h4_marker)
-                    (atx_h5_marker)
-                    (atx_h6_marker)
-                ] @headline)
-                (thematic_break) @dash
-                (fenced_code_block) @codeblock
-                (block_quote_marker) @quote
-                (block_quote (paragraph (inline (block_continuation) @quote)))
+		(atx_heading [
+		    (atx_h1_marker)
+		    (atx_h2_marker)
+		    (atx_h3_marker)
+		    (atx_h4_marker)
+		    (atx_h5_marker)
+		    (atx_h6_marker)
+		] @headline)
+		(thematic_break) @dash
+		(fenced_code_block) @codeblock
+		(block_quote_marker) @quote
+		(block_quote (paragraph (inline (block_continuation) @quote)))
 		(task_list_marker_unchecked) @uncheckBox
 		(task_list_marker_checked) @checkBox
 ]]
 
 local parse_query_save = function(language, query)
-    local ok, parsed_query = pcall(vim.treesitter.parse_query, language, query)
-    if not ok then
-        return nil
-    end
-    return parsed_query
+	local ok, parsed_query = pcall(vim.treesitter.parse_query, language, query)
+	if not ok then
+		return nil
+	end
+	return parsed_query
 end
 
 query_md = parse_query_save('markdown',the_query)
@@ -49,22 +49,22 @@ query_md = parse_query_save('markdown',the_query)
 local function setExtmark(start_row,end_row,end_col,hl_group,conceal,start_col)
 	start_col = start_col or 0
 	vim.api.nvim_buf_set_extmark(0,NAMESPACE,start_row,0,
-	{
-	    end_row = end_row + 1,
-	    -- virt_text = {{"✿","function"}}, virt_text_pos = 'overlay'
-	    hl_group = hl_group,
+		{
+			end_row = end_row + 1,
+			-- virt_text = {{"✿","function"}}, virt_text_pos = 'overlay'
+			hl_group = hl_group,
 	})
 	vim.api.nvim_buf_set_extmark(0,NAMESPACE,start_row,start_col,
-	{
-	    end_col = end_col,
-	    -- virt_text = {{"✿","function"}}, virt_text_pos = 'overlay'
-	    conceal = conceal,
-	    hl_group = hl_group,
+		{
+			end_col = end_col,
+			-- virt_text = {{"✿","function"}}, virt_text_pos = 'overlay'
+			conceal = conceal,
+			hl_group = hl_group,
 	})
 end
 
 function refresh()
-    	vim.api.nvim_buf_clear_namespace(0, NAMESPACE, 0, -1)
+	vim.api.nvim_buf_clear_namespace(0, NAMESPACE, 0, -1)
 	local language_tree = vim.treesitter.get_parser(0, 'markdown')
 	local syntax_tree = language_tree:parse()
 	local root = syntax_tree[1]:root()
@@ -72,24 +72,76 @@ function refresh()
 	headlines = { "◉", "✿", "✦", "¤", "⚪", "✸" }
 	for _, captures, metadata in query_md:iter_matches(root, 0) do
 		for id, node in pairs(captures) do
-		    local capture = query_md.captures[id]
-		    -- print(capture, node)
-		    local start_row, start_column, end_row, _ =
+			local capture = query_md.captures[id]
+			-- print(capture, node)
+			local start_row, start_column, end_row, _ =
 			unpack(vim.tbl_extend("force", { node:range() }, (metadata[id] or {}).range or {}))
-		    -- print(id,node,capture, q.get_node_text(node,0),start_row,start_column,end_row)
-		    if capture == "headline" then
-			local level = #q.get_node_text(node,0)
-			setExtmark(start_row,end_row,level,"markdownH"..level,headlines[level])
-		     elseif capture == "uncheckBox" then
+			-- print(id,node,capture, q.get_node_text(node,0),start_row,start_column,end_row)
+			if capture == "headline" then
+				local level = #q.get_node_text(node,0)
+				setExtmark(start_row,end_row,level,"markdownH"..level,headlines[level])
 
-			-- print(capture, q.get_node_text(node:next_sibling(),0),start_row,start_column)
-			local level = "[ ]"
-			-- setExtmark(start_row,end_row,start_column +#level,"markdownH6","",start_column)
-			setExtmark(start_row,end_row,start_column + #level,"markdownH6","", start_column)
-		     elseif capture == "checkBox" then
-			local level = "[x]"
-			setExtmark(start_row,end_row, start_column + #level,"TSComment","", start_column)
-		    end
+				
+				-- print("heading..", q.get_node_text(node,0))
+				headline_content_node = node:next_sibling()
+				headline_content = q.get_node_text(headline_content_node,0)
+				-- if q.get_node_text(headline_content,0):match("<DAILY>") then
+				
+				reset_daily = headline_content:match("DAILY")
+				reset_weekly = headline_content:match("WEEKLY")
+				if reset_daily or reset_weekly then
+					current_time = os.time()
+					previous_epoc = headline_content:match("%d+")
+					-- confirm if it first time or not.
+					if not headline_content:match("%d+") then
+						print("is first timer")
+						headline_content = string.format("%s%s - <%d>",string.rep("#",level),headline_content,os.time())
+						vim.api.nvim_buf_set_lines(0, start_row,start_row+1,0,{headline_content})
+					elseif reset_daily then
+						print("right here, checking ")
+						previous_time = os.date("%d",previous_epoc)
+						reset_daily = previous_time ~= os.date("%d",current_time)
+
+					elseif reset_weekly then
+						previous_time = os.date("%V",previous_epoc)
+						reset_weekly = previous_time ~= os.date("%V",current_time)
+					end
+
+					print(reset_daily,reset_weekly, "meaning")
+					if reset_daily or reset_weekly then
+						-- print("Nothing to reset!")
+						-- break
+					-- print('child:',q.get_node_text(child,0))
+					-- grandpa yo
+						section = node:parent():parent()
+
+						-- section_start = headline_section:start()
+						-- print(vim.inspect(section_start))
+						lines = vim.api.nvim_buf_get_lines(0,section:start(),section:end_(),0)
+						print(vim.inspect(lines))
+						new_line = {}
+						for __, line in pairs(lines) do
+							if __ == 1 then
+								str = string.gsub(line,"%d+",os.time())
+							else
+								str = string.gsub(line,"[x]"," ")
+							end
+							table.insert(new_line,str)
+						end
+						print(vim.inspect(new_line))
+						vim.api.nvim_buf_set_lines(0,section:start(),section:end_(),0,new_line)
+					end
+				end
+			elseif capture == "uncheckBox" then
+
+				-- print(capture, q.get_node_text(node:next_sibling(),0),start_row,start_column)
+				local level = "[ ]"
+				-- setExtmark(start_row,end_row,start_column +#level,"markdownH6","",start_column)
+				setExtmark(start_row,end_row,start_column + #level,"markdownH6","", start_column)
+			elseif capture == "checkBox" then
+				local level = "[x]"
+				setExtmark(start_row,end_row, start_column + #level,"TSComment","", start_column)
+			end
 
 		end
 	end
@@ -103,8 +155,8 @@ function find_all_headline()
 	local data = {}
 	for _, captures, metadata in query_md:iter_matches(root, 0,0,0) do
 		for id, node in pairs(captures) do
-		    local capture = query_md.captures[id]
-		    local start_row, start_column, end_row, _ =
+			local capture = query_md.captures[id]
+			local start_row, start_column, end_row, _ =
 			unpack(vim.tbl_extend("force", { node:range() }, (metadata[id] or {}).range or {}))
 			if capture == "headline" then
 				hold = {start_row = start_row, end_row = end_row, level = #q.get_node_text(node,0),index = #data + 1}
@@ -182,7 +234,7 @@ function toggleCheckBox()
 	text = nil
 	print(node:type(),node:child_count())
 	if node:type() == "list_marker_minus" then
-		if child:type() == "task_list_marker_unchecked" then
+	if child:type() == "task_list_marker_unchecked" then
 			-- text = "- [x] "
 			text = "[x] "
 		elseif child:type() == "task_list_marker_checked" then
@@ -200,12 +252,12 @@ function toggleCheckBox()
 end
 
 local markdownHeadlineStar = vim.api.nvim_create_augroup('markdownHeadlineStar', { clear = true })
-vim.api.nvim_create_autocmd({ 'BufEnter','InsertLeave' }, {
-    group = markdownHeadlineStar,
-    desc = 'Show star conceal and highlight.',
-    callback = function()
-	refresh()
-    end
+vim.api.nvim_create_autocmd({ 'BufEnter','TextChanged','InsertLeave' }, {
+	group = markdownHeadlineStar,
+	desc = 'Show star conceal and highlight.',
+	callback = function()
+		refresh()
+	end
 })
 
 -- vim.api.nvim_buf_set_keymap(0,'n','<leader>oh',[[:lua print(vim.inspect(find_headline()))]], {noremap = true})
