@@ -39,7 +39,7 @@ opt.writebackup = false         -- similar as backup setting
 opt.swapfile = false         -- similar as backup setting
 
 opt.clipboard = 'unnamedplus'  -- allow to merge with system clipboard
-opt.cmdheight = 1              -- set command height 1
+opt.cmdheight = 0              -- set command height 0
 
 opt.updatetime = 300
 opt.timeoutlen = 200
