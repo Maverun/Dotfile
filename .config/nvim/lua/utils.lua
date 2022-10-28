@@ -245,20 +245,36 @@ end
 -- the below can be mapped to arrows and will work similar to the tmux binds
 -- map to: "<cmd>lua require'utils'.resize(false, -5)<CR>"
 M.resize = function(vertical, margin)
+    -- what a point of resize if there is only one window!?
+    local wininfo = vim.fn.getwininfo()
+    if #wininfo == 1 then return end
+
     local cur_win = vim.api.nvim_get_current_win()
-    -- go (possibly) right
     vim.cmd(string.format('wincmd %s', vertical and 'l' or 'j'))
     local new_win = vim.api.nvim_get_current_win()
 
+    -- we will first check if it gonna be resize height and then we need to check if there is multi row window
+    -- otherwise it would resize height OF CMD LINE, which can reset if cmdheight=0
+    -- REMINDER: vertical are for horizontally resize....
+    if cur_win == new_win and not vertical then
+        -- since we did j, but what of k...
+        vim.cmd('wincmd k')
+        local new_win2 = vim.api.nvim_get_current_win()
+        -- if it match, then that mean there is only one window in that area.
+        if cur_win == new_win2 then
+            return
+        end
+    end
+
     -- determine direction cond on increase and existing right-hand buffer
-    local not_last = not (cur_win == new_win)
+    -- if both are same then we will flip sign
     local sign = margin > 0
-    -- go to previous window if required otherwise flip sign
-    if not_last == true then
-        vim.cmd [[wincmd p]]
-    else
+    if cur_win == new_win then
         sign = not sign
     end
+
+    -- Just in case, we want to return to where we were at before run this function.
+    vim.api.nvim_set_current_win(cur_win)
 
     sign = sign and '+' or '-'
     local dir = vertical and 'vertical ' or ''
