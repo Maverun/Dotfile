@@ -1,0 +1,54 @@
+#!/usr/bin/sh
+
+#MONITOR
+
+# --output DVI-D-0 --mode 1920x1080 --pos 4480x1440 --rotate normal 
+# --output HDMI-0 --primary --mode 2560x1440 --pos 1920x1080 --rotate normal 
+# --output HDMI-1 --mode 1920x1080 --pos 2240x0 --rotate normal 
+# --output DP-0 --mode 1920x1080 --pos 0x1440 --rotate normal 
+# --output DP-1 --off 
+# --output DP-2 --off 
+# --output DP-3 --off
+
+TotalMonitor=("HDMI-1" "DP-1" "DP-2" "DP-3")
+Data="$(xrandr| grep ' connected' | awk '{print $1}')"
+# DataDC="$(xrandr| grep 'disconnected' | awk '{print $1}')"
+DataDC=(`echo ${TotalMonitor[@]} ${Data[@]} | tr ' ' '\n' | sort | uniq -u `)
+Output="xrandr "
+
+# xrandr -s 0
+
+echo "Connect Monitor List"
+echo ${Data[@]}
+echo "Disconnected Monitor List"
+echo ${DataDC[@]}
+echo "Begin string"
+
+for i in $Data
+do
+	echo "Connect $i"
+	if [[ $i == "HDMI-1" ]]; then
+		Output+="--output ${i} --mode 1920x1080 --pos 4480x1440 "
+		# xrandr --output DVI-D-0 --mode 1920x1080 --pos 4480x360
+	elif [[ $i == "DP-1" ]]; then
+		Output+="--output ${i} --primary --mode 2560x1440 --pos 1920x1080 --rate 140 "
+		# xrandr --output HDMI-0 --primary --mode 2560x1440 --pos 1920x0 
+	elif [[ $i == "DP-3" ]]; then
+		Output+="--output ${i} --mode 1920x1080 --pos 2240x0 "
+		# xrandr --output HDMI-1 --mode 1920x1080 --above HDMI-0
+	elif [[ $i == "DP-2" ]]; then
+		Output+="--output ${i} --mode 1920x1080 --pos 0x1440 "
+		# xrandr --output DP-0 --mode 1920x1080 --left-of HDMI-0 --pos 0x360
+	fi
+done
+
+
+for i in $DataDC
+do
+	echo "DC" $i
+	Output+="--output ${i} --off "
+done
+
+echo "${Output}"
+${Output}
+

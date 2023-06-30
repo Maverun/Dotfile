@@ -1,0 +1,52 @@
+#!/usr/bin/sh
+
+# swaybg --image $(find ~/Wallpaper/Wallpaper -type f | shuf -n 1) &
+
+sleep 10
+
+xbindkeys -p  # disable middle click paste!
+task sync &
+
+firefox &
+
+process_list=(waybar gammastep discord-canary clipmenud thunderbird kdeconnect-app dunst)
+
+
+for p in "${process_list[@]}"
+do
+    if pgrep -x $p >/dev/null
+    then
+        echo "its running"
+    else
+        $p &
+    fi
+done
+sleep 30 && kitty -o 'map kitty_mod+e kitten hints --customize-processing weechat_hints.py' --class=weechat weechat &
+
+kitty --class=trackma trackma &
+
+if pgrep protonmail >/dev/null
+then
+    echo "its running"
+else
+    protonmail-bridge --no-window &
+fi
+
+if ps aux | grep SynologyDrive | grep -v grep >/dev/null 
+then
+    echo "its running"
+else
+    synology-drive autostart &
+fi
+
+# if pgrep huion >/dev/null
+# then
+#     echo "its running"
+# else
+#     sh ~/huion/huiontablet/huiontablet.sh &
+# fi
+#
+
+
+timeshift --create --comments "Daily backup" &
+
