@@ -1,0 +1,6 @@
+
+
+
+focusedWorkspace=$(swaymsg -t get_workspaces | jq -j '.. | select(.type?) | select(.focused) | (.num)')
+
+

@@ -1,0 +1,401 @@
+# Default config for sway
+#
+# Copy this to ~/.config/sway/config and edit it to your liking.
+#
+# Read `man 5 sway` for a complete reference.
+
+# Monitor setup
+
+output DP-1 pos 1920 1080 res 2560x1440@170hz
+output DP-2 pos 0 1440 res 1920x1080
+output HDMI-A-1 pos 4480 1440 res 1920x1080
+output DP-3 pos 2240 0 res 1920x1080
+
+# output DP-1 pos 2560 1440 res 2560x1440@170hz
+# output DP-2 scale 0.75 pos 0 1440 res 1920x1080
+# output HDMI-A-1 scale 0.75 pos 5120 1440 res 1920x1080
+# output DP-3 scale 0.75 pos 2560 0 res 1920x1080
+### Variables
+#
+# Logo key. Use Mod1 for Alt.
+set $sup Mod4
+set $sup_alt Mod4+Mod1
+set $sup_ctrl Mod4+Control
+set $sup_shift Mod4+Shift
+set $hyper Mod4+Control+Shift+Mod1
+
+# Home row direction keys, like vim
+set $left h
+set $down j
+set $up k
+set $right l
+
+set $defaultMode sway mode "default"
+set $script $HOME/Script
+set $wscript $HOME/.config/sway/scripts
+
+# Your preferred terminal emulator
+set $term kitty
+# Your preferred application launcher
+# Note: pass the final command to swaymsg so that the resulting window can be opened
+# on the original workspace that the command was run on.
+set $menu dmenu_path | dmenu | xargs swaymsg exec --
+
+### Output configuration
+#
+# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
+set $wallpaper_path `find $HOME/Wallpaper/Wallpaper -type f | shuf -n 1`
+# output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+#
+output * bg $wallpaper_path fill
+# output * bg exec `find $HOME/Wallpaper/Wallpaper -type f | shuf -n 1` fill
+# Example configuration:
+#
+#   output HDMI-A-1 resolution 1920x1080 position 1920,0
+#
+# You can get the names of your outputs by running: swaymsg -t get_outputs
+
+### Idle configuration
+#
+# Example configuration:
+#
+# exec swayidle -w \
+#          timeout 1200 'swaylock -f -c 000000' \
+#          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+#          before-sleep 'swaylock -f -c 000000'
+#
+# This will lock your screen after 300 seconds of inactivity, then turn off
+# your displays after another 300 seconds, and turn your screens back on when
+# resumed. It will also lock your screen before your computer goes to sleep.
+
+### Input configuration
+#
+# Example configuration:
+#
+#   input "2:14:SynPS/2_Synaptics_TouchPad" {
+#       dwt enabled
+#       tap enabled
+#       natural_scroll enabled
+#       middle_emulation enabled
+#   }
+input type:keyboard {
+    xkb_numlock enable
+    repeat_rate 40
+    repeat_delay 210
+}
+
+focus_follows_mouse no
+focus_wrapping yes
+# Drag floating windows by holding down $sup and left mouse button.
+# Resize them with right mouse button + $sup.
+# Despite the name, also works for non-floating windows.
+# Change normal to inverse to use left mouse button for resizing and right
+# mouse button for dragging.
+floating_modifier Mod1 normal
+#
+# You can get the names of your inputs by running: swaymsg -t get_inputs
+# Read `man 5 sway-input` for more information about this section.
+exec rm -f /tmp/sovpipe && mkfifo /tmp/sovpipe && tail -f /tmp/sovpipe | sov -t 500
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
+
+# ┌────────────────────────────────────────────────────────────────────────────┐
+# │                                Assign/Rules                                │
+# └────────────────────────────────────────────────────────────────────────────┘
+
+# assign [class="mpv"] number 8
+assign [app_id="mpv"] number 8
+assign [app_id="mpv"] output DP-3
+assign [class="thunderbird"] number 5
+assign [app_id="discord"] number 4
+assign [app_id="weechat"] number 4
+assign [workspace=4] output DP-2
+assign [workspace=1] output DP-1
+assign [workspace=3] output HDMI
+
+
+
+exec_always {
+    gsettings set $gnome-schema gtk-theme 'Adwaita'
+    gsettings set $gnome-schema icon-theme 'Adwaita'
+    gsettings set $gnome-schema cursor-theme 'Adwaita'
+    gsettings set $gnome-schema font-name 'Adwaita'
+}
+
+exec_always /home/maverun/.config/sway/scripts/import-gsettings
+
+### Key bindings
+# ┌────────────────────────────────────────────────────────────────────────────┐
+# │                                 Mode/Chord                                 │
+# └────────────────────────────────────────────────────────────────────────────┘
+
+# NOTE! make sure there is space between { and name of mode!
+# ALSO ADD ESCAPE KEY!
+
+mode "Screenshot" {
+    bindsym s exec grim -g "$(slurp)" -| wl-copy | sway mode "default"
+    bindsym w exec grim -g "$(swaymsg -t get_tree | jq -j '.. | select(.type?) | select(.focused).rect | "\(.x),\(.y) \(.width)x\(.height)"')" - | wl-copy | sway mode "default"
+
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+
+mode "Resize" {
+    # left will shrink the containers width
+    # right will grow the containers width
+    # up will shrink the containers height
+    # down will grow the containers height
+    bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
+
+    # Ditto, with arrow keys
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+
+mode "Program Launcher" {
+    bindsym f exec firefox | $defaultMode
+    bindsym e exec thunar | $defaultMode
+    bindsym c exec gnome-clock | $defaultMode
+    bindsym s exec ~/Script/shutdownMenu | $defaultMode
+
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+mode "Monitor Mode" {
+    bindsym 1 exec sh $wscript/inactiveWindow.sh 1Monitor | $defaultMode
+    bindsym 3 exec sh $wscript/inactiveWindow.sh 3Monitor | $defaultMode
+    bindsym 4 exec sh $wscript/inactiveWindow.sh 4Monitor | $defaultMode
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+
+bindsym $hyper+s mode "Screenshot"
+bindsym $hyper+m mode "Monitor Mode"
+bindsym $sup+r mode "Resize"
+bindsym $sup+p mode "Program Launcher"
+
+
+# ┌────────────────────────────────────────────────────────────────────────────┐
+# │                              Normal Blinding                               │
+# └────────────────────────────────────────────────────────────────────────────┘#
+    # Reload the configuration file
+    bindsym $sup+Shift+r reload
+
+    # Exit sway (logs you out of your Wayland session)
+    bindsym $sup+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+
+    # Start a terminal
+    bindsym $sup+Return exec $term
+
+    # Kill focused window
+    bindsym $sup+Shift+c kill
+
+    # Start your launcher
+    bindsym $sup+y exec $menu
+
+    # Script running
+    bindsym $hyper+e exec $script/config_edit
+    bindsym $hyper+k exec $script/kill_process
+    bindsym $hyper+f exec $script/search
+    bindsym $hyper+d exec $script/dictionary
+    bindsym $hyper+r exec $script/runScript
+    bindsym $hyper+t exec $script/add_todo 
+
+    # Music/Audio stuff
+
+    bindsym XF86AudioPlay exec python $script/mpv_cmus.py pause
+    bindsym XF86AudioStop exec python $script/mpv_cmus.py stop
+    bindsym XF86AudioPrev exec python $script/mpv_cmus.py prev
+    bindsym XF86AudioNext exec python $script/mpv_cmus.py next
+    bindsym XF86AudioMute exec /usr/bin/pulseaudio-ctl
+    bindsym XF86AudioRaiseVolume exec /usr/bin/pulseaudio-ctl up
+    bindsym XF86AudioLowerVolume exec /usr/bin/pulseaudio-ctl down
+    bindsym Shift+XF86AudioRaiseVolume cmus-remote --volume +5
+    bindsym Shift+XF86AudioLowerVolume cmus-remote --volume -5
+
+
+#
+# Moving around:
+#
+    # Move your focus around
+    bindsym $sup+$left focus left
+    bindsym $sup+$down focus down
+    bindsym $sup+$up focus up
+    bindsym $sup+$right focus right
+    # Or use $sup+[up|down|left|right]
+    bindsym $sup+Left focus left
+    bindsym $sup+Down focus down
+    bindsym $sup+Up focus up
+    bindsym $sup+Right focus right
+
+    # Move the focused window with the same, but add Shift
+    bindsym $sup+Shift+$left move left
+    bindsym $sup+Shift+$down move down
+    bindsym $sup+Shift+$up move up
+    bindsym $sup+Shift+$right move right
+    # Ditto, with arrow keys
+    bindsym $sup+Shift+Left move left
+    bindsym $sup+Shift+Down move down
+    bindsym $sup+Shift+Up move up
+    bindsym $sup+Shift+Right move right
+#
+# Workspaces:
+#
+    # Switch to workspace
+    # bindsym $sup+1 workspace number 1
+    # bindsym $sup+2 workspace number 2
+    # bindsym $sup+3 workspace number 3
+    # bindsym $sup+4 workspace number 4
+    # bindsym $sup+5 workspace number 5
+    # bindsym $sup+6 workspace number 6
+    # bindsym $sup+7 workspace number 7
+    # bindsym $sup+8 workspace number 8
+    # bindsym $sup+9 workspace number 9
+    # bindsym $sup+0 workspace number 10
+
+    # Move focused container to workspace
+    bindsym $sup+Shift+1 move container to workspace number 1
+    bindsym $sup+Shift+2 move container to workspace number 2
+    bindsym $sup+Shift+3 move container to workspace number 3
+    bindsym $sup+Shift+4 move container to workspace number 4
+    bindsym $sup+Shift+5 move container to workspace number 5
+    bindsym $sup+Shift+6 move container to workspace number 6
+    bindsym $sup+Shift+7 move container to workspace number 7
+    bindsym $sup+Shift+8 move container to workspace number 8
+    bindsym $sup+Shift+9 move container to workspace number 9
+    bindsym $sup+Shift+0 move container to workspace number 10
+
+    # move workspace to output
+    bindsym $sup+Control+Shift+$left  move workspace to output left
+    bindsym $sup+Control+Shift+$right move workspace to output right
+    bindsym $sup+Control+Shift+$up    move workspace to output up
+    bindsym $sup+Control+Shift+$down  move workspace to output down
+    # move workspace to output with arrow keys
+    bindsym $sup+Control+Shift+Left  move workspace to output left
+    bindsym $sup+Control+Shift+Right move workspace to output right
+    bindsym $sup+Control+Shift+Up    move workspace to output up
+    bindsym $sup+Control+Shift+Down  move workspace to output down
+
+    # Move window to other output but bring forcus with you
+    bindsym $sup_ctrl+h exec $wscript/moveWindowToOtherOutput.sh left
+    bindsym $sup_ctrl+j exec $wscript/moveWindowToOtherOutput.sh down
+    bindsym $sup_ctrl+k exec $wscript/moveWindowToOtherOutput.sh up
+    bindsym $sup_ctrl+l exec $wscript/moveWindowToOtherOutput.sh right
+
+
+    bindsym $sup+bracketleft workspace number 2
+    bindsym $sup+bracketright workspace number 2
+    bindsym $sup+braceright workspace number 4
+    bindsym $sup+braceleft move to workspace next
+
+    bindsym --no-repeat $sup+1 workspace number 1; exec "echo 1 > /tmp/sovpipe"
+    bindsym --no-repeat $sup+2 workspace number 2; exec "echo 1 > /tmp/sovpipe"
+    bindsym --no-repeat $sup+3 workspace number 3; exec "echo 1 > /tmp/sovpipe"
+    bindsym --no-repeat $sup+4 workspace number 4; exec "echo 1 > /tmp/sovpipe"
+    bindsym --no-repeat $sup+5 workspace number 5; exec "echo 1 > /tmp/sovpipe"
+    bindsym --no-repeat $sup+6 workspace number 6; exec "echo 1 > /tmp/sovpipe"
+    bindsym --no-repeat $sup+7 workspace number 7; exec "echo 1 > /tmp/sovpipe"
+    bindsym --no-repeat $sup+8 workspace number 8; exec "echo 1 > /tmp/sovpipe"
+    bindsym --no-repeat $sup+9 workspace number 9; exec "echo 1 > /tmp/sovpipe"
+    bindsym --no-repeat $sup+0 workspace number 10; exec "echo 1 > /tmp/sovpipe"
+
+    bindsym --release $sup+1 exec "echo 0 > /tmp/sovpipe"
+    bindsym --release $sup+2 exec "echo 0 > /tmp/sovpipe"
+    bindsym --release $sup+3 exec "echo 0 > /tmp/sovpipe"
+    bindsym --release $sup+4 exec "echo 0 > /tmp/sovpipe"
+    bindsym --release $sup+5 exec "echo 0 > /tmp/sovpipe"
+    bindsym --release $sup+6 exec "echo 0 > /tmp/sovpipe"
+    bindsym --release $sup+7 exec "echo 0 > /tmp/sovpipe"
+    bindsym --release $sup+8 exec "echo 0 > /tmp/sovpipe"
+    bindsym --release $sup+9 exec "echo 0 > /tmp/sovpipe"
+    bindsym --release $sup+0 exec "echo 0 > /tmp/sovpipe"
+
+
+    bindsym --release $sup+o exec "echo 2 > /tmp/sovpipe"
+
+    # Note: workspaces can have any name you want, not just numbers.
+    # We just use 1-10 as the default.
+#
+# Layout stuff:
+#
+    # You can "split" the current object of your focus with
+    # $sup+b or $mod+v, for horizontal and vertical splits
+    # respectively.
+    bindsym $sup+b splith
+    bindsym $sup+v splitv
+
+    # Switch the current container between different layout styles
+    bindsym $sup+s layout stacking
+    bindsym $sup+w layout tabbed
+    bindsym $sup+e layout toggle split
+
+    # Make the current focus fullscreen
+    bindsym $sup+f fullscreen
+
+    # Toggle the current focus between tiling and floating mode
+    bindsym $sup+Shift+space floating toggle
+
+    # Swap focus between the tiling area and the floating area
+    bindsym $sup+space focus mode_toggle
+
+    # Move focus to the parent container
+    bindsym $sup+a focus parent
+
+    bindsym $sup+period exec 'swayprop | xargs -0 notify-send swayprop'
+# Scratchpad:
+#
+    # Sway has a "scratchpad", which is a bag of holding for windows.
+    # You can send windows there and get them back later.
+
+    # Move the currently focused window to the scratchpad
+    bindsym $sup+Shift+minus move scratchpad
+
+    # Show the next scratchpad window or hide the focused scratchpad window.
+    # If there are multiple scratchpad windows, this command cycles through them.
+    bindsym $sup+minus scratchpad show
+
+for_window [title="trackma"] move to scratchpad
+
+bindsym $hyper+a [title="trackma"] scratchpad show
+#
+# Resizing containers:
+#
+
+#
+# Status Bar:
+#
+# Read `man 5 sway-bar` for more information about this section.
+# bar {
+#     position top
+#
+#     # When the status_command prints a new line to stdout, swaybar updates.
+#     # The default just shows the current date and time.
+#     # status_command while date +'%Y-%m-%d %I:%M:%S %p'; do sleep 1; done
+#     status_command while ~/.config/sway/status.sh; do sleep 1; done
+#
+#     colors {
+#         statusline #ffffff
+#         background #323232
+#         inactive_workspace #32323200 #32323200 #5c5c5c
+#     }
+# }
+#
+include /etc/sway/config.d/*
+
+xwayland enable
+exec /home/maverun/Script/wayland_startup
