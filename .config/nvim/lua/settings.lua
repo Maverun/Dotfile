@@ -114,23 +114,23 @@ cmd 'set viewoptions-=options'
 -- g.indent_blankline_show_first_indent_level = false
 -- g.indent_blankline_filetype_exclude = {'markdown','md','help','','dashboard'}
 
-require("indent_blankline").setup {
-    space_char_blankline = " ",
-    show_current_context = true,
-    -- show_current_context_start = true,
-    char = '│',
-    show_trailing_blankline_indent = false,
-    show_first_indent_level = false,
-    filetype_exclude = {'markdown','md','help','','dashboard'},
-}
-
-    -- fg = "#c0caf5",
-    -- fg_dark = "#a9b1d6",
-vim.cmd[[
-    highlight IndentBlanklineContextChar guifg=#a9b1d6 gui=nocombine
-    highlight IndentBlanklineContextStart guisp=#a9b1d6 gui=underline
-]]
-
+-- require("ibl").setup {
+--     space_char_blankline = " ",
+--     show_current_context = true,
+--     -- show_current_context_start = true,
+--     char = '│',
+--     show_trailing_blankline_indent = false,
+--     show_first_indent_level = false,
+--     filetype_exclude = {'markdown','md','help','','dashboard'},
+-- }
+--
+--     -- fg = "#c0caf5",
+--     -- fg_dark = "#a9b1d6",
+-- vim.cmd[[
+--     highlight IndentBlanklineContextChar guifg=#a9b1d6 gui=nocombine
+--     highlight IndentBlanklineContextStart guisp=#a9b1d6 gui=underline
+-- ]]
+--
 --FZF Notation FZF for notes
 g.nv_search_paths = {
     "/ext_drive/SynologyDrive/NotesTaking/Dev",
@@ -175,16 +175,3 @@ end
 -- require'autolist'.setup({})
 require("symbols-outline").setup()
 
-require'mind'.setup({
-    persistence = {
-	state_path = '/ext_drive/SynologyDrive/NotesTaking/mind.json',
-	data_dir = '/ext_drive/SynologyDrive/NotesTaking/',
-    },
-    edit = {
-	data_header = "---\nTitle:\t %s\nAuthor:\t Maverun\nDate:\t "..os.date("%A, %m %B %Y").."\n---\n\n"
-	-- data_header = "---Title: %s"
-    },
-    tree = {
-	automatic_data_creation = false
-    },
-})

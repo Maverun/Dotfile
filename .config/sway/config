@@ -106,10 +106,11 @@ exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
 assign [app_id="mpv"] number 8
 assign [app_id="mpv"] output DP-3
 assign [class="thunderbird"] number 5
-assign [app_id="discord"] number 4
+assign [app_id="yad"] floating enable
+assign [class="discord"] number 4
 assign [app_id="weechat"] number 4
-assign [workspace=4] output DP-2
 assign [workspace=1] output DP-1
+assign [workspace=4] output DP-2
 assign [workspace=3] output HDMI
 
 
@@ -133,7 +134,8 @@ exec_always /home/maverun/.config/sway/scripts/import-gsettings
 
 mode "Screenshot" {
     bindsym s exec grim -g "$(slurp)" -| wl-copy | sway mode "default"
-    bindsym w exec grim -g "$(swaymsg -t get_tree | jq -j '.. | select(.type?) | select(.focused).rect | "\(.x),\(.y) \(.width)x\(.height)"')" - | wl-copy | sway mode "default"
+    # bindsym w exec grim -g "$(swaymsg -t get_tree | jq -j '.. | select(.type?) | select(.focused).rect | \"\(.x),\(.y) \(.width)x\(.height)\"')" - | wl-copy | sway mode "default"
+    bindsym w exec  grim -o $(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name') - | wl-copy | sway mode "default"
 
     # Return to default mode
     bindsym Return mode "default"
@@ -356,7 +358,7 @@ bindsym $sup+p mode "Program Launcher"
     # Move focus to the parent container
     bindsym $sup+a focus parent
 
-    bindsym $sup+period exec 'swayprop | xargs -0 notify-send swayprop'
+    bindsym $sup+period exec '$wscript/swayprop | xargs -0 notify-send swayprop_notify'
 # Scratchpad:
 #
     # Sway has a "scratchpad", which is a bag of holding for windows.

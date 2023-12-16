@@ -1,5 +1,4 @@
 #!/usr/bin/sh
-
 #MONITOR
 
 # --output DVI-D-0 --mode 1920x1080 --pos 4480x1440 --rotate normal 
@@ -14,41 +13,78 @@ TotalMonitor=("HDMI-1" "DP-1" "DP-2" "DP-3")
 Data="$(xrandr| grep ' connected' | awk '{print $1}')"
 # DataDC="$(xrandr| grep 'disconnected' | awk '{print $1}')"
 DataDC=(`echo ${TotalMonitor[@]} ${Data[@]} | tr ' ' '\n' | sort | uniq -u `)
-Output="xrandr "
+# Output="xrandr "
+Output="wlr-randr "
 
+# echo "Checking if top monitor is running or not."
+if [[ "$Data" =~ (" "|^)"DP-3"(" "|$) ]]; then
+	# echo "YES DP-3 Exist (top monitor)"
+	setHeight="1440"
+	setHeightMain='1080'
+else
+	# echo "NOPE"
+	setHeight="360"
+	setHeightMain="0"
+fi
+
+# echo "Testing length"
+# echo ${#Data}
 # xrandr -s 0
 
-echo "Connect Monitor List"
-echo ${Data[@]}
-echo "Disconnected Monitor List"
-echo ${DataDC[@]}
-echo "Begin string"
+# echo "Connect Monitor List"
+# echo ${Data[@]}
+# echo "Disconnected Monitor List"
+# echo ${DataDC[@]}
+# echo "Begin string"
 
 for i in $Data
 do
-	echo "Connect $i"
-	if [[ $i == "HDMI-1" ]]; then
-		Output+="--output ${i} --mode 1920x1080 --pos 4480x1440 "
+	# echo "Connect $i"
+	if [[ $i == "HDMI-A-1" ]]; then
+		Output+="--output ${i} --mode 1920x1080 --pos 4480,$setHeight "
 		# xrandr --output DVI-D-0 --mode 1920x1080 --pos 4480x360
 	elif [[ $i == "DP-1" ]]; then
-		Output+="--output ${i} --primary --mode 2560x1440 --pos 1920x1080 --rate 140 "
+		Output+="--output ${i} --mode 2560x1440 --pos 1920,$setHeightMain "
 		# xrandr --output HDMI-0 --primary --mode 2560x1440 --pos 1920x0 
 	elif [[ $i == "DP-3" ]]; then
-		Output+="--output ${i} --mode 1920x1080 --pos 2240x0 "
+		Output+="--output ${i} --mode 1920x1080 --pos 2240,0 "
 		# xrandr --output HDMI-1 --mode 1920x1080 --above HDMI-0
 	elif [[ $i == "DP-2" ]]; then
-		Output+="--output ${i} --mode 1920x1080 --pos 0x1440 "
+		Output+="--output ${i} --mode 1920x1080 --pos 0,$setHeight "
 		# xrandr --output DP-0 --mode 1920x1080 --left-of HDMI-0 --pos 0x360
 	fi
 done
 
-
-for i in $DataDC
-do
-	echo "DC" $i
-	Output+="--output ${i} --off "
-done
-
-echo "${Output}"
+# for x in ${DataDC[@]}
+# do
+# 	echo "DC" $x
+# 	Output+="--output ${x} --off "
+# done
+#
+# echo "${Output}"
+notify-send "${Output}"
 ${Output}
+
+
+
+#back up
+
+#
+# for i in $Data
+# do
+# 	echo "Connect $i"
+# 	if [[ $i == "HDMI-1" ]]; then
+# 		Output+="--output ${i} --mode 1920x1080 --pos 4480x1440 "
+# 		# xrandr --output DVI-D-0 --mode 1920x1080 --pos 4480x360
+# 	elif [[ $i == "DP-1" ]]; then
+# 		Output+="--output ${i} --primary --mode 2560x1440 --pos 1920x1080 --rate 140 "
+# 		# xrandr --output HDMI-0 --primary --mode 2560x1440 --pos 1920x0 
+# 	elif [[ $i == "DP-3" ]]; then
+# 		Output+="--output ${i} --mode 1920x1080 --pos 2240x0 "
+# 		# xrandr --output HDMI-1 --mode 1920x1080 --above HDMI-0
+# 	elif [[ $i == "DP-2" ]]; then
+# 		Output+="--output ${i} --mode 1920x1080 --pos 0x1440 "
+# 		# xrandr --output DP-0 --mode 1920x1080 --left-of HDMI-0 --pos 0x360
+# 	fi
+# done
 

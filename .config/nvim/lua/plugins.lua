@@ -115,7 +115,7 @@ return require("packer").startup(
     }
 
     use {'knubie/vim-kitty-navigator', run = 'cp ./*.py ~/.config/kitty/'}
-    use 'hkupty/iron.nvim'
+    use 'Vigemus/iron.nvim'
 --┌────────────────────────────────────────────────────────────────────────────┐
 --│                                  Orgmode                                   │
 --└────────────────────────────────────────────────────────────────────────────┘
@@ -129,7 +129,6 @@ return require("packer").startup(
 
     use 'lervag/vimtex'
     use {'numToStr/Comment.nvim', config = function() require("Comment").setup{} end}
-    use 'phaazon/mind.nvim'
 
 end,
     {

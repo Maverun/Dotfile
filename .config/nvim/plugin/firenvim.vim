@@ -48,18 +48,12 @@ function! Delay_My_Write() abort
     call timer_start(10000, 'My_Write')
 endfunction
 
-
+" By default, it will disable, only when you want it, just enable it.
 let g:firenvim_config = { 
-    \ 'globalSettings': {
-        \ 'alt': 'all',
-    \  },
+    \ 'globalSettings': {},
     \ 'localSettings': {
         \ '.*': {
-            \ 'cmdline': 'neovim',
-            \ 'content': 'text',
-            \ 'priority': 0,
-            \ 'selector': 'textarea',
-            \ 'takeover': 'always',
+            \ 'takeover': 'never',
         \ },
     \ }
 \ }

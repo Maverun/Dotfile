@@ -108,6 +108,10 @@ alias jctl="journalctl -p 3 -xb"
 
 #Search with Package manager
 alias pacmansearch='pacman -Ss'
+# paru/pacman stuff
+alias yeet='paru -Rcs'
+alias pas="paru -Slq | fzf --multi --preview 'paru -Si {1}' | xargs -ro paru -S"
+alias upgrade='yes | paru -Syu --skipreview --sudoloop'
 
 #Disable/enable screensaver, better not to disable often but just in case you need to...
 alias disableScreenSaver='xset s off & xset s noblank & xset -dpms'
@@ -116,6 +120,7 @@ alias enableScreenSaver='xset s on & xset s blank & xset dpms'
 #SSH with kitty uses, since ssh remote does not have terminfo so we are just using alias for it
 alias ssh='kitty +kitten ssh'
 alias icat="kitty +kitten icat --align=left" #photo preview on kitty terminal. Yeah mate.
+
 
 # ┌────────────────────────────────────────────────────────────────────────────┐
 # │                                  Function                                  │
