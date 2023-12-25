@@ -48,7 +48,9 @@ case "$action" in
     ;;
     'Lock')
         notify-send "LOCKING"
-        i3lock --show-failed-attempts --color=EEEEEE --image="$LOCKSCREEN_WALLPAPER" --tiling &
+        # i3lock --show-failed-attempts --color=EEEEEE --image="$LOCKSCREEN_WALLPAPER" --tiling &
+        swaylock --show-failed-attempts --color=EEEEEE --image="$LOCKSCREEN_WALLPAPER" --scaling fill &
+
     ;;
     'Cancel')
         notify-send "System:" "Shutdown command cancelled"

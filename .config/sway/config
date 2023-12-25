@@ -103,7 +103,7 @@ exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
 # └────────────────────────────────────────────────────────────────────────────┘
 
 # assign [class="mpv"] number 8
-assign [app_id="mpv"] number 8
+assign [app_id="mpv"] number  8
 assign [app_id="mpv"] output DP-3
 assign [class="thunderbird"] number 5
 assign [app_id="yad"] floating enable
@@ -112,6 +112,8 @@ assign [app_id="weechat"] number 4
 assign [workspace=1] output DP-1
 assign [workspace=4] output DP-2
 assign [workspace=3] output HDMI
+for_window [app_id="Notetaker"] floating enable
+for_window [app_id="Notetaker"] resize set 800 800
 
 
 
@@ -134,8 +136,10 @@ exec_always /home/maverun/.config/sway/scripts/import-gsettings
 
 mode "Screenshot" {
     bindsym s exec grim -g "$(slurp)" -| wl-copy | sway mode "default"
+    bindsym Shift+s exec grim -g "$(slurp)" -| wl-copy | sway mode "default"
     # bindsym w exec grim -g "$(swaymsg -t get_tree | jq -j '.. | select(.type?) | select(.focused).rect | \"\(.x),\(.y) \(.width)x\(.height)\"')" - | wl-copy | sway mode "default"
     bindsym w exec  grim -o $(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name') - | wl-copy | sway mode "default"
+    bindsym Shift+w exec  grim -o $(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name') - | wl-copy | sway mode "default"
 
     # Return to default mode
     bindsym Return mode "default"
@@ -217,6 +221,7 @@ bindsym $sup+p mode "Program Launcher"
     bindsym $hyper+d exec $script/dictionary
     bindsym $hyper+r exec $script/runScript
     bindsym $hyper+t exec $script/add_todo 
+    bindsym $hyper+n exec kitty --class=Notetaker -c sh ~/Script/notetaker
 
     # Music/Audio stuff
 

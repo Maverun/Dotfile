@@ -4,7 +4,7 @@
 
 sleep 10
 
-xbindkeys -p  # disable middle click paste!
+# xbindkeys -p  # disable middle click paste!
 task sync &
 
 firefox &

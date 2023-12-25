@@ -24,7 +24,7 @@ local ts_utils = require "nvim-treesitter.ts_utils"
 local get_node_text = vim.treesitter.get_node_text
 
 
-vim.treesitter.set_query('c',
+vim.treesitter.query.set('c',
   'LUASnipDocMethod',
 [[
 (function_definition  
@@ -75,7 +75,7 @@ local function get_doc()
   local language_tree = vim.treesitter.get_parser(0, 'c')
   local syntax_tree = language_tree:parse()
   local root = syntax_tree[1]:root()
-  local query = vim.treesitter.get_query("c", "LUASnipDocMethod")
+  local query = vim.treesitter.query.get_query("c", "LUASnipDocMethod")
   local current_pos = vim.api.nvim_win_get_cursor(0)
   -- print(vim.inspect(current_pos))
   for _, captures, metadata in query:iter_matches(root, 0,current_pos[1],current_pos[1] +10) do

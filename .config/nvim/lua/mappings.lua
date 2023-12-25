@@ -128,8 +128,9 @@ map(v,'p','"_dP')
 -- map(v,'P','"_dP')
 
 function ruler_toggle()
-    vim.opt.ruler = not vim.opt.ruler._value
-    vim.opt.relativenumber = not vim.opt.relativenumber._value
+    vim.g.ruler_toggle_mave = not vim.g.ruler_toggle_mave
+    vim.opt.number = vim.g.ruler_toggle_mave
+    -- vim.opt.relativenumber = not vim.opt.relativenumber._value
 end
 
 function cursor_toggle()
@@ -187,10 +188,10 @@ map(n,'<M-k>',":lua require'utils'.resize(false,-2)<CR>", {silent = true})
 map(n,'<M-l>',":lua require'utils'.resize(true,2)<CR>", {silent = true})
 
 -- better window navigation
-map({t,n},'<C-h>','<C-w>h')
-map({t,n},'<C-j>','<C-w>j')
-map({t,n},'<C-k>','<C-w>k')
-map({t,n},'<C-l>','<C-w>l')
+-- map({t,n},'<C-h>','<C-w>h')
+-- map({t,n},'<C-j>','<C-w>j')
+-- map({t,n},'<C-k>','<C-w>k')
+-- map({t,n},'<C-l>','<C-w>l')
 
 --Buffer next page or previously
 map(n,"gbn",":bn<CR>")
@@ -253,11 +254,23 @@ map(n,'\\de',':lua require"dap".run_last()<CR>',{desc = "Run Last"})
 map(n,'\\sr',':vs<CR>:IronReplHere<CR>')
 
 
---┌────────────────────────────────────────────────────────────────────────────┐
---│                                 Mind.nvim                                  │
---└────────────────────────────────────────────────────────────────────────────┘
+-- Git
 
-map(n,'<leader>mo',':MindOpenMain<Cr>', {desc = "Open Mind"})
-map(n,'<leader>mc',':MindClose<Cr>', {desc='Close Mind'})
-map(n,'<leader>mp',':MindOpenProject<Cr>', {desc = "Open Mind Project"})
-map(n,'<leader>ms',':MindOpenSmartProject<Cr>', {desc = "Open Mind Smart Project"})
+map(n,'<leader>gg',':LazyGit<CR>')
+
+map(n,'\\e',':Dirbuf<CR>')
+
+vim.cmd[[
+let g:kitty_navigator_no_mapping = 1
+
+nnoremap <silent> <C-h> :KittyNavigateLeft<cr>
+nnoremap <silent> <C-j> :KittyNavigateDown<cr>
+nnoremap <silent> <C-k> :KittyNavigateUp<cr>
+nnoremap <silent> <C-l> :KittyNavigateRight<cr>
+]]
+vim.g.kitty_navigator_no_mapping = 1
+map({t,n}, '<C-h>', ":KittyNavigateLeft<CR>", {desc= "Move window to left", silent=true, noremap = true})
+map({t,n}, '<C-j>', ":KittyNavigateDown<CR>", {desc= "Move window to down", silent=true, noremap = true})
+map({t,n}, '<C-k>', ":KittyNavigateUp<CR>", {desc= "Move window to up", silent=true, noremap = true})
+map({t,n}, '<C-l>', ":KittyNavigateRight<CR>", {desc= "Move window to right", silent=true, noremap = true})
+

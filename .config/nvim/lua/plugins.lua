@@ -1,139 +1,140 @@
 -- Install packer
-local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
-
-if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-  vim.fn.execute('!git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
 end
+vim.opt.rtp:prepend(lazypath)-- using { } for using different branch , loading plugin with certain commands etc
 
-local packer = require("packer")
-local use = packer.use
+vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
 
--- using { } for using different branch , loading plugin with certain commands etc
-return require("packer").startup(
-    function()
 
-    use 'wbthomason/packer.nvim' -- Package manager
+require("lazy").setup({
 -- ┌───────────────────────────────────────────────────────────────────────────┐
--- │                                Apperiances                                │
+-- │                                Appearances                                │
 -- └───────────────────────────────────────────────────────────────────────────┘
 
-    --use 'tiagovla/tokyodark.nvim'                          -- Colorscheme
-    use 'folke/tokyonight.nvim'
-    use 'kyazdani42/nvim-web-devicons'                       -- Icon and so on for more conviences
-    use 'lukas-reineke/indent-blankline.nvim' -- to display indent line
-    use 'norcalli/nvim-colorizer.lua'                      -- to show what color look like
-    use 'kshenoy/vim-signature'                            -- To display where MARK is at (ma, mb ) etc
-    use 'glepnir/dashboard-nvim'                           -- Home page of Neovim
-    use 'nvim-lualine/lualine.nvim'
-    use 'SmiteshP/nvim-navic'
+    --'tiagovla/tokyodark.nvim'                          -- Colorscheme
+    'folke/tokyonight.nvim',
+    'kyazdani42/nvim-web-devicons',                       -- Icon and so on for more conviences
+    'lukas-reineke/indent-blankline.nvim',              -- to display indent line
+    'norcalli/nvim-colorizer.lua',                      -- to show what color look like
+    'kshenoy/vim-signature',                            -- To display where MARK is at (ma, mb ) etc
+    'glepnir/dashboard-nvim',                           -- Home page of Neovim
+    'nvim-lualine/lualine.nvim',
+    'SmiteshP/nvim-navic',
 
--- ┌───────────────────────────────────────────────────────────────────────────┐
--- │                                   Auto                                    │
--- └───────────────────────────────────────────────────────────────────────────┘
+--  ┌───────────────────────────────────────────────────────────────────────────┐
+--  │                                   Auto                                    │
+--  └───────────────────────────────────────────────────────────────────────────┘
 
-    use 'windwp/nvim-autopairs'  -- Auto pairs for ( [ {
-    use 'windwp/nvim-ts-autotag'                             -- auto tag and allow to auto retag, useful for html related fields
-    use 'p00f/nvim-ts-rainbow'  -- Rainbow parenthesis etc
-    use 'wakatime/vim-wakatime' -- Waka time
-    use 'zhimsel/vim-stay'      -- Remember fold, cursor etc
-    use "folke/which-key.nvim"                               -- Reminder what key combination you could press upon prefix
+    'windwp/nvim-autopairs',  -- Auto pairs for ( [ {
+    'windwp/nvim-ts-autotag',                             -- auto tag and allow to auto retag, useful for html related fields
+    'p00f/nvim-ts-rainbow',  -- Rainbow parenthesis etc
+    --, 'wakatime/vim-wakatime' -- Waka time
+    'zhimsel/vim-stay',      -- Remember fold, cursor etc
+    "folke/which-key.nvim",                               -- Reminder what key combination you could press upon prefix
 
--- ┌───────────────────────────────────────────────────────────────────────────┐
--- │                                Navagation                                 │
--- └───────────────────────────────────────────────────────────────────────────┘
+--  ┌───────────────────────────────────────────────────────────────────────────┐
+--  │                                Navagation                                 │
+--  └───────────────────────────────────────────────────────────────────────────┘
 
-    use 'unblevable/quick-scope' -- Show highlight key for f,F,t,T, best thing.
-    use 'simrat39/symbols-outline.nvim' --display tags
+    'unblevable/quick-scope', -- Show highlight key for f,F,t,T, best thing.
+    'simrat39/symbols-outline.nvim', --display tags
 
-    use {'phaazon/hop.nvim',config=function() require'hop'.setup() end}
+    {'phaazon/hop.nvim',config=function() require'hop'.setup() end},
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                   Notes                                   │
 -- └───────────────────────────────────────────────────────────────────────────┘
 
 
-    use 'godlygeek/tabular'
-    use 'plasticboy/vim-markdown' --vim markdown for vimwiki
-    -- use 'gaoDean/autolist.nvim' --auto list for you.
+    'plasticboy/vim-markdown', --vim markdown for vimwiki
+    'dkarter/bullets.vim',
+    -- 'gaoDean/autolist.nvim' --auto list for you.
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                LSP Relate                                 │
 -- └───────────────────────────────────────────────────────────────────────────┘
 
-    use 'neovim/nvim-lspconfig'                             -- LSP Config that allow us to use instead of coc
-    use 'williamboman/nvim-lsp-installer'
-    use 'brymer-meneses/grammar-guard.nvim'
+    'neovim/nvim-lspconfig',                             -- LSP Config that allow us to use instead of coc
+    'williamboman/mason.nvim',
+    'williamboman/mason-lspconfig.nvim',
+    'brymer-meneses/grammar-guard.nvim',
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                Essentials                                 │
 -- └───────────────────────────────────────────────────────────────────────────┘
 
-    use 'tpope/vim-fugitive'                                 -- GIT
-    use 'tpope/vim-sleuth'                                 -- auto ajust shiftwidth/expandtab
-    use 'numtostr/FTerm.nvim'                               -- Floating Terminal
+    'tpope/vim-fugitive',                                 -- GIT
+    'tpope/vim-sleuth',                                 -- auto ajust shiftwidth/expandtab
+    'numtostr/FTerm.nvim',                               -- Floating Terminal
 
-    --use 'junegunn/fzf'                                      -- Allowing Fuzzle Finder Search!
-    --use 'junegunn/fzf.vim'                                  -- FZF well u know fuzzy finder thingy
+    --'junegunn/fzf'                                      -- Allowing Fuzzle Finder Search!
+    --'junegunn/fzf.vim'                                  -- FZF well u know fuzzy finder thingy
 
-    --use 'jalvesaq/Nvim-R'                                    -- In replace of Rstudio
-    use 'ekickx/clipboard-image.nvim'                        -- Allow to paste img as a url of path (Auto create picture files locally)
-    use 'Djancyp/cheat-sheet' -- using cheat.sh while in nvim.
-    use {'nvim-treesitter/nvim-treesitter', run =':TSUpdate'}-- Treesitter rules all
-    use 'nvim-treesitter/playground'                        -- Allow to Debug
-    use 'nvim-treesitter/nvim-treesitter-textobjects'
+    --'jalvesaq/Nvim-R'                                    -- In replace of Rstudio
+    'ekickx/clipboard-image.nvim',                        -- Allow to paste img as a url of path (Auto create picture files locally)
+    'Djancyp/cheat-sheet', -- using cheat.sh while in nvim.
+    {'nvim-treesitter/nvim-treesitter', run =':TSUpdate'}, -- Treesitter rules all
+    'nvim-treesitter/playground',                        -- Allow to Debug
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    "luckasRanarison/tree-sitter-hypr",
 
-    use 'hrsh7th/nvim-cmp'                                -- Similar as Coc, to complete menu etc
-    use 'hrsh7th/cmp-nvim-lsp'
-    use 'hrsh7th/cmp-buffer'
-    use 'hrsh7th/cmp-nvim-lua'
-    use 'hrsh7th/cmp-path'
-    use "hrsh7th/cmp-nvim-lsp-signature-help"
+    'hrsh7th/nvim-cmp',                                -- Similar as Coc, to complete menu etc
+    'hrsh7th/cmp-nvim-lsp',
+    'hrsh7th/cmp-buffer',
+    'hrsh7th/cmp-nvim-lua',
+    'hrsh7th/cmp-path',
+    "hrsh7th/cmp-nvim-lsp-signature-help",
 
-    use 'saadparwaiz1/cmp_luasnip'
-    use 'tweekmonster/startuptime.vim'                       -- Debug to see system health
-    use 'onsails/lspkind-nvim'
-    use 'nvim-lua/popup.nvim'                                -- Popup API
-    use 'nvim-lua/plenary.nvim'                              -- allow to reuse those function provided
-    use 'nvim-telescope/telescope.nvim'                      -- Powerful tools to see data
-    use 'crispgm/telescope-heading.nvim'
+    'saadparwaiz1/cmp_luasnip',
+    'tweekmonster/startuptime.vim',                       -- Debug to see system health
+    'onsails/lspkind-nvim',
+    'nvim-lua/popup.nvim',                                -- Popup API
+    'nvim-lua/plenary.nvim',                              -- allow to reuse those function provided
+    'nvim-telescope/telescope.nvim',                      -- Powerful tools to see data
+    'crispgm/telescope-heading.nvim',
 
 
-    use 'tami5/sql.nvim'
-    use "nvim-telescope/telescope-frecency.nvim"
+    'tami5/sql.nvim',
+    "nvim-telescope/telescope-frecency.nvim",
 
-    use { 'echasnovski/mini.nvim', branch = 'stable' }
+    { 'echasnovski/mini.nvim', branch = 'stable' },
 
-    use 'mfussenegger/nvim-dap'
-    use 'theHamsta/nvim-dap-virtual-text'
-    use 'rcarriga/nvim-dap-ui'
+    'mfussenegger/nvim-dap',
+    'theHamsta/nvim-dap-virtual-text',
+    'rcarriga/nvim-dap-ui',
 
-    use 'L3MON4D3/LuaSnip'
-    use 'rafamadriz/friendly-snippets'
-    use {
+    'L3MON4D3/LuaSnip',
+    'rafamadriz/friendly-snippets',
+    {
         'glacambre/firenvim',
         run = function() vim.fn['firenvim#install'](0) end
-    }
+    },
 
-    use {'knubie/vim-kitty-navigator', run = 'cp ./*.py ~/.config/kitty/'}
-    use 'Vigemus/iron.nvim'
---┌────────────────────────────────────────────────────────────────────────────┐
---│                                  Orgmode                                   │
---└────────────────────────────────────────────────────────────────────────────┘
+    {'knubie/vim-kitty-navigator', run = 'cp ./*.py ~/.config/kitty/'},
+    'Vigemus/iron.nvim',
 
-    -- use {'nvim-orgmode/orgmode', config = function()
-    --             require('orgmode').setup{}
-    --         end
-    -- }
+    'lervag/vimtex',
+    {'numToStr/Comment.nvim', config = function() require("Comment").setup{} end},
 
-
-
-    use 'lervag/vimtex'
-    use {'numToStr/Comment.nvim', config = function() require("Comment").setup{} end}
-
-end,
     {
-        display = {
-            border = { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
+        "nvim-neotest/neotest",
+        requres = {
+            "nvim-lua/plenary.nvim",
+            "nvim-treesitter/nvim-treesitter",
+            "autoinemadec/FixCursorHold.nvim"
         }
-    }
-)
+    },
+    'nvim-neotest/neotest-python',
+    'kdheepak/lazygit.nvim',
+    'elihunter173/dirbuf.nvim',
+
+})

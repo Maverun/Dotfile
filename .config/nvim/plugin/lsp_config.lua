@@ -15,6 +15,7 @@ function on_attach(client, bufnr)
         local options = { noremap = true, silent = true }
         if o then options = vim.tbl_extend('force', options, o) end
         vim.api.nvim_buf_set_keymap(bufnr, 'n', l, r, o)
+        if client['name'] == 'pylsp' then return end
         navic.attach(client,bufnr)
     end
 
@@ -108,30 +109,66 @@ local ltex_setting ={
             },
     },
 }
-local lsp_installer = require('nvim-lsp-installer')
-lsp_installer.on_server_ready(function(server)
-    local opts = { on_attach = on_attach }
 
-    -- (optional) Customize the options passed to the server
-    -- if server.name == "tsserver" then
-    --     opts.root_dir = function() ... end
-    -- end
-    if server.name == 'sumneko_lua' then
-        opts = lua_setting
-    -- elseif server.name == 'ltex' then
-    --     opts = ltex_setting
-    end
+local handlers = {
+    -- The first entry (without a key) will be the default handler
+    -- and will be called for each installed server that doesn't have
+    -- a dedicated handler
+    function (server_name)
+        if server_name == 'pylsp' then
+            require('lspconfig')["pylsp"].setup{
+                settings = {
+                    pylsp = {
+                        plugins = {
+                            pycodestyle = {
+                                ingore = {'E501'},
+                                -- maxLineLength = 100
+                            }
+                        }
+                    }
+                }
+            }
+        elseif server_name == 'yamlls' then
+            lspconfig.yamlls.setup({
+                settings = {
+                    yaml = {
+                        schemas = {
+                            -- LINK (WORK ONLY) IN LIST
+                            -- ["url"] = "/filename"
+                        }
+                    }
+                }
+            })
+        else
+        
+            require("lspconfig")[server_name].setup {
+                on_attach = on_attach
+            }
+        end
+    end,
+    -- next you can provided targeted overrides for specific servers
+    ['lua_ls'] = function()
+        lspconfig.lua_ls.setup {
+            settings = {
+                Lua = {
+                    diagnostics = {
+                        globals = { "vim" }
+                    }
+                }
+            }
+        }
+    end,
+}
 
-    -- This setup() function is exactly the same as lspconfig's setup function.
-    -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-    server:setup(opts)
-end)
---
 -- require('lspconfig')['ltex'].setup{
 --     on_attach = on_attach,
 --     settigns = ltex_setting
 -- }
 --
+require("mason").setup()
+require("mason-lspconfig").setup({ handlers = handlers})
+
+
 require("grammar-guard").init()
 -- setup LSP config
 require("lspconfig").grammar_guard.setup({

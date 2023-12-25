@@ -20,7 +20,6 @@ require("tokyonight").setup({
 }
 )
 
-
 cmd("colorscheme tokyonight")
 --highlight('TSComment','#0087ff','None')
 

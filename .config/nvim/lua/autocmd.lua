@@ -72,14 +72,6 @@ aucmd('ColorScheme',{
     desc = "change quickscope secondary color to see easier",
 })
 
-augroup('packer',{clear = true})
-aucmd('BufWritePost',{
-    group = 'packer',
-    pattern = '*',
-    command = 'PackerCompile',
-    desc = "Auto compile when you save packer files so quicker loader",
-})
-
 augroup('map_K_DOC',{clear = true})
 aucmd('FileType',{
     group = 'map_K_DOC',
@@ -113,7 +105,7 @@ aucmd('FileType',{
 augroup('wrapText',{clear = true})
 aucmd('FileType',{
     group = 'wrapText',
-    pattern = {'tex','text','org'},
+    pattern = {'md','tex','text','org'},
     callback = function()
 	vim.opt.wrap = true
 	api.nvim_buf_set_keymap(0,'n','j','gj',{noremap = true, silent = true})

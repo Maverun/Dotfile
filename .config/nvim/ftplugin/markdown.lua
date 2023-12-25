@@ -4,14 +4,14 @@ vim.cmd('runtime /ftplugin/textSetting.vim')
 --┌────────────────────────────────────────────────────────────────────────────┐
 --│                                Abbrivations                                │
 --└────────────────────────────────────────────────────────────────────────────┘
-vim.cmd([[
-iabbr <buffer> h1 # 
-iabbr <buffer> h2 ## 
-iabbr <buffer> h3 ### 
-iabbr <buffer> h4 #### 
-iabbr <buffer> h5 ##### 
-iabbr <buffer> h6 ###### 
-]])
+-- vim.cmd([[
+-- iabbr <buffer> h1 # 
+-- iabbr <buffer> h2 ## 
+-- iabbr <buffer> h3 ### 
+-- iabbr <buffer> h4 #### 
+-- iabbr <buffer> h5 ##### 
+-- iabbr <buffer> h6 ###### 
+-- ]])
 
 local q = require"vim.treesitter.query"
 local tsutil = require'nvim-treesitter.ts_utils'
@@ -265,3 +265,67 @@ vim.api.nvim_buf_set_keymap(0,'n','<leader>oh',[[:lua add_neighbour_heading()<CR
 vim.api.nvim_buf_set_keymap(0,'n','<leader>oih',[[:lua add_inner_heading()<CR>A]], {noremap = true, desc = "Add Inner Heading"})
 vim.api.nvim_buf_set_keymap(0,'n','<leader>ooh',[[:lua add_outer_heading()<CR>A]], {noremap = true, desc = "Add Outer Heading"})
 vim.api.nvim_buf_set_keymap(0,'n','<leader>c',[[:lua toggleCheckBox()<CR>]], {noremap = true, desc = "Toggle Checkbox"})
+
+
+vim.cmd[[
+function! AppendAbbreMD(preWord,afterWord)
+   let object = "iabbrev <buffer> " . a:preWord . " ". a:afterWord
+   execute object
+   call writefile([object]), $HOME."/.vim/ftplugin/markdown.vim", "a")
+endfunction
+
+function! PasteImg()
+	let filename = expand('%:r')
+	let newFiles = '/' . strftime("%s") . '.png'
+	let formatFiles = 'img' . filename .. newFiles
+	call mkdir("img" . filename, "p")
+	let ret = system("pngpaste" . " " . formatFiles)
+	if v:shell_error
+		echomsg "[Error] " . ret
+		return
+	endif
+	let content = printf("![IMG](%s)", formatFiles)
+	put =content
+	execute ":noh"
+endfunction
+
+" AUTOCMD
+nnoremap <leader>op :call PasteImg()<cr>
+
+" Setting Abbreviations
+iabbrev <buffer> h1 #
+iabbrev <buffer> h2 ##
+iabbrev <buffer> h3 ###
+iabbrev <buffer> h4 ####
+iabbrev <buffer> h5 #####
+iabbrev <buffer> h6 ######
+
+let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_auto_insert_bullets = 0
+let g:vim_markdown_new_list_item_indent = 0
+
+function! MarkdownLevel()
+	if getline(v:lnum) =~ '^# .*$'
+		return ">1"
+	endif
+	if getline(v:lnum) =~ '^## .*$'
+		return ">2"
+	endif
+	if getline(v:lnum) =~ '^### .*$'
+		return ">3"
+	endif
+	if getline(v:lnum) =~ '^#### .*$'
+		return ">4"
+	endif
+	if getline(v:lnum) =~ '^##### .*$'
+		return ">5"
+	endif
+	if getline(v:lnum) =~ '^###### .*$'
+		return ">6"
+	endif
+endfunction
+
+au BufEnter *.md setlocal foldexpr=MarkdownLevel()
+au BufEnter *.md setlocal foldmethod=expr
+
+]]
