@@ -85,6 +85,7 @@ aucmd('FileType',{
     group = 'dashboard_custom',
     pattern = 'dashboard',
     callback = function()
+	vim.b.minitrailspace_disable = true
 	api.nvim_buf_set_keymap(0,'n','q','<esc>:q<cr>',{noremap = true, silent = true})
 	api.nvim_buf_set_keymap(0,'n','f',':enew<cr>:set laststatus=2<cr>',{noremap = true, silent = true})
     end,

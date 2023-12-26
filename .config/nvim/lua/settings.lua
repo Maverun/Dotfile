@@ -39,7 +39,7 @@ opt.writebackup = false         -- similar as backup setting
 opt.swapfile = false         -- similar as backup setting
 
 opt.clipboard = 'unnamedplus'  -- allow to merge with system clipboard
-opt.cmdheight = 0              -- set command height 0
+opt.cmdheight = 1              -- set command height 0
 
 opt.updatetime = 300
 opt.timeoutlen = 200
@@ -61,7 +61,7 @@ opt.listchars = {
     extends = '>',
     precedes = '<',
     trail = '·',
-    eol = '﬋',
+    eol = '󰌑',
 }
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
@@ -102,16 +102,16 @@ cmd 'set viewoptions-=options'
 -- │                                IndentLine                                 │
 -- └───────────────────────────────────────────────────────────────────────────┘
 
--- require("ibl").setup()
--- require("ibl").update({
---     indent = {char = '│'},
---     exclude = {filetypes = {'markdown','md','help','','dashboard'}}
--- })
+--require("ibl").setup()
+--require("ibl").update({
+--    indent = {char = '│'},
+--    exclude = {filetypes = {'markdown','md','help','','dashboard'}}
+--})
 
-vim.cmd[[
-    highlight IndentBlanklineContextChar guifg=#a9b1d6 gui=nocombine
-    highlight IndentBlanklineContextStart guifg=#a9b1d6 gui=underLine
-]]
+-- vim.cmd[[
+--     highlight IndentBlanklineContextChar guifg=#a9b1d6 gui=nocombine
+--     highlight IndentBlanklineContextStart guifg=#a9b1d6 gui=underLine
+-- ]]
 
 
 
@@ -124,28 +124,6 @@ g.nv_search_paths = {
 
 g.vim_markdown_conceal = 2
 
-
-
--- ┌───────────────────────────────────────────────────────────────────────────┐
--- │                               Plugins Setup                               │
--- └───────────────────────────────────────────────────────────────────────────┘
-
-
-
--- require'surround'.setup{prefix=','}
-require'mini.surround'.setup({
-    mappings = {
-    add = ',sa', -- Add surrounding
-    delete = ',sd', -- Delete surrounding
-    find = ',sf', -- Find surrounding (to the right)
-    find_left = ',sF', -- Find surrounding (to the left)
-    highlight = ',sh', -- Highlight surrounding
-    replace = ',sr', -- Replace surrounding
-    update_n_lines = ',sn', -- Update `n_lines`
-    }
-})
-require'colorizer'.setup{"*"}
-require'FTerm'.setup{}
 --there is plugins for this suda.nvim, but doesn't feel like a worth it  since I wont be editing in permission often.
 vim.cmd[[
 " Temporary workaround for: https://github.com/neovim/neovim/issues/1716
@@ -156,7 +134,3 @@ else
   command! W w !sudo tee % > /dev/null
 end
 ]]
-
--- require'autolist'.setup({})
-require("symbols-outline").setup()
-

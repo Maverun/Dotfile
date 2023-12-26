@@ -2,21 +2,6 @@
 --│                                 Dashboard                                  │
 --└────────────────────────────────────────────────────────────────────────────┘
 
-local g = vim.g
-local db = require('dashboard')
-db.custom_center = {
-   { icon = ' ', desc =  "Find File                  ", shortcut = "SPC f f" , action = "Telescope find_files" },
-   { icon = ' ', desc =  "Recents                    ", shortcut = "SPC f o" , action = "Telescope oldfiles" },
-   { icon = ' ', desc =  "Frecency                   ", shortcut = "SPC f r" , action = "Telescope frecency" },
-   { icon = ' ', desc =  "Find Word                  ", shortcut = "SPC f g" , action = "Telescope live_grep" },
-   { icon = '洛', desc =  "New File                   ", shortcut = "SPC f n" , action = "DashboardNewFile" },
-   { icon = ' ', desc =  "Bookmarks                  ", shortcut = "SPC f m" , action = "Telescope marks" },
-   { icon = ' ', desc =  "Load Last Session          ", shortcut = "SPC l -" , action = "SessionLoad" },
-   { icon = ' ', desc =  "Quit                       ", shortcut = "SPC g q" , action = "q" },
-}
-
-
-
 local art = {
     {
         "                                   ",
@@ -75,4 +60,23 @@ math.randomseed( os.time() ) -- For random header.
 local get_number = math.random(#art)
 local result = art[get_number]
 table.insert(result," ")
-db.custom_header = result
+
+return {{'nvimdev/dashboard-nvim',
+    event = 'VimEnter',
+    dependencies = { {'nvim-tree/nvim-web-devicons'}},
+    opts = {
+        config = {
+            header = result,
+            shortcut = {
+                { icon = ' ', desc =  "Find File", key = "t" , action = "Telescope find_files" },
+                { icon = ' ', desc =  "Recents", key = "o" , action = "Telescope oldfiles" },
+                { icon = ' ', desc =  "Frecency", key = "r" , action = "Telescope frecency" },
+                { icon = ' ', desc =  "Find Word", key = "g" , action = "Telescope live_grep" },
+                -- { icon = '洛', desc =  "New File", key = "f" , action = "enew<cr>:set laststatus=2<cr>" },
+                { icon = ' ', desc =  "Bookmarks", key = "b" , action = "Telescope marks" },
+                { icon = ' ', desc =  "Quit", key = "q" , action = "q" },
+            }
+        }
+    }
+}
+}

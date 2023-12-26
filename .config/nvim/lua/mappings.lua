@@ -95,11 +95,7 @@ map({v,n},'dv','"_d',{desc = "VOID Delete"})
 map(n,'<leader><space>',':nohlsearch<CR>', {desc = 'Remove Highlight'})
 
 map(n,'<C-t>',':SymbolsOutline<CR>')
-map(n,'<F2>',':NvimTreeToggle<CR>')
 
---Startify Plugins Hotkeys
-
-map(n,'<M-m>',':Startify<CR>')
 
 -- Mouse Middle Click Disable
 map({v,n,i},'<MiddleMouse>','<LeftMouse>')
@@ -156,13 +152,13 @@ map(n,'<Esc><Esc>',':call firenvim#focus_page()<CR>')
 map({n,v,o},'S',':lua require"hop".hint_words({current_line_only = true,})<CR>',{desc="HOP within current line!"})
 map({n,v,o},'s','<cmd>HopWord<CR>',{desc="HOP!"})
 
---we are marking where we are before we begin search so that way we can return to original spot
+--we are marking where we are before we begin search so that way we can return to original spot via <C-o> jump
 map(n,"/","ms/")
 map(n,"?","ms?")
 
 -- instead of moving cursor to top and bottom, we can move left and right fast instead reaching manual way
--- I dont really use default mapping of H/L so this is good oppounity to replaces it
--- this also mean I dont have to do I<esc> or A<esc>
+-- I dont really use default mapping of H/L so this is good opportunity to replaces it
+-- this also mean I don't have to do I<esc> or A<esc>
 map({n,v,o},'<S-h>','^')
 map({n,v,o},'<S-l>','$')
 
@@ -252,7 +248,7 @@ map(n,'\\de',':lua require"dap".run_last()<CR>',{desc = "Run Last"})
 --└────────────────────────────────────────────────────────────────────────────┘
 
 map(n,'\\sr',':vs<CR>:IronReplHere<CR>')
-
+vim.keymap.set('n', '<space>rs', '<cmd>IronRepl<cr>')
 
 -- Git
 
@@ -260,14 +256,6 @@ map(n,'<leader>gg',':LazyGit<CR>')
 
 map(n,'\\e',':Dirbuf<CR>')
 
-vim.cmd[[
-let g:kitty_navigator_no_mapping = 1
-
-nnoremap <silent> <C-h> :KittyNavigateLeft<cr>
-nnoremap <silent> <C-j> :KittyNavigateDown<cr>
-nnoremap <silent> <C-k> :KittyNavigateUp<cr>
-nnoremap <silent> <C-l> :KittyNavigateRight<cr>
-]]
 vim.g.kitty_navigator_no_mapping = 1
 map({t,n}, '<C-h>', ":KittyNavigateLeft<CR>", {desc= "Move window to left", silent=true, noremap = true})
 map({t,n}, '<C-j>', ":KittyNavigateDown<CR>", {desc= "Move window to down", silent=true, noremap = true})
