@@ -45,7 +45,10 @@ return {
 			},
 			-- ignore_blank_lines = true, -- ignore blank lines when sending visual select lines
 		}
-	end
+	end,
+	keys = {
+		{'\\sr',':vs<CR>:IronReplHere<CR>', desc="Iron Repl"}
+	}
 }
 -- send_motion = "\\sc",
 -- visual_send = "\\ss",

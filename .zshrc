@@ -45,6 +45,8 @@ export MANPAGER="nvim +Man!"
 export JDTLS_HOME=$HOME/.local/share/nvim/lsp_servers/jdtls
 export JAVA_HOME=/usr/ # In case you don't have java in path or want to use a version in particular
 
+export BEMENU_OPTS='--tb #1a1b26 --tf #7dcfff --nb #1a1b26 --nf #c0caf5 --hb #283457 --hf #c0caf5 --ab #292e42 --af #c0caf5'
+
 # ┌────────────────────────────────────────────────────────────────────────────┐
 # │                                   Alias                                    │
 # └────────────────────────────────────────────────────────────────────────────┘
@@ -174,7 +176,7 @@ ZVM_VI_HIGHLIGHT_BACKGROUND=#33467C           # Hex value
 
 #cuz of vi mode, we must init it afterward
 # source $ZSH/custom/plugins/zsh-abbr/zsh-abbr.zsh
-neofetch
+fastfetch
 #task sync &
 task project:
 task calendar

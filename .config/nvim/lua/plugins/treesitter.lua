@@ -1,14 +1,10 @@
 --┌────────────────────────────────────────────────────────────────────────────┐
 --│                                 treesitter                                 │
---└────────────────────────────────────────────────────────────────────────────┘--Any plugins that will take over 20+ lines will be individual files
+--└────────────────────────────────────────────────────────────────────────────┘
 return {
-
-    {'nvim-treesitter/playground', lazy=true},
-    "luckasRanarison/tree-sitter-hypr",
-    'p00f/nvim-ts-rainbow',  -- Rainbow parenthesis etc
-    {'nvim-treesitter/nvim-treesitter-textobjects', event="InsertEnter"},
     {'nvim-treesitter/nvim-treesitter', build = ':TSUpdate',
-        opt = {
+        config = function()
+            require'nvim-treesitter.configs'.setup {
                 -- ensure_installed = 'maintained',
                 highlight = {
                     enable = true,
@@ -60,6 +56,26 @@ return {
                 },
                 }--end of textobjects
             }
+        end
 
-    }
+    },
+
+
+    {'nvim-treesitter/playground', lazy=true},
+    { "luckasRanarison/tree-sitter-hypr",
+    dependency = {'nvim-treesitter/nvim-treesitter'},
+    config = function ()
+        local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+        parser_config.hypr = {
+            install_info = {
+                url = "https://github.com/luckasRanarison/tree-sitter-hypr",
+                files = { "src/parser.c" },
+                branch = "master",
+            },
+            filetype = "hypr",
+        }
+    end
+    },
+    "p00f/nvim-ts-rainbow",
+    {'nvim-treesitter/nvim-treesitter-textobjects', event="InsertEnter"}
 }

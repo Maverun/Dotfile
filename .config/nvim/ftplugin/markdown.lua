@@ -5,15 +5,15 @@ vim.cmd('runtime /ftplugin/textSetting.vim')
 --│                                Abbrivations                                │
 --└────────────────────────────────────────────────────────────────────────────┘
 -- vim.cmd([[
--- iabbr <buffer> h1 # 
--- iabbr <buffer> h2 ## 
--- iabbr <buffer> h3 ### 
--- iabbr <buffer> h4 #### 
--- iabbr <buffer> h5 ##### 
--- iabbr <buffer> h6 ###### 
+-- iabbr <buffer> h1 #
+-- iabbr <buffer> h2 ##
+-- iabbr <buffer> h3 ###
+-- iabbr <buffer> h4 ####
+-- iabbr <buffer> h5 #####
+-- iabbr <buffer> h6 ######
 -- ]])
 
-local q = require"vim.treesitter.query"
+local q = require"vim.treesitter"
 local tsutil = require'nvim-treesitter.ts_utils'
 local ts = require'nvim-treesitter'
 
@@ -37,7 +37,7 @@ local the_query = [[
 ]]
 
 local parse_query_save = function(language, query)
-	local ok, parsed_query = pcall(vim.treesitter.parse_query, language, query)
+	local ok, parsed_query = pcall(vim.treesitter.query.parse, language, query)
 	if not ok then
 		return nil
 	end
@@ -81,12 +81,12 @@ function refresh()
 				local level = #q.get_node_text(node,0)
 				setExtmark(start_row,end_row,level,"markdownH"..level,headlines[level])
 
-				
+
 				-- print("heading..", q.get_node_text(node,0))
 				headline_content_node = node:next_sibling()
 				headline_content = q.get_node_text(headline_content_node,0)
 				-- if q.get_node_text(headline_content,0):match("<DAILY>") then
-				
+
 				reset_daily = headline_content:match("DAILY")
 				reset_weekly = headline_content:match("WEEKLY")
 				if reset_daily or reset_weekly then
@@ -226,7 +226,7 @@ end
 
 function toggleCheckBox()
 	save_current_cursor = vim.api.nvim_win_get_cursor(0)
-	-- the reason i do this instead of setting curosr at 0,0 is cuz of ts with "block_continuation" mess up, 
+	-- the reason i do this instead of setting curosr at 0,0 is cuz of ts with "block_continuation" mess up,
 	-- but with '^' which go to first char of line...is ideal.
 	vim.api.nvim_exec("normal ^",nil)
 	node = tsutil.get_node_at_cursor(0)
@@ -261,9 +261,9 @@ vim.api.nvim_create_autocmd({ 'BufEnter','TextChanged','InsertLeave' }, {
 })
 
 -- vim.api.nvim_buf_set_keymap(0,'n','<leader>oh',[[:lua print(vim.inspect(find_headline()))]], {noremap = true})
-vim.api.nvim_buf_set_keymap(0,'n','<leader>oh',[[:lua add_neighbour_heading()<CR>A]], {noremap = true, desc = "Add Neighbour Heading"})
-vim.api.nvim_buf_set_keymap(0,'n','<leader>oih',[[:lua add_inner_heading()<CR>A]], {noremap = true, desc = "Add Inner Heading"})
-vim.api.nvim_buf_set_keymap(0,'n','<leader>ooh',[[:lua add_outer_heading()<CR>A]], {noremap = true, desc = "Add Outer Heading"})
+vim.api.nvim_buf_set_keymap(0,'n','<leader>nh',[[:lua add_neighbour_heading()<CR>A]], {noremap = true, desc = "Add Neighbour Heading"})
+vim.api.nvim_buf_set_keymap(0,'n','<leader>nih',[[:lua add_inner_heading()<CR>A]], {noremap = true, desc = "Add Inner Heading"})
+vim.api.nvim_buf_set_keymap(0,'n','<leader>noh',[[:lua add_outer_heading()<CR>A]], {noremap = true, desc = "Add Outer Heading"})
 vim.api.nvim_buf_set_keymap(0,'n','<leader>c',[[:lua toggleCheckBox()<CR>]], {noremap = true, desc = "Toggle Checkbox"})
 
 
@@ -290,7 +290,7 @@ function! PasteImg()
 endfunction
 
 " AUTOCMD
-nnoremap <leader>op :call PasteImg()<cr>
+" nnoremap <leader>np :call PasteImg()<cr>
 
 " Setting Abbreviations
 iabbrev <buffer> h1 #

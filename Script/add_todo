@@ -4,7 +4,7 @@
 #Author: Maverun
 #File: add_todo
 
-#This is TODO script that will prompt input for todo so it can append to 
+#This is TODO script that will prompt input for todo so it can append to
 #TODO.md of VIMWIKI so you can see a list anytime
 #Purpose of this is to run script instant and get input then carry on life
 #Such as you are busy doing something, and you find this task repeating, wish you
@@ -15,7 +15,8 @@
 path="/ext_drive/SynologyDrive/NotesTaking/20220908114029-TODO.md"
 
 #We getting input from user with dmenu
-TODO=$(printf ""|dmenu -m 0 -p "TODO:") || exit
+# TODO=$(printf ""|dmenu -m 0 -p "TODO:") || exit
+TODO=$(printf ""|bemenu -p "TODO:") || exit
 
 if [ -z "$TODO" ] #if TODO is empty, then we will ignore it.
 then

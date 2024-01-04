@@ -98,21 +98,6 @@ opt.foldmethod = 'manual'
 g.viewoptions='cursor,folds,slash,unix'
 cmd 'set viewoptions-=options'
 
--- ┌───────────────────────────────────────────────────────────────────────────┐
--- │                                IndentLine                                 │
--- └───────────────────────────────────────────────────────────────────────────┘
-
---require("ibl").setup()
---require("ibl").update({
---    indent = {char = '│'},
---    exclude = {filetypes = {'markdown','md','help','','dashboard'}}
---})
-
--- vim.cmd[[
---     highlight IndentBlanklineContextChar guifg=#a9b1d6 gui=nocombine
---     highlight IndentBlanklineContextStart guifg=#a9b1d6 gui=underLine
--- ]]
-
 
 
 --
@@ -134,3 +119,18 @@ else
   command! W w !sudo tee % > /dev/null
 end
 ]]
+
+
+
+-- ┌───────────────────────────────────────────────────────────────────────────┐
+-- │                              Folding Method                               │
+-- └───────────────────────────────────────────────────────────────────────────┘
+
+MyFoldText = function()
+    local line = vim.fn.getline(vim.v.foldstart)
+    local foldedlinecount = vim.v.foldend - vim.v.foldstart + 1
+    return '  '.. foldedlinecount .. '  ' .. line
+end
+
+vim.o.foldtext = "luaeval('MyFoldText()')"
+vim.o.fillchars = "fold: "

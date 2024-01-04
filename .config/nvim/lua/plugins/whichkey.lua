@@ -70,9 +70,11 @@ return {
     -- Name prefix
     wk.register({
       ["<leader>f"] = {name = "Telescope"},
-      ["<leader>o"] = {name = "Orgmode"},
+      ["<leader>n"] = {name = "Notes"},
       ["<leader>t"] = {name = "FloatTerm"},
       ["<leader>w"] = {name = "WorkSpace"},
+      ["<leader>m"] = {name = "Mini"},
+      ["<leader>o"] = {name = "Octo"},
       ["\\d"] = {name = "DAP"},
       ["\\s"] = {name = "Iron"},
       ["\\c"] = {name = "Other Iron"},

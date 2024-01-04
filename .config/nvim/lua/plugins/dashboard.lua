@@ -61,6 +61,18 @@ local get_number = math.random(#art)
 local result = art[get_number]
 table.insert(result," ")
 
+vim.api.nvim_create_augroup('dashboard_custom',{clear = true})
+vim.api.nvim_create_autocmd('FileType',{
+    group = 'dashboard_custom',
+    pattern = 'dashboard',
+    callback = function()
+	vim.b.minitrailspace_disable = true
+	vim.api.nvim_buf_set_keymap(0,'n','q','<esc>:q<cr>',{noremap = true, silent = true})
+	vim.api.nvim_buf_set_keymap(0,'n','f',':enew<cr>:set laststatus=2<cr>',{noremap = true, silent = true})
+    end,
+    desc = "Able to quit at dashboard",
+})
+
 return {{'nvimdev/dashboard-nvim',
     event = 'VimEnter',
     dependencies = { {'nvim-tree/nvim-web-devicons'}},

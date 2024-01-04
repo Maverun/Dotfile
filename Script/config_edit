@@ -20,7 +20,7 @@ declare -a options=(
 #"awesome - $HOME/.config/awesome/rc.lua"
 # "bash - $HOME/.bashrc"
 #"broot - $HOME/.config/broot/conf.toml"
-"bspwm - $HOME/.config/bspwm/bspwmrc"
+# "bspwm - $HOME/.config/bspwm/bspwmrc"
 #"doom emacs config.el - $HOME/.doom.d/config.el"
 #"doom emacs init.el - $HOME/.doom.d/init.el"
 #"doom emacs packages.el - $HOME/.doom.d/packages.el"
@@ -52,12 +52,16 @@ declare -a options=(
 "xresources - $HOME/.Xresources"
 "zsh - $HOME/.zshrc"
 "sway - $HOME/.config/sway/config"
+"hyprland - $HOME/.config/hypr/hyprland.conf"
 "quit"
 )
 
 # Piping the above array into dmenu.
 # We use "printf '%s\n'" to format the array one item to a line.
-choice=$(printf '%s\n' "${options[@]}" | dmenu -m 0 -i -l 20 -p 'Edit config:')
+# choice=$(printf '%s\n' "${options[@]}" | dmenu -m 0 -i -l 20 -p 'Edit config:')
+choice=$(printf '%s\n' "${options[@]}" | bemenu -i -l 20 -p 'Edit config:')
+# choice=$(printf '%s\n' "${options[@]}" | tofi -c ~/.config/tofi/tokyonight_dmenu_list)
+
 #choice=$(printf '%s\n' "${options[@]}" | rofi -dmenu -i -l 20 -p 'Edit config')
 
 # What to do when/if we choose 'quit'.

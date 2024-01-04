@@ -94,20 +94,14 @@ map({v,n},'dv','"_d',{desc = "VOID Delete"})
 --
 map(n,'<leader><space>',':nohlsearch<CR>', {desc = 'Remove Highlight'})
 
-map(n,'<C-t>',':SymbolsOutline<CR>')
-
-
 -- Mouse Middle Click Disable
 map({v,n,i},'<MiddleMouse>','<LeftMouse>')
 map({v,n,i},'<2-MiddleMouse>','<LeftMouse>')
 map({v,n,i},'<3-MiddleMouse>','<LeftMouse>')
 map({v,n,i},'<4-MiddleMouse>','<LeftMouse>')
 
---CheatSheet
-map(n,'<leader>?',":CheatSH<CR>")
-
 --Images Paste (Useful for notes/markdown)
-map(n,'<F1>',':PasteImg')
+map(n,'<F1>',':PasteImg<CR>')
 
 function escape()
     -- this is since we got telescope prompt that will set buftype that which we are unable to save
@@ -149,7 +143,7 @@ map(n,'<Esc><Esc>',':call firenvim#focus_page()<CR>')
 -- └───────────────────────────────────────────────────────────────────────────┘
 
 -- hop.nvim
-map({n,v,o},'S',':lua require"hop".hint_words({current_line_only = true,})<CR>',{desc="HOP within current line!"})
+map({n,v,o},'S',':lua require"hop".hint_words({current_line_only = true,})<CR>',{desc="HOP within current line!",silent = true})
 map({n,v,o},'s','<cmd>HopWord<CR>',{desc="HOP!"})
 
 --we are marking where we are before we begin search so that way we can return to original spot via <C-o> jump
@@ -206,20 +200,6 @@ map(v,'<Tab>','>gv')
 map(v,'<S-Tab>','<gv')
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
--- │                                 Telescope                                 │
--- └───────────────────────────────────────────────────────────────────────────┘
-map(n,'<leader>ff',':Telescope find_files<CR>', {desc = 'Find Files'})
-map(n,'<leader>fof',':lua require("telescope.builtin").find_files({search_dirs={"~/Drive/NotesTaking/"}})<CR>', {desc = 'NotesTaking Files'})
-map(n,'<leader>fO',':Telescope oldfiles<CR>', {desc = 'Old Files'})
-map(n,'<leader>fg',':Telescope live_grep<CR>', {desc = 'Live Grep'})
-map(n,'<leader>fb',':Telescope buffers<CR>', {desc = 'Buffers'})
-map(n,'<leader>fh',':Telescope help_tags<CR>', {desc = 'Help Tags'})
-map(n,'<leader>fk',':Telescope keymaps<CR>', {desc = 'Keymaps'})
-map(n,'<leader>fm',':Telescope marks<CR>', {desc = 'Marks'})
-map(n,'<leader>fr','<Cmd>lua require("telescope").extensions.frecency.frecency()<CR>', {desc = 'Frecency'})
-map(n,'<leader>foh','<Cmd>lua require("telescope").extensions.heading.heading()<CR>', {desc = 'Heading List'})
-
--- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                               FloatTerminal                               │
 -- └───────────────────────────────────────────────────────────────────────────┘
 map(n, '<leader>tt',':lua require("FTerm").toggle()<cr>', {desc = "Fterm Toggle"})
@@ -230,25 +210,6 @@ map(n, '<leader>tj',':lua require("FTerm").run("javac ' .. vim.fn.expand("%:t").
 vim.api.nvim_set_keymap("i", "<C-E>", "<Plug>luasnip-next-choice", {})
 vim.api.nvim_set_keymap("s", "<C-E>", "<Plug>luasnip-next-choice", {})
 
--- ┌───────────────────────────────────────────────────────────────────────────┐
--- │                                    Dap                                    │
--- └───────────────────────────────────────────────────────────────────────────┘
-map(n,'\\dc',':lua require"dap".continue()<CR>',{desc = 'Continue'})
-map(n,'\\do',':lua require"dap".step_over()<CR>',{desc = "Step Over"})
-map(n,'\\dj',':lua require"dap".step_into()<CR>',{desc = "Step Into"})
-map(n,'\\dl',':lua require"dap".step_out()<CR>',{desc = "Step Out"})
-map(n,'\\db',':lua require"dap".toggle_breakpoint()<CR>',{desc = "Toggle Breakpoint"})
-map(n,'\\dsc',':lua require"dap".set_breakpoint(vim.fn.input("Breakpoint Condition: "))<CR>',{desc = "Breakpoint Conditions"})
-map(n,'\\dsl',':lua require"dap".set_breakpoint(nil,nil,vim.fn.input("Log point Message: "))<CR>',{desc = "Log Point MSG"})
-map(n,'\\dr',':lua require"dap".repl.open()<CR>',{desc = "Repl Open"})
-map(n,'\\de',':lua require"dap".run_last()<CR>',{desc = "Run Last"})
-
---┌────────────────────────────────────────────────────────────────────────────┐
---│                                 Iron.nvim                                  │
---└────────────────────────────────────────────────────────────────────────────┘
-
-map(n,'\\sr',':vs<CR>:IronReplHere<CR>')
-vim.keymap.set('n', '<space>rs', '<cmd>IronRepl<cr>')
 
 -- Git
 

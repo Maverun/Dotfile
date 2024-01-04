@@ -61,14 +61,16 @@ declare -a options=(
 
 # Picking a search engine.
 while [ -z "$engine" ]; do
-enginelist=$(printf '%s\n' "${options[@]}" | dmenu -m 0 -i -l 20 -p 'Choose search engine:') || exit
+# enginelist=$(printf '%s\n' "${options[@]}" | dmenu -m 0 -i -l 20 -p 'Choose search engine:') || exit
+enginelist=$(printf '%s\n' "${options[@]}" | bemenu -i -l 20 -p 'Choose search engine:') || exit
 engineurl=$(echo "$enginelist" | awk '{print $NF}')
 engine=$(echo "$enginelist" | awk '{print $1}')
 done
 
 # Searching the chosen engine.
 while [ -z "$query" ]; do
-query=$(echo "$engine" | dmenu -m 0 -p 'Enter search query:') || exit
+# query=$(echo "$engine" | dmenu -m 0 -p 'Enter search query:') || exit
+query=$(echo "$engine" | bemenu -p 'Enter search query:') || exit
 done
 
 # Display search results in web browser

@@ -1,10 +1,27 @@
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                    DAP                                    │
 -- └───────────────────────────────────────────────────────────────────────────┘
+
+vim.api.nvim_create_augroup('dapCustom',{clear = true})
+vim.api.nvim_create_autocmd('FileType',{
+    group = 'dapCustom',
+    pattern = 'dap-repl',
+    callback = function()
+        vim.api.nvim_buf_set_keymap(0,'n','n',":lua require('dap').step_over()<CR>",{noremap = true, silent = true})
+        vim.api.nvim_buf_set_keymap(0,'n','s',":lua require('dap').step_into()<CR>",{noremap = true, silent = true})
+        vim.api.nvim_buf_set_keymap(0,'n','c',":lua require('dap').continue()<CR>",{noremap = true, silent = true})
+    end,
+    desc = "During Dap repl mode, we can just press key to do instead of command",
+})
+
+
 return {
 
-  {'theHamsta/nvim-dap-virtual-text'},
+  {'theHamsta/nvim-dap-virtual-text',
+    ft = "dap-repl",
+  },
   {'rcarriga/nvim-dap-ui',
+    ft = "dap-repl",
     dependencies = {'mfussenegger/nvim-dap'},
     opts = {
         icons = { expanded = "▾", collapsed = "▸" },
@@ -49,6 +66,7 @@ return {
   },
 
   {'mfussenegger/nvim-dap',
+    event = 'InsertEnter',
     config = function()
       -- vim.g.dap_virtual_text=true --showing virtual text during debugging
       -- require'nvim-dap-virtual-text'.setup()
@@ -132,7 +150,18 @@ return {
       dap.configurations.c = dap.configurations.cpp
       dap.configurations.rust = dap.configurations.cpp
 
-    end
+    end,
+    keys = {
+      {'\\dc',':lua require"dap".continue()<CR>',desc = 'Continue'},
+      {'\\do',':lua require"dap".step_over()<CR>',desc = "Step Over"},
+      {'\\dj',':lua require"dap".step_into()<CR>',desc = "Step Into"},
+      {'\\dl',':lua require"dap".step_out()<CR>',desc = "Step Out"},
+      {'\\db',':lua require"dap".toggle_breakpoint()<CR>',desc = "Toggle Breakpoint"},
+      {'\\dsc',':lua require"dap".set_breakpoint(vim.fn.input("Breakpoint Condition: "))<CR>',desc = "Breakpoint Conditions"},
+      {'\\dsl',':lua require"dap".set_breakpoint(nil,nil,vim.fn.input("Log point Message: "))<CR>',desc = "Log Point MSG"},
+      {'\\dr',':lua require"dap".repl.open()<CR>',desc = "Repl Open"},
+      {'\\de',':lua require"dap".run_last()<CR>',desc = "Run Last"},
+    }
 
 }
 }

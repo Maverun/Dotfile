@@ -8,7 +8,8 @@
 # It will ask for input via dmenu then once it look up term then it will zed for you. or using yad
 
 #We getting input from user with dmenu
-INPUT=$(printf ""|dmenu -m 0 -p "Definitons:") || exit
+# INPUT=$(printf ""|dmenu -m 0 -p "Definitons:") || exit
+INPUT=$(printf ""|bemenu -p "Definitons:") || exit
 
 if [ -z "$INPUT" ] #if TODO is empty, then we will ignore it.
 then

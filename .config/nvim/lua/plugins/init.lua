@@ -6,12 +6,22 @@ return{
 -- └───────────────────────────────────────────────────────────────────────────┘
 
     --'tiagovla/tokyodark.nvim'                          -- Colorscheme
-    'folke/tokyonight.nvim',
+    {'folke/tokyonight.nvim',
+        lazy = false,
+        priority = 1000,
+        opts = {
+            style = 'night',
+            transparent = false,
+            styles = {
+                comments = 'italic',
+                functions = 'NONE',
+            }
+        }
+    },
     'nvim-tree/nvim-web-devicons',                       -- Icon and so on for more conviences
     'lukas-reineke/indent-blankline.nvim',              -- to display indent line
     {'norcalli/nvim-colorizer.lua',opts={'*'}},         -- to show what color look like
     'kshenoy/vim-signature',                            -- To display where MARK is at (ma, mb ) etc
-    'nvim-lualine/lualine.nvim',
     'SmiteshP/nvim-navic',
 
 --  ┌───────────────────────────────────────────────────────────────────────────┐
@@ -26,7 +36,7 @@ return{
 --  └───────────────────────────────────────────────────────────────────────────┘
 
     'unblevable/quick-scope', -- Show highlight key for f,F,t,T, best thing.
-    { 'simrat39/symbols-outline.nvim', opts={} }, --display tags
+    { 'simrat39/symbols-outline.nvim', opts={}, keys = { {'<C-t>',':SymbolsOutline<CR>'} } }, --display tags
 
     {'phaazon/hop.nvim',config=function() require'hop'.setup() end},
 
@@ -52,7 +62,7 @@ return{
 
     --'jalvesaq/Nvim-R'                                    -- In replace of Rstudio
     'ekickx/clipboard-image.nvim',                        -- Allow to paste img as a url of path (Auto create picture files locally)
-    'Djancyp/cheat-sheet', -- using cheat.sh while in nvim.
+    {'Djancyp/cheat-sheet', keys = { {'<leader>?',':CheatSH<CR>'} } }, -- using cheat.sh while in nvim.
 
     'tweekmonster/startuptime.vim',                       -- Debug to see system health
     'onsails/lspkind-nvim',

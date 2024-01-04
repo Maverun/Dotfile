@@ -20,7 +20,9 @@ pauseMenu="now
 +2
 +1"
 
-action=$(printf '%s\n' "${mainMenu[@]}" | dmenu -m 0 -i -l 20 -p 'Options:')
+# action=$(printf '%s\n' "${mainMenu[@]}" | dmenu -m 0 -i -l 20 -p 'Options:')
+action=$(printf '%s\n' "${mainMenu[@]}" | bemenu -i -l 20 -p 'Options:')
+# action=$(printf '%s\n' "${mainMenu[@]}" | tofi -c ~/.config/tofi/tokyonight_dmenu_list)
 echo $action
 
 [ -z "$action" ] && exit
@@ -29,7 +31,8 @@ case "$action" in
     'Shutdown')
         #pauseTime=$(menu "Pause: " "$pauseMenu")
 
-        pauseTime=$(printf '%s\n' "${pauseMenu[@]}" | dmenu -m 0 -i -l 20 -p 'Pause:')
+        # pauseTime=$(printf '%s\n' "${pauseMenu[@]}" | dmenu -m 0 -i -l 20 -p 'Pause:')
+        pauseTime=$(printf '%s\n' "${pauseMenu[@]}" | bemenu -i -l 20 -p 'Pause:')
         [ -z "$pauseTime" ] && exit
 
         notify-send "System:" "Shutdown scheduled - $pauseTime"

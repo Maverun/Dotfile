@@ -80,29 +80,6 @@ aucmd('FileType',{
     desc = "Usually K  is blank to avoid annoying since auto shift is enable, so when enter the docs/help, this help",
 })
 
-augroup('dashboard_custom',{clear = true})
-aucmd('FileType',{
-    group = 'dashboard_custom',
-    pattern = 'dashboard',
-    callback = function()
-	vim.b.minitrailspace_disable = true
-	api.nvim_buf_set_keymap(0,'n','q','<esc>:q<cr>',{noremap = true, silent = true})
-	api.nvim_buf_set_keymap(0,'n','f',':enew<cr>:set laststatus=2<cr>',{noremap = true, silent = true})
-    end,
-    desc = "Able to quit at dashboard",
-})
-
-augroup('dapCustom',{clear = true})
-aucmd('FileType',{
-    group = 'dapCustom',
-    pattern = 'dap-repl',
-    callback = function()
-        api.nvim_buf_set_keymap(0,'n','n',":lua require('dap').step_over()<CR>",{noremap = true, silent = true})
-        api.nvim_buf_set_keymap(0,'n','s',":lua require('dap').step_into()<CR>",{noremap = true, silent = true})
-        api.nvim_buf_set_keymap(0,'n','c',":lua require('dap').continue()<CR>",{noremap = true, silent = true})
-    end,
-    desc = "During Dap repl mode, we can just press key to do instead of command",
-})
 augroup('wrapText',{clear = true})
 aucmd('FileType',{
     group = 'wrapText',
