@@ -1,6 +1,9 @@
 return {
     {'glacambre/firenvim',
     run = function() vim.fn['firenvim#install'](0) end,
+    keys = {
+        {'<Esc><Esc>',':call firenvim#focus_page()<CR>'},
+    },
     config = function()
         vim.cmd[[
         function! s:IsFirenvimActive(event) abort
@@ -13,7 +16,7 @@ return {
         endfunction
 
         function! SetLinesForFirefox()
-        " let line = &lines 
+        " let line = &lines
         let line = &lines
         let column = &columns
         if line < 20
@@ -54,7 +57,7 @@ return {
             endfunction
 
 
-            let g:firenvim_config = { 
+            let g:firenvim_config = {
                 \ 'globalSettings': {
                     \ 'alt': 'all',
                 \  },

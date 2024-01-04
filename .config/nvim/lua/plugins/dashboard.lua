@@ -85,7 +85,7 @@ return {{'nvimdev/dashboard-nvim',
                 { icon = ' ', desc =  "Frecency", key = "r" , action = "Telescope frecency" },
                 { icon = ' ', desc =  "Find Word", key = "g" , action = "Telescope live_grep" },
                 -- { icon = '洛', desc =  "New File", key = "f" , action = "enew<cr>:set laststatus=2<cr>" },
-                { icon = ' ', desc =  "Bookmarks", key = "b" , action = "Telescope marks" },
+                { icon = ' ', desc =  "Dirbuf", key = "b" , action = "Dirbuf" },
                 { icon = ' ', desc =  "Quit", key = "q" , action = "q" },
             }
         }

@@ -100,17 +100,6 @@ map({v,n,i},'<2-MiddleMouse>','<LeftMouse>')
 map({v,n,i},'<3-MiddleMouse>','<LeftMouse>')
 map({v,n,i},'<4-MiddleMouse>','<LeftMouse>')
 
---Images Paste (Useful for notes/markdown)
-map(n,'<F1>',':PasteImg<CR>')
-
-function escape()
-    -- this is since we got telescope prompt that will set buftype that which we are unable to save
-    if vim.bo.buftype == 'prompt' then
-        return termcodes'<esc>'
-    end
-    return termcodes':update<CR>'
-end
-map(i,'<esc>','<esc>:lua escape()<cr>', {silent=true})
 map('t','<esc>','<C-\\><C-n>') -- escape terminal trap!
 
 -- adding where it doesnt swap with old into reg, we will just use same one. so it make sense that way
@@ -136,15 +125,13 @@ end
 map(n,'<F5>',':lua ruler_toggle()<CR>')
 map(n,'<F6>',':lua cursor_toggle()<CR>')
 
-map(n,'<Esc><Esc>',':call firenvim#focus_page()<CR>')
-
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                Navigation                                 │
 -- └───────────────────────────────────────────────────────────────────────────┘
 
 -- hop.nvim
-map({n,v,o},'S',':lua require"hop".hint_words({current_line_only = true,})<CR>',{desc="HOP within current line!",silent = true})
-map({n,v,o},'s','<cmd>HopWord<CR>',{desc="HOP!"})
+-- map({n,v,o},'S',':lua require"hop".hint_words({current_line_only = true,})<CR>',{desc="HOP within current line!",silent = true})
+-- map({n,v,o},'s','<cmd>HopWord<CR>',{desc="HOP!"})
 
 --we are marking where we are before we begin search so that way we can return to original spot via <C-o> jump
 map(n,"/","ms/")
@@ -168,7 +155,8 @@ map({n,v},'N','Nzz')
 
 --┌────────────────────────────────────────────────────────────────────────────┐
 --│                                   Window                                   │
---└────────────────────────────────────────────────────────────────────────────┘--map(n,'<S-k>',':lua function_K()<CR>')
+--└────────────────────────────────────────────────────────────────────────────┘
+--map(n,'<S-k>',':lua function_K()<CR>')
 
 
 --Using alt + hjkl for resize windows
@@ -176,12 +164,6 @@ map(n,'<M-h>',":lua require'utils'.resize(true,-2)<CR>", {silent = true})
 map(n,'<M-j>',":lua require'utils'.resize(false,2)<CR>", {silent = true})
 map(n,'<M-k>',":lua require'utils'.resize(false,-2)<CR>", {silent = true})
 map(n,'<M-l>',":lua require'utils'.resize(true,2)<CR>", {silent = true})
-
--- better window navigation
--- map({t,n},'<C-h>','<C-w>h')
--- map({t,n},'<C-j>','<C-w>j')
--- map({t,n},'<C-k>','<C-w>k')
--- map({t,n},'<C-l>','<C-w>l')
 
 --Buffer next page or previously
 map(n,"gbn",":bn<CR>")
@@ -198,28 +180,3 @@ map(v,'<','<gv')
 map(v,'>','>gv')
 map(v,'<Tab>','>gv')
 map(v,'<S-Tab>','<gv')
-
--- ┌───────────────────────────────────────────────────────────────────────────┐
--- │                               FloatTerminal                               │
--- └───────────────────────────────────────────────────────────────────────────┘
-map(n, '<leader>tt',':lua require("FTerm").toggle()<cr>', {desc = "Fterm Toggle"})
-map('t', '<leader>tt','<C-\\><C-n>:lua require("FTerm").toggle()<cr>', {desc = 'Fterm Toggle'})
-map(n, '<leader>tp',':lua require("FTerm").run("python ' .. vim.fn.expand("%:t")..'")<CR>', { desc = "Run Python Terminal"})
-map(n, '<leader>tj',':lua require("FTerm").run("javac ' .. vim.fn.expand("%:t")..' && java '.. vim.fn.expand("%:t:r") ..'")<CR>', { desc = "Run Java Terminal"})
-
-vim.api.nvim_set_keymap("i", "<C-E>", "<Plug>luasnip-next-choice", {})
-vim.api.nvim_set_keymap("s", "<C-E>", "<Plug>luasnip-next-choice", {})
-
-
--- Git
-
-map(n,'<leader>gg',':LazyGit<CR>')
-
-map(n,'\\e',':Dirbuf<CR>')
-
-vim.g.kitty_navigator_no_mapping = 1
-map({t,n}, '<C-h>', ":KittyNavigateLeft<CR>", {desc= "Move window to left", silent=true, noremap = true})
-map({t,n}, '<C-j>', ":KittyNavigateDown<CR>", {desc= "Move window to down", silent=true, noremap = true})
-map({t,n}, '<C-k>', ":KittyNavigateUp<CR>", {desc= "Move window to up", silent=true, noremap = true})
-map({t,n}, '<C-l>', ":KittyNavigateRight<CR>", {desc= "Move window to right", silent=true, noremap = true})
-

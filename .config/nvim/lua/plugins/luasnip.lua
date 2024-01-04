@@ -4,6 +4,10 @@ return {
         dependencies = {
             'rafamadriz/friendly-snippets'
         },
+        keys = {
+            {"<C-E>", "<Plug>luasnip-next-choice"},
+            {"<C-E>", "<Plug>luasnip-next-choice"},
+        },
         config = function()
             utils = require("snippet/utils_LS");
             ls = require("luasnip")

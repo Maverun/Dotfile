@@ -38,7 +38,14 @@ return{
     'unblevable/quick-scope', -- Show highlight key for f,F,t,T, best thing.
     { 'simrat39/symbols-outline.nvim', opts={}, keys = { {'<C-t>',':SymbolsOutline<CR>'} } }, --display tags
 
-    {'phaazon/hop.nvim',config=function() require'hop'.setup() end},
+    {'smoka7/hop.nvim',config=function() require'hop'.setup() end,
+    keys = {
+        -- {'S',':lua require"hop".hint_words({current_line_only = true,})<CR>',mode= {'n','v','o'}, desc="HOP within current line!",silent = true},
+        {'s',':HopWord<CR>', mode ={'n','v','o'}, desc="HOP!", silent = true},
+        {'<leader>{',':HopNode<CR>', mode ={'n','v','o'}, desc="HOP node!"},
+        {'S',':HopWordMW<CR>', mode ={'n','v','o'}, desc="Hop across window!", silent = true},
+    }
+},
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                   Notes                                   │
@@ -55,7 +62,14 @@ return{
 
     'tpope/vim-fugitive',                                 -- GIT
     'tpope/vim-sleuth',                                 -- auto ajust shiftwidth/expandtab
-    'numtostr/FTerm.nvim',                               -- Floating Terminal
+    {'numtostr/FTerm.nvim',
+        keys = {
+            {'<leader>tt',':lua require("FTerm").toggle()<cr>', desc = "Fterm Toggle"},
+            {'<leader>tt','<C-\\><C-n>:lua require("FTerm").toggle()<cr>', desc = 'Fterm Toggle'},
+            {'<leader>tp',':lua require("FTerm").run("python ' .. vim.fn.expand("%:t")..'")<CR>',  desc = "Run Python Terminal"},
+            {'<leader>tj',':lua require("FTerm").run("javac ' .. vim.fn.expand("%:t")..' && java '.. vim.fn.expand("%:t:r") ..'")<CR>',  desc = "Run Java Terminal"},
+        }
+},                               -- Floating Terminal
 
     --'junegunn/fzf'                                      -- Allowing Fuzzle Finder Search!
     --'junegunn/fzf.vim'                                  -- FZF well u know fuzzy finder thingy
@@ -74,7 +88,15 @@ return{
     'L3MON4D3/LuaSnip',
     'rafamadriz/friendly-snippets',
 
-    {'knubie/vim-kitty-navigator', run = 'cp ./*.py ~/.config/kitty/'},
+    {'knubie/vim-kitty-navigator', run = 'cp ./*.py ~/.config/kitty/',
+       keys = {
+            {'<C-h>', ":KittyNavigateLeft<CR>", desc= "Move window to left", silent=true, noremap = true},
+            {'<C-j>', ":KittyNavigateDown<CR>", desc= "Move window to down", silent=true, noremap = true},
+            {'<C-k>', ":KittyNavigateUp<CR>", desc= "Move window to up", silent=true, noremap = true},
+            {'<C-l>', ":KittyNavigateRight<CR>", desc= "Move window to right", silent=true, noremap = true},
+
+       }
+},
     -- 'Vigemus/iron.nvim',
 
     'lervag/vimtex',
@@ -89,7 +111,11 @@ return{
         }
     },
     'nvim-neotest/neotest-python',
-    'kdheepak/lazygit.nvim',
+    {'kdheepak/lazygit.nvim',
+        keys = {
+            {'<leader>gg',':LazyGit<CR>'},
+        }
+    },
     'elihunter173/dirbuf.nvim',
 
 }
