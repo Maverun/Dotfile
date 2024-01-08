@@ -34,6 +34,9 @@ return {
             require 'mini.trailspace'.setup()
             -- require'mini.pairs'.setup({modes = {insert = true,command = true}})
             require 'mini.ai'.setup()
+            require 'mini.misc'.setup()
+            MiniMisc.setup_auto_root()
+
         end,
         keys = {
             { '<leader>mt', ':lua MiniTrailspace.trim()<cr>', desc = "Trim trailing whitespace" }

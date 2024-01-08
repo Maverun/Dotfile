@@ -62,8 +62,8 @@
 }
 
 window#waybar {
-	/* background: #292b2e; */
-	background: #283457;
+	background: #292b2e;
+	/* background: #283457; */
 	/* color: #fdf6e3; */
 	color: #c0caf5;
 }

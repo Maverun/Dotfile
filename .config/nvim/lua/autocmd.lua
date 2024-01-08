@@ -112,7 +112,7 @@ aucmd({ 'BufEnter', 'BufWinEnter' }, {
     end
 })
 
--- Run the program wIth @g so that we can see output, on split window
+-- Run the program with @g so that we can see output, on split window
 vim.cmd [[
 	augroup run_file
 		autocmd BufEnter *.java let @g=":w\<CR>:vsp | terminal java %\<CR>i"

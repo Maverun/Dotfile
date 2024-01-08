@@ -45,7 +45,7 @@ opt.updatetime = 300
 opt.timeoutlen = 200
 
 cmd 'set iskeyword -=_'              -- allow to ignore _ as one word
-opt.autochdir = true            -- Working directory will be always same
+-- opt.autochdir = true            -- Working directory will be always same
 -- opt.filetype = 'plugin'
 cmd 'set fillchars+=vert:▏'          -- Setting Window Vertical border to thin
 
