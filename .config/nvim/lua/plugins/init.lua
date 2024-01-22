@@ -41,9 +41,9 @@ return{
     {'smoka7/hop.nvim',config=function() require'hop'.setup() end,
     keys = {
         -- {'S',':lua require"hop".hint_words({current_line_only = true,})<CR>',mode= {'n','v','o'}, desc="HOP within current line!",silent = true},
-        {'s',':HopWord<CR>', mode ={'n','v','o'}, desc="HOP!", silent = true},
-        {'<leader>{',':HopNode<CR>', mode ={'n','v','o'}, desc="HOP node!"},
-        {'S',':HopWordMW<CR>', mode ={'n','v','o'}, desc="Hop across window!", silent = true},
+        {'s','<cmd>HopWord<CR>', mode ={'n','v','o'}, desc="HOP!", silent = true},
+        {'<leader>{','<cmd>HopNode<CR>', mode ={'n','v','o'}, desc="HOP node!"},
+        {'S','<cmd>HopWordMW<CR>', mode ={'n','v','o'}, desc="Hop across window!", silent = true},
     }
 },
 
