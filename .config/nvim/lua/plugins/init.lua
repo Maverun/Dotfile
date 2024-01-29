@@ -1,6 +1,7 @@
 vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
 
 return{
+    {'folke/lazy.nvim'},
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                Appearances                                │
 -- └───────────────────────────────────────────────────────────────────────────┘
@@ -36,7 +37,7 @@ return{
 --  └───────────────────────────────────────────────────────────────────────────┘
 
     'unblevable/quick-scope', -- Show highlight key for f,F,t,T, best thing.
-    { 'simrat39/symbols-outline.nvim', opts={}, keys = { {'<C-t>',':SymbolsOutline<CR>'} } }, --display tags
+    { 'hedyhli/outline.nvim', opts={}, keys = { {'<C-t>','<cmd>Outline<CR>'} } }, --display tags
 
     {'smoka7/hop.nvim',config=function() require'hop'.setup() end,
     keys = {
@@ -117,5 +118,7 @@ return{
         }
     },
     'elihunter173/dirbuf.nvim',
+
+    {"andythigpen/nvim-coverage", opts={}}
 
 }
