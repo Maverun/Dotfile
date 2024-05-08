@@ -104,8 +104,9 @@
 		"tooltip": false
 	},
 	"clock#2": {
-		"format": "{:%I:%M}",
+		"format": "{:%I:%M:%S}",
 		"tooltip": true,
+		"interval" : 10,
 		"tooltip-format": "<tt><small>{calendar}</small></tt>",
 		"calendar": {
 			"mode"          : "year",

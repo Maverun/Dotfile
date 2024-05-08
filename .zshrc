@@ -1,4 +1,5 @@
 export ZSH="/home/maverun/.oh-my-zsh"
+export PATH=$HOME/.local/bin:$PATH
 
 ZSH_THEME="xiong-chiamiov-plus"
 
@@ -73,7 +74,7 @@ alias free='free -m'                      # show sizes in MB
 alias lynx='lynx -cfg=~/.lynx/lynx.cfg -lss=~/.lynx/lynx.lss -vikeys'
 
 # navigation
-alias ..='cd ..' 
+alias ..='cd ..'
 alias ...='cd ../..'
 
 #ALIAS of Taskwarrior
@@ -123,15 +124,17 @@ alias enableScreenSaver='xset s on & xset s blank & xset dpms'
 alias ssh='kitty +kitten ssh'
 alias icat="kitty +kitten icat --align=left" #photo preview on kitty terminal. Yeah mate.
 
+alias gw2="wl-paste -t text -w sh -c '[ \"$(xclip -selection clipboard -o)\" = \"$(wl-paste -n)\" ] || xclip -selection clipboard'"
+
 
 # ┌────────────────────────────────────────────────────────────────────────────┐
 # │                                  Function                                  │
 # └────────────────────────────────────────────────────────────────────────────┘
 
-function cheat(){ 
+function cheat(){
 	old="$IFS"
 	IFS="+"
-	curl cheat.sh/"$*"; 
+	curl cheat.sh/"$*";
 	IFS=$old
     }
 

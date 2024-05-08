@@ -137,10 +137,10 @@ function refresh()
 				-- print(capture, q.get_node_text(node:next_sibling(),0),start_row,start_column)
 				local level = "[ ]"
 				-- setExtmark(start_row,end_row,start_column +#level,"markdownH6","",start_column)
-				setExtmark(start_row,end_row,start_column + #level,"markdownH6","", start_column)
+				setExtmark(start_row,end_row,start_column + #level,"markdownH6","", start_column)
 			elseif capture == "checkBox" then
 				local level = "[x]"
-				setExtmark(start_row,end_row, start_column + #level,"TSComment","", start_column)
+				setExtmark(start_row,end_row, start_column + #level,"TSComment","󰱒", start_column)
 			end
 
 		end
@@ -236,9 +236,9 @@ function toggleCheckBox()
 	if node:type() == "list_marker_minus" then
 	if child:type() == "task_list_marker_unchecked" then
 			-- text = "- [x] "
-			text = "[x] "
+			text = "[x]"
 		elseif child:type() == "task_list_marker_checked" then
-			text = "[ ] "
+			text = "[ ]"
 		end
 	end
 	if text then

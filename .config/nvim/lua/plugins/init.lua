@@ -119,6 +119,7 @@ return{
     },
     'elihunter173/dirbuf.nvim',
 
-    {"andythigpen/nvim-coverage", opts={}}
+    {"andythigpen/nvim-coverage", opts={}},
+    { "nvim-neotest/nvim-nio" },
 
 }
