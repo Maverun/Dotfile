@@ -1,0 +1,22 @@
+#!/bin/sh
+
+toggle_gw2_mouse(){
+  # so we dont keep spamming command of active set...
+  result=$(ratbagctl "Logitech Gaming Mouse G600" profile active get)
+  echo $result
+  if [ $result != '0' ]; then
+    ratbagctl "Logitech Gaming Mouse G600" profile active set 0
+  fi
+}
+
+handle() {
+  echo $1
+  case $1 in
+    activewindow*gw2-64.exe*) ratbagctl "Logitech Gaming Mouse G600" profile active set 2 ;;
+    activewindow\>\>*) toggle_gw2_mouse && echo "$1" ;;
+    # activewindow*gw2*) echo "hello gw2" ;;
+    # activewindow\>\>*) echo "hello others with $1" ;;
+  esac
+}
+
+socat -U - UNIX-CONNECT:$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock | while read -r line; do handle "$line"; done
