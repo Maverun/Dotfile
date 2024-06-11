@@ -2,7 +2,10 @@
 --│                                 treesitter                                 │
 --└────────────────────────────────────────────────────────────────────────────┘
 return {
-    {'nvim-treesitter/nvim-treesitter', build = ':TSUpdate',
+    {
+        'nvim-treesitter/nvim-treesitter',
+        build = ':TSUpdate',
+        event = "VeryLazy",
         config = function()
             require'nvim-treesitter.configs'.setup {
                 -- ensure_installed = 'maintained',
@@ -15,7 +18,8 @@ return {
                     -- diable = {'python','orgmode'},
                 },
                 autotag = {enable = true},
-                incremental_selection = {enable = true,
+                incremental_selection = {
+                    enable = true,
                     keymaps = {
                         init_selection = "<cr>",
                         node_incremental = "<cr>",
@@ -29,53 +33,51 @@ return {
                     max_file_lines = 1000, -- Do not enable for files with more than 1000 lines, int
                 },
 
-              textobjects = {
-                select = {
-                  enable = true,
+                textobjects = {
+                    select = {
+                        enable = true,
 
-                  -- Automatically jump forward to textobj, similar to targets.vim
-                  lookahead = true,
+                        -- Automatically jump forward to textobj, similar to targets.vim
+                        lookahead = true,
 
-                  keymaps = {
-                    -- You can use the capture groups defined in textobjects.scm
-                    ["af"] = "@function.outer",
-                    ["if"] = "@function.inner",
-                    ["ac"] = "@class.outer",
-                    ["ic"] = "@class.inner",
+                        keymaps = {
+                            -- You can use the capture groups defined in textobjects.scm
+                            ["af"] = "@function.outer",
+                            ["if"] = "@function.inner",
+                            ["ac"] = "@class.outer",
+                            ["ic"] = "@class.inner",
                         },-- end of keymaps
                     },--end of select
 
-                swap = {
-                  enable = true,
-                  swap_next = {
-                    ["<Right>"] = "@parameter.inner",
-                  },
-                  swap_previous = {
-                    ["<Left>"] = "@parameter.inner",
-                  },
-                },
-                }--end of textobjects
+                    swap = {
+                        enable = true,
+                        swap_next = {
+                            ["<Right>"] = "@parameter.inner",
+                        },
+                        swap_previous = {
+                            ["<Left>"] = "@parameter.inner",
+                        },
+                    },
+                }, --end of textobjects
+
+                ensure_installed = {
+                    "python",
+                    "bash",
+                    "json",
+                    "jsonc",
+                    "lua",
+                    "regex",
+                    "vim",
+                    "vimdoc",
+                    "yaml",
+                    "markdown",
+                    "markdown_inline",
+                }
             }
         end
 
     },
-
-
-    {'nvim-treesitter/playground', lazy=true},
-    { "luckasRanarison/tree-sitter-hypr",
-    dependency = {'nvim-treesitter/nvim-treesitter'},
-    config = function ()
-        local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-        parser_config.hypr = {
-            install_info = {
-                url = "https://github.com/luckasRanarison/tree-sitter-hypr",
-                files = { "src/parser.c" },
-                branch = "master",
-            },
-            filetype = "hypr",
-        }
-    end
-    },
-    "p00f/nvim-ts-rainbow",
-    {'nvim-treesitter/nvim-treesitter-textobjects', event="InsertEnter"}
+    {'nvim-treesitter/nvim-treesitter-textobjects', event="InsertEnter"},
+    {'nvim-treesitter/playground', event="VeryLazy"},
+    {"HiPhish/rainbow-delimiters.nvim"},
 }

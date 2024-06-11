@@ -16,7 +16,7 @@ return {
     {
         'echasnovski/mini.nvim',
         version = '*',
-        event = "InsertEnter",
+        event = "VeryLazy",
         config = function()
             require 'mini.surround'.setup({
                 mappings = {
@@ -35,7 +35,12 @@ return {
             -- require'mini.pairs'.setup({modes = {insert = true,command = true}})
             require 'mini.ai'.setup()
             require 'mini.misc'.setup()
-            MiniMisc.setup_auto_root()
+            require 'mini.indentscope'.setup({
+                draw = {
+                    animation = require('mini.indentscope').gen_animation.none()
+                }
+            })
+            _G.MiniMisc.setup_auto_root()
 
         end,
         keys = {

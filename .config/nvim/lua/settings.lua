@@ -48,6 +48,7 @@ cmd 'set iskeyword -=_'              -- allow to ignore _ as one word
 -- opt.autochdir = true            -- Working directory will be always same
 -- opt.filetype = 'plugin'
 cmd 'set fillchars+=vert:▏'          -- Setting Window Vertical border to thin
+cmd 'set shortmess=I'
 
 opt.conceallevel = 2            -- allow to view markdown ease
 

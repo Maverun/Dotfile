@@ -3,6 +3,18 @@ local api = vim.api
 local augroup = vim.api.nvim_create_augroup
 local aucmd = vim.api.nvim_create_autocmd
 
+augroup("starter_dirbuf",{clear = true})
+aucmd('VimEnter',{
+    group = 'starter_dirbuf',
+    pattern = "",
+    callback = function(ev)
+	if ev["file"] == "" then
+	    vim.api.nvim_command "Dirbuf"
+	end
+	-- print(string.format('event fired: %s', vim.inspect(ev)))
+    end,
+})
+
 augroup('set_formatoptions',{clear = true})
 aucmd({'BufNewFile','BufEnter'},{
     group = 'set_formatoptions',
@@ -111,6 +123,15 @@ aucmd({ 'BufEnter', 'BufWinEnter' }, {
 	winbar.eval()
     end
 })
+
+
+-- aucmd('BufWinEnter',{
+--     group = 'starter_dirbuf',
+--     pattern = "",
+--     callback = function(ev)
+-- 	print(string.format('event fired: %s', vim.inspect(ev)))
+--     end,
+-- })
 
 -- Run the program with @g so that we can see output, on split window
 vim.cmd [[

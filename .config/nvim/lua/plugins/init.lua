@@ -20,10 +20,9 @@ return{
         }
     },
     'nvim-tree/nvim-web-devicons',                       -- Icon and so on for more conviences
-    'lukas-reineke/indent-blankline.nvim',              -- to display indent line
-    {'norcalli/nvim-colorizer.lua',opts={'*'}},         -- to show what color look like
+    {'norcalli/nvim-colorizer.lua',opts={'*'}, event="VeryLazy"},         -- to show what color look like
     'kshenoy/vim-signature',                            -- To display where MARK is at (ma, mb ) etc
-    'SmiteshP/nvim-navic',
+    {'SmiteshP/nvim-navic', event="VeryLazy"},
 
 --  ┌───────────────────────────────────────────────────────────────────────────┐
 --  │                                   Auto                                    │
@@ -36,7 +35,7 @@ return{
 --  │                                Navagation                                 │
 --  └───────────────────────────────────────────────────────────────────────────┘
 
-    'unblevable/quick-scope', -- Show highlight key for f,F,t,T, best thing.
+    {'unblevable/quick-scope', event="VeryLazy"}, -- Show highlight key for f,F,t,T, best thing.
     { 'hedyhli/outline.nvim', opts={}, keys = { {'<C-t>','<cmd>Outline<CR>'} } }, --display tags
 
     {'smoka7/hop.nvim',config=function() require'hop'.setup() end,
@@ -53,16 +52,16 @@ return{
 -- └───────────────────────────────────────────────────────────────────────────┘
 
 
-    'plasticboy/vim-markdown', --vim markdown for vimwiki
-    'dkarter/bullets.vim',
+    {'plasticboy/vim-markdown', event="VeryLazy"}, --vim markdown for vimwiki
+    {'dkarter/bullets.vim', event="VeryLazy"},
     -- 'gaoDean/autolist.nvim' --auto list for you.
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                Essentials                                 │
 -- └───────────────────────────────────────────────────────────────────────────┘
 
-    'tpope/vim-fugitive',                                 -- GIT
-    'tpope/vim-sleuth',                                 -- auto ajust shiftwidth/expandtab
+    {'tpope/vim-fugitive', event="VeryLazy"},                                 -- GIT
+    {'tpope/vim-sleuth', event="VeryLazy"},                                 -- auto ajust shiftwidth/expandtab
     {'numtostr/FTerm.nvim',
         keys = {
             {'<leader>tt',':lua require("FTerm").toggle()<cr>', desc = "Fterm Toggle"},
@@ -76,18 +75,13 @@ return{
     --'junegunn/fzf.vim'                                  -- FZF well u know fuzzy finder thingy
 
     --'jalvesaq/Nvim-R'                                    -- In replace of Rstudio
-    'ekickx/clipboard-image.nvim',                        -- Allow to paste img as a url of path (Auto create picture files locally)
+    -- {'ekickx/clipboard-image.nvim'},                        -- Allow to paste img as a url of path (Auto create picture files locally)
     {'Djancyp/cheat-sheet', keys = { {'<leader>?',':CheatSH<CR>'} } }, -- using cheat.sh while in nvim.
 
-    'tweekmonster/startuptime.vim',                       -- Debug to see system health
+    -- 'tweekmonster/startuptime.vim',                       -- Debug to see system health
     'onsails/lspkind-nvim',
     'nvim-lua/popup.nvim',                                -- Popup API
     'nvim-lua/plenary.nvim',                              -- allow to reuse those function provided
-
-    { 'echasnovski/mini.nvim', branch = 'stable' },
-
-    'L3MON4D3/LuaSnip',
-    'rafamadriz/friendly-snippets',
 
     {'knubie/vim-kitty-navigator', run = 'cp ./*.py ~/.config/kitty/',
        keys = {
@@ -100,26 +94,27 @@ return{
 },
     -- 'Vigemus/iron.nvim',
 
-    'lervag/vimtex',
+    {'lervag/vimtex', ft="tex"},
     {'numToStr/Comment.nvim', config = function() require("Comment").setup{} end},
 
-    {
-        "nvim-neotest/neotest",
-        requres = {
-            "nvim-lua/plenary.nvim",
-            "nvim-treesitter/nvim-treesitter",
-            "autoinemadec/FixCursorHold.nvim"
-        }
-    },
-    'nvim-neotest/neotest-python',
     {'kdheepak/lazygit.nvim',
         keys = {
             {'<leader>gg',':LazyGit<CR>'},
         }
     },
-    'elihunter173/dirbuf.nvim',
+    {'elihunter173/dirbuf.nvim', event="VimEnter"},
 
-    {"andythigpen/nvim-coverage", opts={}},
+    {"andythigpen/nvim-coverage", opts={}, event="VeryLazy"},
     { "nvim-neotest/nvim-nio" },
+
+    {
+        "iamcco/markdown-preview.nvim",
+        cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+        ft = { "markdown" },
+        build = function() vim.fn["mkdp#util#install"]() end,
+        keys = {
+            {"<leader>mp",':MarkdownPreviewToggle<CR>'},
+        }
+    },
 
 }

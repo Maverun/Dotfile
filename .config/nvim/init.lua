@@ -23,7 +23,6 @@ vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappin
 
 require('settings')
 require("lazy").setup("plugins")
--- require('plugins')
 require('mappings')
 require('autocmd')
 require('theme')
