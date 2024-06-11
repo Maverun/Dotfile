@@ -52,8 +52,8 @@ return{
 -- └───────────────────────────────────────────────────────────────────────────┘
 
 
-    {'plasticboy/vim-markdown', event="VeryLazy"}, --vim markdown for vimwiki
-    {'dkarter/bullets.vim', event="VeryLazy"},
+    {'plasticboy/vim-markdown', ft="markdown"}, --vim markdown for vimwiki
+    {'dkarter/bullets.vim', ft="markdown"},
     -- 'gaoDean/autolist.nvim' --auto list for you.
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
@@ -95,7 +95,7 @@ return{
     -- 'Vigemus/iron.nvim',
 
     {'lervag/vimtex', ft="tex"},
-    {'numToStr/Comment.nvim', config = function() require("Comment").setup{} end},
+    {'numToStr/Comment.nvim', event = "VeryLazy", opts = {}},
 
     {'kdheepak/lazygit.nvim',
         keys = {
