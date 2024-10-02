@@ -251,14 +251,14 @@ function toggleCheckBox()
 
 end
 
-local markdownHeadlineStar = vim.api.nvim_create_augroup('markdownHeadlineStar', { clear = true })
-vim.api.nvim_create_autocmd({ 'BufEnter','TextChanged','InsertLeave' }, {
-	group = markdownHeadlineStar,
-	desc = 'Show star conceal and highlight.',
-	callback = function()
-		refresh()
-	end
-})
+-- local markdownHeadlineStar = vim.api.nvim_create_augroup('markdownHeadlineStar', { clear = true })
+-- vim.api.nvim_create_autocmd({ 'BufEnter','TextChanged','InsertLeave' }, {
+-- 	group = markdownHeadlineStar,
+-- 	desc = 'Show star conceal and highlight.',
+-- 	callback = function()
+-- 		refresh()
+-- 	end
+-- })
 
 -- vim.api.nvim_buf_set_keymap(0,'n','<leader>oh',[[:lua print(vim.inspect(find_headline()))]], {noremap = true})
 vim.api.nvim_buf_set_keymap(0,'n','<leader>nh',[[:lua add_neighbour_heading()<CR>A]], {noremap = true, desc = "Add Neighbour Heading"})

@@ -77,6 +77,9 @@ alias lynx='lynx -cfg=~/.lynx/lynx.cfg -lss=~/.lynx/lynx.lss -vikeys'
 alias ..='cd ..'
 alias ...='cd ../..'
 
+alias download='cd ~/Downloads'
+alias document='cd ~/Documents'
+
 #ALIAS of Taskwarrior
 alias tsync='task sync'
 alias ts='task +School'
@@ -124,7 +127,7 @@ alias enableScreenSaver='xset s on & xset s blank & xset dpms'
 alias ssh='kitty +kitten ssh'
 alias icat="kitty +kitten icat --align=left" #photo preview on kitty terminal. Yeah mate.
 
-alias gw2="wl-paste -t text -w sh -c '[ \"$(xclip -selection clipboard -o)\" = \"$(wl-paste -n)\" ] || xclip -selection clipboard'"
+# alias gw2="wl-paste -t text -w sh -c '[ \"$(xclip -selection clipboard -o)\" = \"$(wl-paste -n)\" ] || xclip -selection clipboard'"
 
 
 # ┌────────────────────────────────────────────────────────────────────────────┐

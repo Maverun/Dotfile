@@ -6,7 +6,7 @@
 # DP-3 = Top monitor
 
 # Default all monitor connecting.
-notify-send "Changing window mode"
+notify-send "Changing window mode " $1
 if [[ $1 == "4Monitor" ]]; then
 	hyprctl keyword monitor HDMI-A-1, 1920x1080@60, 0x1440,1
 	hyprctl keyword monitor DP-1, 2560x1440@144, 1920x1080,1
@@ -15,6 +15,7 @@ if [[ $1 == "4Monitor" ]]; then
 # bottom 3 monitor only, happen when top monitor using phone connect.
 elif [[ $1 == "3Monitor" ]]; then
 	hyprctl keyword monitor HDMI-A-1, 1920x1080@60, 0x360,1
+	# hyprctl keyword monitor DP-4, 1920x1080@60, 0x360,1
 	hyprctl keyword monitor DP-1, 2560x1440@144, 1920x0,1
 	hyprctl keyword monitor DP-2, 1920x1080@60, 4480x360,1
 	hyprctl keyword monitor DP-3, disable

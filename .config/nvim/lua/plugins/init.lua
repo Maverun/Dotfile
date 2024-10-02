@@ -54,6 +54,28 @@ return{
 
     {'plasticboy/vim-markdown', ft="markdown"}, --vim markdown for vimwiki
     {'dkarter/bullets.vim', ft="markdown"},
+    {
+        "lukas-reineke/headlines.nvim",
+        dependencies = "nvim-treesitter/nvim-treesitter",
+        ft="markdown",
+        config = true, -- or `opts = {}`
+        opts = {
+            markdown = {
+                bullets = { "◉", "✿", "✦", "¤", "", "✸" },
+                bullet_highlights = { "markdownH1","markdownH2","markdownH3","markdownH4","markdownH5","markdownH6"},
+            }
+        }
+    },
+
+    {
+        "iamcco/markdown-preview.nvim",
+        cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+        ft = { "markdown" },
+        build = function() vim.fn["mkdp#util#install"]() end,
+        keys = {
+            {"<leader>mp",':MarkdownPreviewToggle<CR>'},
+        }
+    },
     -- 'gaoDean/autolist.nvim' --auto list for you.
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
@@ -106,15 +128,16 @@ return{
 
     {"andythigpen/nvim-coverage", opts={}, event="VeryLazy"},
     { "nvim-neotest/nvim-nio" },
-
     {
-        "iamcco/markdown-preview.nvim",
-        cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-        ft = { "markdown" },
-        build = function() vim.fn["mkdp#util#install"]() end,
-        keys = {
-            {"<leader>mp",':MarkdownPreviewToggle<CR>'},
-        }
+      "leath-dub/snipe.nvim",
+      keys = {
+        {"gbs", function () require("snipe").open_buffer_menu() end, desc = "Open Snipe buffer menu"}
+      },
+      opts = {
+          ui = {
+              position = "cursor"
+          }
+      }
     },
 
 }

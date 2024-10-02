@@ -29,12 +29,14 @@ return {
                     update_n_lines = ',sn' -- Update `n_lines`
                 }
             })
+	    require('mini.icons').setup()
             require 'mini.cursorword'.setup()
             require 'mini.align'.setup()
             require 'mini.trailspace'.setup()
             -- require'mini.pairs'.setup({modes = {insert = true,command = true}})
             require 'mini.ai'.setup()
             require 'mini.misc'.setup()
+            require 'mini.diff'.setup()
             require 'mini.indentscope'.setup({
                 draw = {
                     animation = require('mini.indentscope').gen_animation.none()
