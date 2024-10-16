@@ -1,0 +1,5 @@
+[plugin]
+deps = [{ use = "yazi-rs/plugins:jump-to-char", rev = "7458b6c" }, { use = "yazi-rs/plugins:smart-filter", rev = "7458b6c" }, { use = "AnirudhG07/rich-preview", rev = "fe43219" }]
+
+[flavor]
+deps = []
