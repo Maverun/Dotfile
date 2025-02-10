@@ -261,10 +261,11 @@ end
 -- })
 
 -- vim.api.nvim_buf_set_keymap(0,'n','<leader>oh',[[:lua print(vim.inspect(find_headline()))]], {noremap = true})
-vim.api.nvim_buf_set_keymap(0,'n','<leader>nh',[[:lua add_neighbour_heading()<CR>A]], {noremap = true, desc = "Add Neighbour Heading"})
-vim.api.nvim_buf_set_keymap(0,'n','<leader>nih',[[:lua add_inner_heading()<CR>A]], {noremap = true, desc = "Add Inner Heading"})
-vim.api.nvim_buf_set_keymap(0,'n','<leader>noh',[[:lua add_outer_heading()<CR>A]], {noremap = true, desc = "Add Outer Heading"})
+vim.api.nvim_buf_set_keymap(0,'n','<leader>nhn',[[:lua add_neighbour_heading()<CR>A]], {noremap = true, desc = "Add Neighbour Heading"})
+vim.api.nvim_buf_set_keymap(0,'n','<leader>nhi',[[:lua add_inner_heading()<CR>A]], {noremap = true, desc = "Add Inner Heading"})
+vim.api.nvim_buf_set_keymap(0,'n','<leader>nho',[[:lua add_outer_heading()<CR>A]], {noremap = true, desc = "Add Outer Heading"})
 vim.api.nvim_buf_set_keymap(0,'n','<leader>c',[[:lua toggleCheckBox()<CR>]], {noremap = true, desc = "Toggle Checkbox"})
+
 
 
 vim.cmd[[
@@ -325,7 +326,10 @@ function! MarkdownLevel()
 	endif
 endfunction
 
-au BufEnter *.md setlocal foldexpr=MarkdownLevel()
+au BufEnter *.md setlocal foldexpr=nvim_treesitter#foldexpr()
 au BufEnter *.md setlocal foldmethod=expr
 
 ]]
+-- vim.bo.foldmethod = "expr";
+-- vim.bo.foldexpr= "nvim_treesitter#foldexpr()";
+

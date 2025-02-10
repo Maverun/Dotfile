@@ -14,8 +14,8 @@ local popup_border = {
 }
 
 function on_attach(client, bufnr)
-    navic = require'nvim-navic'
-    navic.attach(client,bufnr)
+    -- navic = require'nvim-navic'
+    -- navic.attach(client,bufnr)
     local function map(l, r, o)
         local options = { noremap = true, silent = true, buffer = bufnr}
         if o then options = vim.tbl_extend('force', options, o) end
@@ -107,9 +107,9 @@ local ltex_setting ={
 
 
 return {
-    {'SmiteshP/nvim-navic'},
-    {"williamboman/mason.nvim", opts={}},
-    "williamboman/mason-lspconfig.nvim",
+    -- {'SmiteshP/nvim-navic'},
+    {"williamboman/mason.nvim", priority = 99, opts={}},
+    {"williamboman/mason-lspconfig.nvim", priority = 90},
     {'neovim/nvim-lspconfig',
     dependencies = {
         'nvim-lua/popup.nvim',
@@ -118,68 +118,45 @@ return {
         'onsails/lspkind-nvim',
     },
     config = function()
-
-
-        local handlers = {
-            -- The first entry (without a key) will be the default handler
-            -- and will be called for each installed server that doesn't have
-            -- a dedicated handler
-            function (server_name) -- default handler (optional)
-                local lspconfig = require('lspconfig')
-                if server_name == "pylsp" then
-                    require("lspconfig")["pylsp"].setup{
-                        on_attach = on_attach,
-                        settings = {
-                            pylsp = {
-                                plugins = {
-                                    pycodestyle = {
-                                        ignore = {'E501'}
-                                        -- maxLineLength = 100
-                                    }
-                                }
-                            }
-                        }
-                    }
-                elseif server_name == "yamlls" then
-                    lspconfig.yamlls.setup({
-                        on_attach = on_attach,
-                        setting = {
-                            yaml = {
-                                schemas = {
-                                    -- PRIVATE DUE TO WORK...
-                                    -- ["URL"] = "/Filename"
-                                }
-                            }
-                        }
-                    })
-                else
-                    require("lspconfig")[server_name].setup{
-                        on_attach = on_attach
-                    }
-                end
-            end,
-
-            ["lua_ls"] = function()
-                local lspconfig = require('lspconfig')
-                lspconfig.lua_ls.setup(lua_setting)
-            end,
-        } -- End of Handlers
-
-        require("mason-lspconfig").setup({ handlers = handlers})
-
-
-
         -- require('lspconfig')['ltex'].setup{
         --     on_attach = on_attach,
         --     settings = ltex_setting
         -- }
         --
-        -- require("grammar-guard").init()
-        -- -- setup LSP config
-        -- require("lspconfig").grammar_guard.setup({
-        --   cmd = { 'ltex-ls' }, -- add this if you install ltex-ls yourself
-        --         settings = ltex_setting,
-        -- })
+        require("grammar-guard").init()
+        -- setup LSP config
+        require("lspconfig").grammar_guard.setup({
+          -- cmd = { 'ltex-ls' }, -- add this if you install ltex-ls yourself
+                -- settings = ltex_setting,
+        })
+	local lspconfig = require('lspconfig')
+        lspconfig.lua_ls.setup(lua_setting)
+	lspconfig.pylsp.setup{
+	on_attach = on_attach,
+	settings = {
+	    pylsp = {
+		plugins = {
+		    pycodestyle = {
+			ignore = {'E501'}
+			-- maxLineLength = 100
+		    }
+		}
+	    }
+	}
+
+	}
+	lspconfig.yamlls.setup({
+	on_attach = on_attach,
+	setting = {
+	    yaml = {
+		schemas = {
+		    -- PRIVATE DUE TO WORK...
+		    -- ["URL"] = "/Filename"
+		}
+	    }
+	}})
+
+    lspconfig.ltex.setup(ltex_setting)
 
         -- remove the lsp servers with their configs you don want
         local vls_binary = '/usr/local/bin/vls'

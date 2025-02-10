@@ -113,16 +113,16 @@ aucmd('ColorScheme',{
 })
 
 
-local userWinbar = augroup('userWinbar', { clear = true })
-local winbar = require('winbar')
-winbar.setup()
-aucmd({ 'BufEnter', 'BufWinEnter' }, {
-    group = userWinbar,
-    desc = 'Adds winbar based on ft',
-    callback = function()
-	winbar.eval()
-    end
-})
+-- local userWinbar = augroup('userWinbar', { clear = true })
+-- local winbar = require('winbar')
+-- winbar.setup()
+-- aucmd({ 'BufEnter', 'BufWinEnter' }, {
+--     group = userWinbar,
+--     desc = 'Adds winbar based on ft',
+--     callback = function()
+-- 	winbar.eval()
+--     end
+-- })
 
 
 -- aucmd('BufWinEnter',{

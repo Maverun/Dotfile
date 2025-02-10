@@ -47,6 +47,7 @@ return {
 		}
 	end,
 	keys = {
+		{'\\s','', desc="Iron"},
 		{'\\sr',':vs<CR>:IronReplHere<CR>', desc="Iron Repl"}
 	}
 }

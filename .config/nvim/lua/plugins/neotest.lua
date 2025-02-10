@@ -5,6 +5,7 @@ return {
     "antoinemadec/FixCursorHold.nvim",
     "nvim-treesitter/nvim-treesitter",
     "nvim-neotest/neotest-python",
+    "nvim-neotest/nvim-nio",
     },
     config = function()
       require('neotest').setup{
@@ -40,6 +41,7 @@ return {
       }
     end,
     keys = {
+        { '\\n', '', desc = "Neotest" },
         { '\\nr', ':lua require"neotest".run.run()<CR>', desc = "Run nearest test" },
         { '\\nw', ':lua require"neotest".run.run(vim.fn.expand("%"))<CR>', desc = "Run whole test file" },
         { '\\no', ':lua require"neotest".output_panel.toggle()<CR>', desc = "Toggle the output" },

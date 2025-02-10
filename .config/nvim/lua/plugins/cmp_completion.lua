@@ -2,7 +2,7 @@ return {
     {
     "hrsh7th/nvim-cmp",
     -- load cmp on InsertEnter
-    event = "InsertEnter",
+    event = {"InsertEnter", "CmdlineEnter"},
     -- these dependencies will only be loaded when cmp loads
     -- dependencies are always lazy-loaded unless specified otherwise
     dependencies = {
@@ -36,27 +36,30 @@ return {
 				select = true,
 			},
 			-- ['<C-Space>'] = cmp.mapping(function(fallback) require'cmp'.completion = {autocomplete = not require'cmp'.completion.autocomplete} end),
-			['<Tab>'] = cmp.mapping(function(fallback)
-				-- if cmp.visible() then
-					-- cmp.select_next_item()
-					-- vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n')
-				if require'luasnip'.expand_or_jumpable() then
-					vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-expand-or-jump', true, true, true), '')
-				else
-					fallback()
-				end
-			end,{'i','s'}),
+			-- ['<Tab>'] = cmp.mapping(function(fallback)
+			-- 	print("Hello")
+			-- 	-- if cmp.visible() then
+			-- 		-- cmp.select_next_item()
+			-- 		-- vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n')
+			-- 	if require'luasnip'.expand_or_jumpable() then
+			-- 		vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-expand-or-jump', true, true, true), '')
+			-- 	else
+			-- 		fallback()
+			-- 	end
+			-- end,{'i','s'}),
 
-			["<S-Tab>"] = cmp.mapping(function(fallback)
-				-- if cmp.visible() then
-					-- cmp.select_next_item()
-				if require'luasnip'.jumpable(-1) then
-					vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-jump-prev', true, true, true), '')
-				else
-					-- fallback()
-					vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<esc><<a',true,true,true))
-				end
-			end, { "i", "s", })},
+
+			-- ["<S-Tab>"] = cmp.mapping(function(fallback)
+			-- 	-- if cmp.visible() then
+			-- 		-- cmp.select_next_item()
+			-- 	if require'luasnip'.jumpable(-1) then
+			-- 		vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-jump-prev', true, true, true), '')
+			-- 	else
+			-- 		-- fallback()
+			-- 		vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<esc><<a',true,true,true))
+			-- 	end
+			-- end, { "i", "s", })
+		},
 
 		experimental = {
 			-- temp testing to see if i like this or not.
@@ -81,6 +84,7 @@ return {
 					buffer = "[buf]",
 					nvim_lsp = "[LSP]",
 					nvim_lua = "[api]",
+			-- { name = 'cmdline'},
 					path = "[path]",
 					luasnip = "[snip]",
 				},

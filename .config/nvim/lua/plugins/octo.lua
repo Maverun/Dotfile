@@ -29,10 +29,13 @@ return {
     'nvim-tree/nvim-web-devicons',
   },
   keys = {
-    {'<leader>oil',':Octo issue list<CR>',desc = "Oct Issue List"},
-    {'<leader>oie',':Octo issue list<CR>',desc = "Oct Issue List"},
-    {'<leader>opl',':Octo pr list<CR>',desc = "Oct PR List"},
-    {'<leader>ope',':Octo pr list<CR>',desc = "Oct PR Edit"},
+    {'<leader>o','',desc = "Octo"},
+    {'<leader>oi','',desc = "Octo Issue"},
+    {'<leader>op','',desc = "Octo PR"},
+    {'<leader>oil',':Octo issue list<CR>',desc = "Octo Issue List"},
+    {'<leader>oie',':Octo issue list<CR>',desc = "Octo Issue List"},
+    {'<leader>opl',':Octo pr list<CR>',desc = "Octo PR List"},
+    {'<leader>ope',':Octo pr list<CR>',desc = "Octo PR Edit"},
   },
   opts = {
   use_local_fs = false,                    -- use local files on right side of reviews

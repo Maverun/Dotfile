@@ -152,6 +152,7 @@ return {
 
     end,
     keys = {
+      {'\\d','',desc = 'Dap'},
       {'\\dc',':lua require"dap".continue()<CR>',desc = 'Continue'},
       {'\\do',':lua require"dap".step_over()<CR>',desc = "Step Over"},
       {'\\dj',':lua require"dap".step_into()<CR>',desc = "Step Into"},

@@ -71,11 +71,11 @@ opt.listchars = {
 
 local indent = 4
 
--- opt.expandtab = true                           -- Use spaces instead of tabs
--- opt.shiftwidth = indent                        -- Size of an indent
--- opt.smartindent = true                         -- Insert indents automatically
--- opt.tabstop = indent                           -- Number of spaces tabs count for
--- opt.shiftround = true                          -- Round indent
+opt.expandtab = true                           -- Use spaces instead of tabs
+opt.shiftwidth = indent                        -- Size of an indent
+opt.smartindent = true                         -- Insert indents automatically
+opt.tabstop = indent                           -- Number of spaces tabs count for
+opt.shiftround = true                          -- Round indent
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                   Fold                                    │

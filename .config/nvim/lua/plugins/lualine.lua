@@ -7,20 +7,24 @@ local diagnostic =  {
       sections = {'error', 'warn', 'info', 'hint'},
     }
 
+-- tkn = require("tokyonight")
+-- local colors = require("tokyonight.colors").setup({})
+-- vim.cmd("highlight lualine_a_normal guifg=#1c1d29 guibg="..colors.blue)
 return {
     'nvim-lualine/lualine.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons', "folke/tokyonight.nvim" },
     opts = {
 	    options = {
 		    icons_enabled = true,
-		    theme = 'tokyonight';
+		    theme = 'auto';
 		    component_separators = {left = '', right = ''},
 		    section_separators = {left = '', right = ''},
 		    disabled_filetypes = {}
 	    },
 	    sections = {
 		    lualine_a = {{'mode',icon = '☯'}},
-		    lualine_b = {'branch'},
-		    lualine_c = {'filename', diagnostic},
+		    lualine_b = {'branch', 'diff', 'diagnostic'},
+		    lualine_c = {'filename'},
 		    lualine_x = {'encoding', 'fileformat', 'filetype'},
 		    lualine_y = {'progress'},
 		    lualine_z = {'location'}

@@ -9,20 +9,23 @@ return{
     --'tiagovla/tokyodark.nvim'                          -- Colorscheme
     {'folke/tokyonight.nvim',
         lazy = false,
-        priority = 1000,
-        opts = {
-            style = 'night',
-            transparent = false,
-            styles = {
-                comments = 'italic',
-                functions = 'NONE',
+        priority = 1001,
+        config = function()
+            require('tokyonight').setup {
+                style = 'night',
+                transparent = false,
+                styles = {
+                    comments = 'italic',
+                    functions = 'NONE',
+                }
             }
-        }
+            vim.cmd([[colorscheme tokyonight]])
+        end,
     },
     'nvim-tree/nvim-web-devicons',                       -- Icon and so on for more conviences
     {'norcalli/nvim-colorizer.lua',opts={'*'}, event="VeryLazy"},         -- to show what color look like
     'kshenoy/vim-signature',                            -- To display where MARK is at (ma, mb ) etc
-    {'SmiteshP/nvim-navic', event="VeryLazy"},
+    -- {'SmiteshP/nvim-navic', event="VeryLazy"},
 
 --  ┌───────────────────────────────────────────────────────────────────────────┐
 --  │                                   Auto                                    │
@@ -38,7 +41,9 @@ return{
     {'unblevable/quick-scope', event="VeryLazy"}, -- Show highlight key for f,F,t,T, best thing.
     { 'hedyhli/outline.nvim', opts={}, keys = { {'<C-t>','<cmd>Outline<CR>'} } }, --display tags
 
-    {'smoka7/hop.nvim',config=function() require'hop'.setup() end,
+    {'smoka7/hop.nvim',config=function() require'hop'.setup({
+        create_hl_autocmd = false
+    }) end,
     keys = {
         -- {'S',':lua require"hop".hint_words({current_line_only = true,})<CR>',mode= {'n','v','o'}, desc="HOP within current line!",silent = true},
         {'s','<cmd>HopWord<CR>', mode ={'n','v','o'}, desc="HOP!", silent = true},
@@ -47,35 +52,8 @@ return{
     }
 },
 
--- ┌───────────────────────────────────────────────────────────────────────────┐
--- │                                   Notes                                   │
--- └───────────────────────────────────────────────────────────────────────────┘
 
 
-    {'plasticboy/vim-markdown', ft="markdown"}, --vim markdown for vimwiki
-    {'dkarter/bullets.vim', ft="markdown"},
-    {
-        "lukas-reineke/headlines.nvim",
-        dependencies = "nvim-treesitter/nvim-treesitter",
-        ft="markdown",
-        config = true, -- or `opts = {}`
-        opts = {
-            markdown = {
-                bullets = { "◉", "✿", "✦", "¤", "", "✸" },
-                bullet_highlights = { "markdownH1","markdownH2","markdownH3","markdownH4","markdownH5","markdownH6"},
-            }
-        }
-    },
-
-    {
-        "iamcco/markdown-preview.nvim",
-        cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-        ft = { "markdown" },
-        build = function() vim.fn["mkdp#util#install"]() end,
-        keys = {
-            {"<leader>mp",':MarkdownPreviewToggle<CR>'},
-        }
-    },
     -- 'gaoDean/autolist.nvim' --auto list for you.
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
@@ -86,12 +64,13 @@ return{
     {'tpope/vim-sleuth', event="VeryLazy"},                                 -- auto ajust shiftwidth/expandtab
     {'numtostr/FTerm.nvim',
         keys = {
+            {'<leader>t','', desc = "Fterm"},
             {'<leader>tt',':lua require("FTerm").toggle()<cr>', desc = "Fterm Toggle"},
             {'<leader>tt','<C-\\><C-n>:lua require("FTerm").toggle()<cr>', desc = 'Fterm Toggle'},
             {'<leader>tp',':lua require("FTerm").run("python ' .. vim.fn.expand("%:t")..'")<CR>',  desc = "Run Python Terminal"},
             {'<leader>tj',':lua require("FTerm").run("javac ' .. vim.fn.expand("%:t")..' && java '.. vim.fn.expand("%:t:r") ..'")<CR>',  desc = "Run Java Terminal"},
         }
-},                               -- Floating Terminal
+    },                               -- Floating Terminal
 
     --'junegunn/fzf'                                      -- Allowing Fuzzle Finder Search!
     --'junegunn/fzf.vim'                                  -- FZF well u know fuzzy finder thingy
@@ -119,15 +98,9 @@ return{
     {'lervag/vimtex', ft="tex"},
     {'numToStr/Comment.nvim', event = "VeryLazy", opts = {}},
 
-    {'kdheepak/lazygit.nvim',
-        keys = {
-            {'<leader>gg',':LazyGit<CR>'},
-        }
-    },
     {'elihunter173/dirbuf.nvim', event="VimEnter"},
 
     {"andythigpen/nvim-coverage", opts={}, event="VeryLazy"},
-    { "nvim-neotest/nvim-nio" },
     {
       "leath-dub/snipe.nvim",
       keys = {
@@ -139,5 +112,58 @@ return{
           }
       }
     },
+ --    {
+ --        "rcarriga/nvim-notify",
+ --    },
+    {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    opts = {
+        views = {
+            cmdline_popup = {
+                position = {
+                    row = "70%",
+                    col = "50%",
+                }
+            }
+        },
+        lsp = {
+            -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+            override = {
+                ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+                ["vim.lsp.util.stylize_markdown"] = true,
+                ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
+            },
+        },
+        popupmenu = {
+            enabled = true,
+            backend = 'cmp'
+        },
+        -- you can enable a preset for easier configuration
+        presets = {
+            bottom_search = false, -- use a classic bottom cmdline for search
+            command_palette = true, -- position the cmdline and popupmenu together
+            long_message_to_split = true, -- long messages will be sent to a split
+            inc_rename = false, -- enables an input dialog for inc-rename.nvim
+            lsp_doc_border = false, -- add a border to hover docs and signature help
+        },
+        dependencies = {
+            -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+            "MunifTanjim/nui.nvim",
+        }
+    }
+    },
+    {
+        "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+        config = function()
+            vim.diagnostic.config({
+                virtual_text = false,
+            })
+        end,
+        keys = {
+            {"<leader>l", function() require("lsp_lines").toggle() end, desc = "Toggle LSP Line"}
+        }
+
+    }
 
 }
