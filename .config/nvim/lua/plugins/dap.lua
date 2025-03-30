@@ -16,6 +16,7 @@ vim.api.nvim_create_autocmd('FileType',{
 
 
 return {
+  {'mfussenegger/nvim-dap-python'},
 
   {'theHamsta/nvim-dap-virtual-text',
     ft = "dap-repl",

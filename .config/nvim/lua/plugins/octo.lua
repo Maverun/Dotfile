@@ -220,14 +220,14 @@ return {
   },
 }},
 
-{'petertriho/cmp-git',
-  opts = {
-    github = {
-        -- hosts = { "github.mycompany.com", },
-        hosts = { "github.com", },
-    },
-  }
-}
+-- {'petertriho/cmp-git',
+--   opts = {
+--     github = {
+--         -- hosts = { "github.mycompany.com", },
+--         hosts = { "github.com", },
+--     },
+--   }
+-- }
 
 }
 

@@ -81,7 +81,17 @@ opt.shiftround = true                          -- Round indent
 -- │                                   Fold                                    │
 -- └───────────────────────────────────────────────────────────────────────────┘
 
+
+MyFoldText = function()
+    local line = vim.fn.getline(vim.v.foldstart)
+    local foldedlinecount = vim.v.foldend - vim.v.foldstart + 1
+    return '  '.. foldedlinecount .. '  ' .. line
+end
+
+vim.o.foldtext = "luaeval('MyFoldText()')"
 opt.foldmethod = 'manual'
+vim.o.fillchars = "fold: "
+vim.o.foldlevelstart = 99
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                  Column                                   │
@@ -123,15 +133,66 @@ end
 
 
 
+
+
+
 -- ┌───────────────────────────────────────────────────────────────────────────┐
--- │                              Folding Method                               │
+-- │                                  LSP	                               │
 -- └───────────────────────────────────────────────────────────────────────────┘
 
-MyFoldText = function()
-    local line = vim.fn.getline(vim.v.foldstart)
-    local foldedlinecount = vim.v.foldend - vim.v.foldstart + 1
-    return '  '.. foldedlinecount .. '  ' .. line
-end
+vim.lsp.enable({
+  -- lua
+  "lua",
+  -- python
+  "python",
+  "basedpyright",
+  "ruff",
+  -- yaml
+  "yaml",
+  -- bash
+  "bash",
+  -- Json
+  'json',
+  -- Markdown
+  "markdown",
+})
 
-vim.o.foldtext = "luaeval('MyFoldText()')"
-vim.o.fillchars = "fold: "
+vim.lsp.config( "*", {
+  on_attach = function(client, buffer)
+    -- vim.bo[buffer].formatexpr = "v:lua.vim.lsp.formatexpr"
+    if client and client:supports_method("textDocument/foldingRange") then
+        local win = vim.api.nvim_get_current_win()
+        vim.wo[win][0].foldmethod = "expr"
+        vim.wo[win][0].foldexpr = "v:lua.vim.lsp.foldexpr()"
+    end
+
+    vim.keymap.set("n", "grq", vim.diagnostic.setloclist, {desc = "Diagnostic QuickList"})
+    vim.keymap.set("n", "grD", vim.lsp.buf.declaration, {desc = "Declaration"})
+    vim.keymap.set("n", "grd", vim.lsp.buf.definition, {desc = "Definition"})
+    if client:supports_method("textDocument/formatting") then
+      vim.keymap.set("n",
+        "grf",
+        vim.lsp.buf.format,
+        {
+          buffer = buffer,
+          desc = "Formatting whole files"
+        }
+      )
+    end
+  end,
+})
+-- ┌───────────────────────────────────────────────────────────────────────────┐
+-- │                                Diagnostics	                               │
+-- └───────────────────────────────────────────────────────────────────────────┘
+
+vim.diagnostic.config({
+  -- Use the default configuration
+  -- virtual_lines = true
+
+  -- Alternatively, customize specific options
+  virtual_lines = {
+   -- Only show virtual line diagnostics for the current cursor line
+   current_line = true,
+  },
+})
+

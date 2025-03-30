@@ -1,5 +1,17 @@
-[plugin]
-deps = [{ use = "yazi-rs/plugins:jump-to-char", rev = "7458b6c" }, { use = "yazi-rs/plugins:smart-filter", rev = "7458b6c" }, { use = "AnirudhG07/rich-preview", rev = "fe43219" }]
+[[plugin.deps]]
+use = "yazi-rs/plugins:jump-to-char"
+rev = "7458b6c"
+hash = "70edd87b9fb5f64c7b0ccf0db2795ec0"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:smart-filter"
+rev = "7458b6c"
+hash = "2111d15f1dcb6a35bb85816213ba063b"
+
+[[plugin.deps]]
+use = "AnirudhG07/rich-preview"
+rev = "fe43219"
+hash = "ebf93ce73808294ca16581a8c18b497f"
 
 [flavor]
 deps = []

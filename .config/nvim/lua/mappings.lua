@@ -7,7 +7,7 @@ local o = 'o'
 
 local function map(mode, lhs, rhs, opts)
     -- if there is more than one mode, this allow to do them all, making editing easier
-    if type(mode) == 'table' then for i,v in ipairs(mode) do map(v,lhs,rhs,options) end return end
+    if type(mode) == 'table' then for i,v in ipairs(mode) do map(v,lhs,rhs,opts) end return end
     local options = {noremap = true}
     if opts then options = vim.tbl_extend('force', options, opts) end
     vim.api.nvim_set_keymap(mode, lhs, rhs, options)
@@ -30,6 +30,7 @@ end
 -- │                                Essentials                                 │
 -- └───────────────────────────────────────────────────────────────────────────┘
 map(n,'<leader>/',':%s/<c-r><c-w>',{desc = "Search/Sub current word"})
+map(v, "R", '"hy:%s/<c-r>h//gc<left><left><left>') -- Visual, select word and replace that same word with others.
 vim.keymap.set({n,v},'dd',smart_dd,{expr=true})
 map(n,"<M-s>",":source %<cr>") -- source either vim/lua for future
 map({n,v},';',':') -- save time pressing shift or rely on autoshift
@@ -72,14 +73,14 @@ map(i,'<M-CR>','<Esc>O<Esc>0i')
 --shift Line up or down
 --shifting left and right (onlys params) are done in treesitter configs with left and right arrow key
 
-map(v,'<Up>',':m-2<CR>gv')
-map(v,'<Down>',":m '>+1<CR>gv")
+map(v,'<Up>',':m-2<CR>gv', {silent=true})
+map(v,'<Down>',":m '>+1<CR>gv", {silent=true})
 
-map(n,'<Up>','<Esc>:m-2<CR>')
-map(n,'<Down>',"<Esc>:m+1<CR>")
+map(n,'<Up>','<Esc>:m-2<CR>', {silent=true})
+map(n,'<Down>',"<Esc>:m+1<CR>", {silent=true})
 
-map(i,'<S-Up>','<Esc>:m-2<CR>')
-map(i,'<S-Down>',"<Esc>:m+1<CR>")
+map(i,'<S-Up>','<Esc>:m-2<CR>', {silent=true})
+map(i,'<S-Down>',"<Esc>:m+1<CR>", {silent=true})
 
 
 --Dupe the line during insert mode, same with visual mode
@@ -89,7 +90,12 @@ map(v,'<M-d>','"dygvo<esc>"dp')
 map(n,'<M-d>','"dyy"dp')
 
 --Send them to VOID register
-map({v,n},'dv','"_d',{desc = "VOID Delete"})
+map({v,n},'<leader>d','"_d',{desc = "VOID Delete"})
+map({v,n},'<leader>c','"_c',{desc = "VOID Change"})
+
+-- adding where it doesnt swap with old into reg, we will just use same one. so it make sense that way
+map(v,'p','"_dP')
+-- map(v,'P','"_dP')
 
 --
 map(n,'<leader><space>',':nohlsearch<CR>', {desc = 'Remove Highlight'})
@@ -102,9 +108,7 @@ map({v,n,i},'<4-MiddleMouse>','<LeftMouse>')
 
 map('t','<esc>','<C-\\><C-n>') -- escape terminal trap!
 
--- adding where it doesnt swap with old into reg, we will just use same one. so it make sense that way
-map(v,'p','"_dP')
--- map(v,'P','"_dP')
+
 
 function ruler_toggle()
     vim.g.ruler_toggle_mave = not vim.g.ruler_toggle_mave

@@ -12,6 +12,9 @@ aucmd('VimEnter',{
 	    vim.api.nvim_command "Dirbuf"
 	end
 	-- print(string.format('event fired: %s', vim.inspect(ev)))
+	-- vim.cmd([[hi lualine_a_normal guibg=#7aa2f7 guifg=black ]])
+	print("helloooo")
+
     end,
 })
 
@@ -112,6 +115,15 @@ aucmd('ColorScheme',{
     desc = "Setting hop 2nd char easier to see, since original/default is harder to see",
 })
 
+
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(ev)
+    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+    if client:supports_method('textDocument/completion') then
+      vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
+    end
+  end,
+})
 
 -- local userWinbar = augroup('userWinbar', { clear = true })
 -- local winbar = require('winbar')

@@ -14,9 +14,9 @@ if not vim.loop.fs_stat(lazypath) then
     lazypath,
   })
 end
-vim.opt.rtp:prepend(lazypath)-- using { } for using different branch , loading plugin with certain commands etc
+vim.opt.rtp:prepend(lazypath) -- using { } for using different branch , loading plugin with certain commands etc
 
-vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
+vim.g.mapleader = " "         -- Make sure to set `mapleader` before lazy so your mappings are correct
 
 
 -- vim.g.loaded_python_provider = 0
