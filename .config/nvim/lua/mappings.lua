@@ -39,19 +39,13 @@ map(n,'<leader>gq',':q<cr>') -- quit
 
 map(n,'\\k','d$o<esc>p0')
 map(n,'\\j','J')
-map(n,'<S-k>','k')
-map(n,'<S-j>','j')
-
-map(i,'<C-s>',[[<esc>:lua require'utils'.show_func_help()<cr>]])
-
--- map(n,'<S-q>','@@') --screwed ex mode
+-- map(n,'<S-k>','k')
+-- map(n,'<S-j>','j')
+map(n, 'gj', 'gj')
+map(n, 'gk', 'gk')
 
 -- Save
-map({n,i},"<C-s>","<cmd>update<CR>")
-
--- Easy Caps
-map(i,'<M-u>','<Esc>viwUi')
-map(n,'<M-u>','viwU')
+-- map({n,i},"<C-s>","<cmd>update<CR>")
 
 map(n,'\\q',':bp<bar>sp<bar>bn<bar>bd<CR>')
 -- Close buffer without closing window
@@ -120,15 +114,23 @@ function cursor_toggle()
     vim.g.cursor_toggle_mave = not vim.g.cursor_toggle_mave
     vim.opt.cursorcolumn = vim.g.cursor_toggle_mave
     vim.opt.cursorline = vim.g.cursor_toggle_mave
-    if vim.g.cursor_toggle_mave  then
-        vim.opt.colorcolumn = '80'
-    else
-        vim.opt.colorcolumn = ''
-    end
 end
-map(n,'<F5>',':lua ruler_toggle()<CR>')
-map(n,'<F6>',':lua cursor_toggle()<CR>')
 
+function diagnostic_text_toggle()
+    local result = vim.diagnostic.config().virtual_lines
+    vim.diagnostic.config({
+        virtual_lines = not result
+    })
+
+end
+
+vim.g.cursor_toggle_mave = false
+
+map(n,'<F5>',':lua ruler_toggle()<CR>', {desc="Enable ruler", silent=true})
+map(n,'<F6>',':lua cursor_toggle()<CR>', {desc="Enable Cursor line", silent=true})
+
+
+map(n, "<F1>", ":lua diagnostic_text_toggle()<CR>", {desc="Toggle Diagnostic Virtual Line Text", silent=true})
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                Navigation                                 │
 -- └───────────────────────────────────────────────────────────────────────────┘
@@ -170,15 +172,15 @@ map(n,'<M-k>',":lua require'utils'.resize(false,-2)<CR>", {silent = true})
 map(n,'<M-l>',":lua require'utils'.resize(true,2)<CR>", {silent = true})
 
 --Buffer next page or previously
-map(n,"gbn",":bn<CR>")
-map(n,"gbp",":bp<CR>")
+map(n,"gbn",":bn<CR>", {silent = true})
+map(n,"gbp",":bp<CR>", {silent = true})
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                               Tab Functions                               │
 -- └───────────────────────────────────────────────────────────────────────────┘
 
 -- for command mode
-map(n,'<S-Tab>','<<')
+map(i,'<S-Tab>','<C-d>')
 --better tabbing in visual
 map(v,'<','<gv')
 map(v,'>','>gv')

@@ -94,11 +94,11 @@ function refresh()
 					previous_epoc = headline_content:match("%d+")
 					-- confirm if it first time or not.
 					if not headline_content:match("%d+") then
-						print("is first timer")
+						-- print("is first timer")
 						headline_content = string.format("%s%s - <%d>",string.rep("#",level),headline_content,os.time())
 						vim.api.nvim_buf_set_lines(0, start_row,start_row+1,0,{headline_content})
 					elseif reset_daily then
-						print("right here, checking ")
+						-- print("right here, checking ")
 						previous_time = os.date("%d",previous_epoc)
 						reset_daily = previous_time ~= os.date("%d",current_time)
 
@@ -107,7 +107,7 @@ function refresh()
 						reset_weekly = previous_time ~= os.date("%V",current_time)
 					end
 
-					print(reset_daily,reset_weekly, "meaning")
+					-- print(reset_daily,reset_weekly, "meaning")
 					if reset_daily or reset_weekly then
 						-- print("Nothing to reset!")
 						-- break
@@ -118,7 +118,7 @@ function refresh()
 						-- section_start = headline_section:start()
 						-- print(vim.inspect(section_start))
 						lines = vim.api.nvim_buf_get_lines(0,section:start(),section:end_(),0)
-						print(vim.inspect(lines))
+						-- print(vim.inspect(lines))
 						new_line = {}
 						for __, line in pairs(lines) do
 							if __ == 1 then
@@ -128,7 +128,7 @@ function refresh()
 							end
 							table.insert(new_line,str)
 						end
-						print(vim.inspect(new_line))
+						-- print(vim.inspect(new_line))
 						vim.api.nvim_buf_set_lines(0,section:start(),section:end_(),0,new_line)
 					end
 				end
@@ -232,7 +232,7 @@ function toggleCheckBox()
 	node = tsutil.get_node_at_cursor(0)
 	child = node:next_sibling()
 	text = nil
-	print(node:type(),node:child_count())
+	-- print(node:type(),node:child_count())
 	if node:type() == "list_marker_minus" then
 	if child:type() == "task_list_marker_unchecked" then
 			-- text = "- [x] "
@@ -332,4 +332,4 @@ au BufEnter *.md setlocal foldmethod=expr
 ]]
 -- vim.bo.foldmethod = "expr";
 -- vim.bo.foldexpr= "nvim_treesitter#foldexpr()";
-
+vim.bo.expandtab = true

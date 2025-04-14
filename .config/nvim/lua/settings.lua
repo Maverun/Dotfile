@@ -91,7 +91,7 @@ end
 vim.o.foldtext = "luaeval('MyFoldText()')"
 opt.foldmethod = 'manual'
 vim.o.fillchars = "fold: "
-vim.o.foldlevelstart = 99
+-- vim.o.foldlevelstart = 99
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                  Column                                   │
@@ -118,7 +118,7 @@ g.nv_search_paths = {
     "/ext_drive/SynologyDrive/NotesTaking/Home"
 }
 
-g.vim_markdown_conceal = 2
+-- g.vim_markdown_conceal = 2
 
 --there is plugins for this suda.nvim, but doesn't feel like a worth it  since I wont be editing in permission often.
 vim.cmd[[
@@ -188,11 +188,13 @@ vim.lsp.config( "*", {
 vim.diagnostic.config({
   -- Use the default configuration
   -- virtual_lines = true
+  virtual_text = true,
 
   -- Alternatively, customize specific options
-  virtual_lines = {
-   -- Only show virtual line diagnostics for the current cursor line
-   current_line = true,
-  },
+  virtual_lines = false
+  -- {
+ -- Only show virtual line diagnostics for the current cursor line
+ -- current_line = true,
+  -- },
 })
 

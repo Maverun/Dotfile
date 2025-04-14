@@ -19,7 +19,7 @@ return {
       diagnostics = {
           disable = { 'lowercase-global' },
           -- Get the language server to recognize the `vim` global
-          globals = { 'vim' },
+          globals = { 'vim', "Snacks" },
       },
       format = {
         enable = true,

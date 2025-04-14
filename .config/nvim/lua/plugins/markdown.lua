@@ -75,7 +75,12 @@ return {
             "nvim-treesitter/nvim-treesitter",
             "nvim-tree/nvim-web-devicons"
         },
-        config = {
+        opts = {
+            previews = {
+                linewise_hybrid_mode = true,
+                modes = {'c'},
+                hybrid_modes = { 'n' },
+            },
             markdown = {
                 headings = {
                     heading_1 = gen_heading_spec(1, "󰼏 "),

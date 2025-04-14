@@ -5,7 +5,7 @@
 -- ':lua _G.dump(vim.fn.getwininfo())'
 function _G.dump(...)
     local objects = vim.tbl_map(vim.inspect, { ... })
-    print(unpack(objects))
+    -- print(unpack(objects))
 end
 
 local M = {}
@@ -88,20 +88,21 @@ end
 
 function M.toggle_cursor_column()
     if not vim.g.cursor_toggle_mave then return end
+    local is_ruler = vim.g.ruler_toggle_mave
+    local is_cursor = vim.g.cursor_toggle_mave
     local wininfo = vim.fn.getwininfo()
     local cwind = vim.api.nvim_get_current_win()
     for _, win in pairs(wininfo) do
-        local ft = vim.api.nvim_buf_get_option(win['bufnr'], 'filetype')
-        -- print(win['winnr'], win['width'], ft)
+        local ft = vim.api.nvim_get_option_value('filetype', {buf = win['bufnr']})
         if ft == nil or ft == '' or ft == 'TelescopePrompt' or ft == "dashboard" then return end
         if win['winid'] ~= cwind then
-            vim.api.nvim_win_set_option(win['winid'], 'colorcolumn', '')
-            vim.api.nvim_win_set_option(win['winid'], 'cursorline', false)
-            vim.api.nvim_win_set_option(win['winid'], 'cursorcolumn', false)
+            -- vim.api.nvim_set_option_value('colorcolumn', '', {win=win['winid']})
+            vim.api.nvim_set_option_value('cursorline', false , {win=win['winid']})
+            vim.api.nvim_set_option_value('cursorcolumn', false, {win=win['winid']})
         else
-            vim.api.nvim_win_set_option(win['winid'], 'colorcolumn', '80')
-            vim.api.nvim_win_set_option(win['winid'], 'cursorline', true)
-            vim.api.nvim_win_set_option(win['winid'], 'cursorcolumn', true)
+            -- vim.api.nvim_set_option_value('colorcolumn', '80', {win=win['winid']})
+            vim.api.nvim_set_option_value('cursorline', is_cursor and true, {win=win['winid']})
+            vim.api.nvim_set_option_value('cursorcolumn', is_cursor and true, {win=win['winid']})
         end
     end
 end
@@ -303,10 +304,5 @@ function M.make_function_position_params()
     }
 end
 
--- Based on vim.lsp.buf.hover
-function M.Show_func_help()
-    local params = M.make_function_position_params()
-    vim.lsp.buf_request(0, "textDocument/signatureHelp", params)
-end
 
 return M

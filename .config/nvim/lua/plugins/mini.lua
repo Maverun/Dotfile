@@ -2,6 +2,15 @@
 -- │                                   Mini                                    │
 -- └───────────────────────────────────────────────────────────────────────────┘
 
+
+_G.mini_Lazydo = function()
+    vim.b.minicursorword_disable = true
+    vim.b.miniindentscope_disable = true
+    vim.b.minidiff_disable = true
+end
+
+vim.cmd('au FileType lazydo lua _G.mini_Lazydo()')
+
 vim.api.nvim_create_augroup('mini_trailspace', { clear = true })
 vim.api.nvim_create_autocmd('FileType', {
     group = 'mini_trailspace',
@@ -37,6 +46,7 @@ return {
                 }
             })
             require 'mini.cursorword'.setup()
+            vim.g.minicursorword_disable = {'lazydo'}
             require 'mini.align'.setup()
             require 'mini.trailspace'.setup()
             -- require'mini.pairs'.setup({modes = {insert = true,command = true}})

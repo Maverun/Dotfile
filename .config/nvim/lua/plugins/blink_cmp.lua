@@ -37,6 +37,18 @@ return {
 
         },
 
+        cmdline = {
+            completion = { menu = {auto_show = true}},
+            keymap = {
+                preset = 'none',
+                ['<C-n>'] = { 'select_next', 'fallback' },
+                ['<C-p>'] = { 'select_prev', 'fallback' },
+                ['<C-j>'] = { 'select_next', 'fallback' },
+                ['<C-k>'] = { 'select_prev', 'fallback' },
+                ['<C-y>'] = { 'accept', 'fallback' },
+            },
+        },
+
         appearance = {
             -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
             -- Adjusts spacing to ensure icons are aligned

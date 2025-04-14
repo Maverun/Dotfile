@@ -11,10 +11,6 @@ aucmd('VimEnter',{
 	if ev["file"] == "" then
 	    vim.api.nvim_command "Dirbuf"
 	end
-	-- print(string.format('event fired: %s', vim.inspect(ev)))
-	-- vim.cmd([[hi lualine_a_normal guibg=#7aa2f7 guifg=black ]])
-	print("helloooo")
-
     end,
 })
 
@@ -40,16 +36,8 @@ aucmd('VimLeave',{
     desc = "Fix Cursor issues?",
 })
 
-augroup('resize_windows_proportionally',{clear = true})
-aucmd('VimResized',{
-    group = 'resize_windows_proportionally',
-    pattern = '*',
-    command = 'tabdo wincmd =]',
-    desc = "Setting window proprtionally",
-})
-
 augroup('toggle_colorcolumn',{clear = true})
-aucmd({'VimResized','WinEnter','BufWinEnter'},{
+aucmd({'WinEnter'},{
     group = 'toggle_colorcolumn',
     pattern = '*',
     callback = require'utils'.toggle_cursor_column,
@@ -87,13 +75,13 @@ aucmd('ColorScheme',{
     desc = "change quickscope secondary color to see easier",
 })
 
-augroup('map_K_DOC',{clear = true})
-aucmd('FileType',{
-    group = 'map_K_DOC',
-    pattern = {'man','help'},
-    callback = function() api.nvim_buf_set_keymap(0,'n','K',[[:lua vim.api.nvim_feedkeys('K','n',true)<CR>]],{noremap=true,silent=true}) end,
-    desc = "Usually K  is blank to avoid annoying since auto shift is enable, so when enter the docs/help, this help",
-})
+-- augroup('map_K_DOC',{clear = true})
+-- aucmd('FileType',{
+--     group = 'map_K_DOC',
+--     pattern = {'man','help'},
+--     callback = function() api.nvim_buf_set_keymap(0,'n','K',[[:lua vim.api.nvim_feedkeys('K','n',true)<CR>]],{noremap=true,silent=true}) end,
+--     desc = "Usually K  is blank to avoid annoying since auto shift is enable, so when enter the docs/help, this help",
+-- })
 
 augroup('wrapText',{clear = true})
 aucmd('FileType',{

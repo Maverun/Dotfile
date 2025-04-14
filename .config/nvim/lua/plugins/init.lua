@@ -41,7 +41,10 @@ return {
     --  │                                Navagation                                 │
     --  └───────────────────────────────────────────────────────────────────────────┘
 
-    { 'unblevable/quick-scope', event = "VeryLazy" },                             -- Show highlight key for f,F,t,T, best thing.
+    { 'unblevable/quick-scope', config = function()
+        vim.g.qs_filetype_blacklist = { "lazydo" }
+    end,
+        event = "VeryLazy" },                             -- Show highlight key for f,F,t,T, best thing.
     { 'hedyhli/outline.nvim',   opts = {},       keys = { { '<C-t>', '<cmd>Outline<CR>' } } }, --display tags
 
     {
@@ -87,7 +90,7 @@ return {
     -- {'ekickx/clipboard-image.nvim'},                        -- Allow to paste img as a url of path (Auto create picture files locally)
     { 'Djancyp/cheat-sheet',       keys = { { '<leader>?', ':CheatSH<CR>' } } }, -- using cheat.sh while in nvim.
 
-    'onsails/lspkind-nvim',
+    -- 'onsails/lspkind-nvim',
     'nvim-lua/popup.nvim',   -- Popup API
     'nvim-lua/plenary.nvim', -- allow to reuse those function provided
 
@@ -177,5 +180,63 @@ return {
             require('log-highlight').setup {}
         end,
     },
-
+    ---@type LazySpec
+    {
+    "mikavilpas/yazi.nvim",
+    event = "VeryLazy",
+    dependencies = {
+        -- check the installation instructions at
+        -- https://github.com/folke/snacks.nvim
+        "folke/snacks.nvim"
+    },
+    keys = {
+        -- 👇 in this section, choose your own keymappings!
+        {
+        "<leader>-",
+        mode = { "n", "v" },
+        "<cmd>Yazi<cr>",
+        desc = "Open yazi at the current file",
+        },
+        {
+        -- Open in the current working directory
+        "<leader>cw",
+        "<cmd>Yazi cwd<cr>",
+        desc = "Open the file manager in nvim's working directory",
+        },
+        {
+        "<c-up>",
+        "<cmd>Yazi toggle<cr>",
+        desc = "Resume the last yazi session",
+        },
+    },
+    ---@type YaziConfig | {}
+    opts = {
+        -- if you want to open yazi instead of netrw, see below for more info
+        open_for_directories = false,
+        keymaps = {
+        show_help = "<f1>",
+        },
+    },
+    -- 👇 if you use `open_for_directories=true`, this is recommended
+    init = function()
+        -- More details: https://github.com/mikavilpas/yazi.nvim/issues/802
+        -- vim.g.loaded_netrw = 1
+        vim.g.loaded_netrwPlugin = 1
+    end,
+    },
+  {
+    "Dan7h3x/LazyDo",
+    branch = "main",
+    cmd = {"LazyDoToggle","LazyDoPin","LazyDoToggleStorage"},
+    keys = { -- recommended keymap for easy toggle LazyDo in normal and insert modes (arbitrary)
+	    {
+        "<F2>","<ESC><CMD>LazyDoToggle<CR>",
+        mode = {"n","i"},
+	    },
+    },
+    event = "VeryLazy",
+    opts = {
+      -- your config here
+    },
+  },
 }

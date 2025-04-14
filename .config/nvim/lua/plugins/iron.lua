@@ -15,6 +15,10 @@ return {
 						-- Can be a table or a function that
 						-- returns a table (see below)
 						command = {"zsh"}
+					},
+					python = {
+						command = "source ~/venv/bin/activate && ipython",
+						type = "bracketed"
 					}
 				},
 				-- How the repl window will be displayed

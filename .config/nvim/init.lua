@@ -25,3 +25,4 @@ require('settings')
 require("lazy").setup("plugins")
 require('mappings')
 require('autocmd')
+
