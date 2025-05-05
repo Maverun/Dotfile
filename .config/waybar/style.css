@@ -1,33 +1,3 @@
-/* :root { */
-/* 	--background: #283457; */
-/* 	--foreground #c0caf5; */
-/* 	--black: #15161e; */
-/* 	--red: #f7768e; */
-/* 	--green: #9ece6a; */
-/* 	--yellow: #e0af68; */
-/* 	--blue: #7aa2f7; */
-/* 	--purple: #bb9af7; */
-/* 	--cyan: #7dcfff; */
-/* 	--gray: #a9b1d6; */
-/* } */
-/* background #283457 */
-/* foreground #c0caf5 */
-/* selection_background #283457 */
-/* selection_foreground #c0caf5 */
-/* url_color #73daca */
-/* cursor #c0caf5 */
-/* cursor_text_color #283457 */
-/**/
-/* # Tabs */
-/* active_tab_background #7aa2f7 */
-/* active_tab_foreground #16161e */
-/* inactive_tab_background #292e42 */
-/* inactive_tab_foreground #545c7e */
-/* #tab_bar_background #15161e */
-/**/
-/* # Windows */
-/* active_border_color #7aa2f7 */
-/* inactive_border_color #292e42 */
 /**/
 /* # normal */
 /* color0 #15161e */
@@ -57,15 +27,11 @@
 
 * {
 	font-size: 15px;
-	/* font-family: monospace; */
 	font-family: "super code pro","nerdfont";
 }
 
 window#waybar {
-	background: #292b2e;
-	/* background: #283457; */
-	/* color: #fdf6e3; */
-	color: #c0caf5;
+	background: transparent;
 }
 
 #custom-right-arrow-dark,
@@ -73,16 +39,14 @@ window#waybar {
 #custom-left-moon-dark,
 #custom-right-moon-dark {
 	color: #15161e;
-	/* background: #15161e; */
 }
 #custom-right-arrow-light,
 #custom-left-arrow-light,
 #custom-left-moon-light,
 #custom-right-moon-light {
-	/* color: #292b2e; */
 	color: #283457;
-	/* background: #1a1a1a; */
 	background: #15161e;
+	/* background: transparent; */
 }
 
 #custom-left-moon-dark,
@@ -90,14 +54,6 @@ window#waybar {
 #custom-left-moon-light,
 #custom-right-moon-light {
   font-size: 40px;
-  /* background: #15161e; */
-  /* box-shadow: -5px 0px 0px 0px white; */
-  /* border: 5px solid red; */
-  /* border-radius: 0px 50% 50% 0px; */
-  /* text-shadow: -10px 0px; */
-    /* width: 200px; */
-    /* need to play with margin/padding adjustment
-       based on your desired "gap" */
 }
 
 #workspaces,
@@ -113,8 +69,24 @@ window#waybar {
 #battery,
 #disk,
 #tray {
-	/* background: #1a1a1a; */
+    margin-top: 1px;
 	background: #15161e;
+    border-radius: 10px;
+}
+
+#workspaces,
+#mode,
+#submap,
+#window,
+#clock.1,
+#clock.2,
+#clock.3,
+#pulseaudio,
+#memory,
+#cpu,
+#battery,
+#disk{
+    margin-right: 5px;
 }
 
 #workspaces button {
