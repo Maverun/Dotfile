@@ -157,8 +157,13 @@ vim.lsp.enable({
   "markdown",
 })
 
+_G.inlay_hint_toggle = function()
+    vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+end
+
 vim.lsp.config( "*", {
   on_attach = function(client, buffer)
+    vim.lsp.inlay_hint.enable()
     -- vim.bo[buffer].formatexpr = "v:lua.vim.lsp.formatexpr"
     if client and client:supports_method("textDocument/foldingRange") then
         local win = vim.api.nvim_get_current_win()
@@ -169,6 +174,7 @@ vim.lsp.config( "*", {
     vim.keymap.set("n", "grq", vim.diagnostic.setloclist, {desc = "Diagnostic QuickList"})
     vim.keymap.set("n", "grD", vim.lsp.buf.declaration, {desc = "Declaration"})
     vim.keymap.set("n", "grd", vim.lsp.buf.definition, {desc = "Definition"})
+    vim.keymap.set("n", "gri", _G.inlay_hint_toggle, {desc = "Inlay Hint Toggle"})
     if client:supports_method("textDocument/formatting") then
       vim.keymap.set("n",
         "grf",
