@@ -20,6 +20,29 @@ vim.g.mapleader = " "         -- Make sure to set `mapleader` before lazy so you
 
 
 -- vim.g.loaded_python_provider = 0
+--
+vim.api.nvim_create_augroup("LazyDoneTask",{clear = true})
+vim.api.nvim_create_autocmd('User',{
+    group = 'LazyDoneTask',
+    pattern = "LazyDone",
+    callback = function(ev)
+	-- vim.cmd([[colorscheme tokyonight-night]])
+	-- First get currently kitty theme then we can set it
+	local home_path = os.getenv("HOME")
+	for line in io.lines(home_path .. "/.config/kitty/current-theme.conf") do
+	  if string.match(line, "## name:") then
+	    get_theme_name = string.lower(string.sub(line,10))
+	    break
+	  end
+	end
+	if string.match(get_theme_name, "tokyo night") then
+	  get_theme_name = 'tokyonight-night'
+	end
+	vim.cmd([[colorscheme ]] ..  get_theme_name)
+	_G.lualine_theme(get_theme_name)
+	_G.markview_theme()
+    end,
+})
 
 require('settings')
 require("lazy").setup("plugins")

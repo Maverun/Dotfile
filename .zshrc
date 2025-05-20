@@ -126,6 +126,7 @@ alias enableScreenSaver='xset s on & xset s blank & xset dpms'
 #SSH with kitty uses, since ssh remote does not have terminfo so we are just using alias for it
 alias ssh='kitty +kitten ssh'
 alias icat="kitty +kitten icat --align=left" #photo preview on kitty terminal. Yeah mate.
+alias theme="kitty +kitten themes --reload-in=all "
 
 # alias gw2="wl-paste -t text -w sh -c '[ \"$(xclip -selection clipboard -o)\" = \"$(wl-paste -n)\" ] || xclip -selection clipboard'"
 

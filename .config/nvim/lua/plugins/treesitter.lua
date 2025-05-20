@@ -7,7 +7,7 @@ return {
         build = ':TSUpdate',
         event = "VeryLazy",
         config = function()
-            require'nvim-treesitter.configs'.setup {
+            require 'nvim-treesitter.configs'.setup {
                 -- ensure_installed = 'maintained',
                 highlight = {
                     enable = true,
@@ -17,7 +17,7 @@ return {
                     enable = false,
                     -- diable = {'python','orgmode'},
                 },
-                autotag = {enable = true},
+                autotag = { enable = true },
                 incremental_selection = {
                     enable = true,
                     keymaps = {
@@ -26,10 +26,10 @@ return {
                         scope_incremental = "gnn",
                         node_decremental = "<bs>",
                     }
-                },--end of incremental_selection
+                }, --end of incremental_selection
                 rainbow = {
                     enable = true,
-                    extended_mode = true, -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean
+                    extended_mode = true,  -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean
                     max_file_lines = 1000, -- Do not enable for files with more than 1000 lines, int
                 },
 
@@ -46,16 +46,16 @@ return {
                             ["if"] = "@function.inner",
                             ["ac"] = "@class.outer",
                             ["ic"] = "@class.inner",
-                        },-- end of keymaps
-                    },--end of select
+                        }, -- end of keymaps
+                    },     --end of select
 
                     swap = {
                         enable = true,
                         swap_next = {
-                            ["<Right>"] = "@parameter.inner",
+                            ["<right>"] = "@parameter.inner",
                         },
                         swap_previous = {
-                            ["<Left>"] = "@parameter.inner",
+                            ["<left>"] = "@parameter.inner",
                         },
                     },
                 }, --end of textobjects
@@ -77,7 +77,22 @@ return {
         end
 
     },
-    {'nvim-treesitter/nvim-treesitter-textobjects', event="InsertEnter"},
-    {'nvim-treesitter/playground', event="VeryLazy"},
-    {"HiPhish/rainbow-delimiters.nvim"},
+    { 'nvim-treesitter/nvim-treesitter-textobjects' },
+    { 'nvim-treesitter/playground',                 event = "VeryLazy" },
+    {
+        "HiPhish/rainbow-delimiters.nvim",
+        config = function()
+            require 'rainbow-delimiters.setup'.setup {
+                highlight = {
+                    -- 'RainbowDelimiterRed',
+                    'RainbowDelimiterYellow',
+                    'RainbowDelimiterBlue',
+                    'RainbowDelimiterOrange',
+                    'RainbowDelimiterGreen',
+                    'RainbowDelimiterViolet',
+                    'RainbowDelimiterCyan',
+                },
+            }
+        end
+    },
 }

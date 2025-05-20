@@ -20,11 +20,11 @@ return {
                     functions = 'NONE',
                 }
             }
-            vim.cmd([[colorscheme tokyonight-night]])
         end,
     },
 
     { "miikanissi/modus-themes.nvim", priority = 1000 },
+    { "eldritch-theme/eldritch.nvim", lazy = false, priority = 1000, opts = {}, },
 
     'nvim-tree/nvim-web-devicons',                                -- Icon and so on for more conviences
     { 'norcalli/nvim-colorizer.lua', opts = { '*' }, event = "VeryLazy" }, -- to show what color look like
@@ -144,10 +144,6 @@ return {
             },
             popupmenu = {
                 relative = "editor",
-                position = {
-                    row = "70%",
-                    col = "50%",
-                },
                 -- size = {
                 --     width = 60,
                 --     height = 10,
@@ -239,4 +235,12 @@ return {
       -- your config here
     },
   },
+  {
+    "atiladefreitas/dooing",
+    config = function()
+        require("dooing").setup({
+            -- your custom config here (optional)
+        })
+    end,
+},
 }

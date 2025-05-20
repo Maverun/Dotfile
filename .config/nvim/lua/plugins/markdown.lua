@@ -3,7 +3,6 @@
 -- └───────────────────────────────────────────────────────────────────────────┘
 
 local bullet = { "◉", "✿", "✦", "¤", "", "✸" }
-local colors = require('tokyonight.colors').setup()
 
 local gen_heading_spec = function(level, icon)
   return {
@@ -19,25 +18,41 @@ local gen_heading_spec = function(level, icon)
   }
 end
 
-highlight_groups = {
-    { group_name = "decorated_h1",     value = { bg = colors.cyan, fg = colors.bg, bold = true } },
-    { group_name = "decorated_h1_inv", value = { fg = colors.cyan, bold = true } },
-    { group_name = "decorated_h2",     value = { bg = colors.green, fg = colors.bg, bold = true } },
-    { group_name = "decorated_h2_inv", value = { fg = colors.green, bold = true } },
-    { group_name = "decorated_h3",     value = { bg = colors.magenta, fg = colors.bg, bold = true } },
-    { group_name = "decorated_h3_inv", value = { fg = colors.magenta, bold = true } },
-    { group_name = "decorated_h4",     value = { bg = colors.orange, fg = colors.bg, bold = true } },
-    { group_name = "decorated_h4_inv", value = { fg = colors.orange, bold = true } },
-    { group_name = "decorated_h5",     value = { bg = colors.red, fg = colors.bg, bold = true } },
-    { group_name = "decorated_h5_inv", value = { fg = colors.red, bold = true } },
-    { group_name = "decorated_h6",     value = { bg = colors.yellow, fg = colors.bg, bold = true } },
-    { group_name = "decorated_h6_inv", value = { fg = colors.yellow, bold = true } },
-}
 
-for k,item in pairs(highlight_groups) do
-    vim.api.nvim_set_hl(0, item["group_name"], item["value"])
+function higlight(colors)
+    highlight_groups = {
+        { group_name = "decorated_h1",     value = { bg = colors.cyan, fg = colors.bg, bold = true } },
+        { group_name = "decorated_h1_inv", value = { fg = colors.cyan, bold = true } },
+        { group_name = "decorated_h2",     value = { bg = colors.green, fg = colors.bg, bold = true } },
+        { group_name = "decorated_h2_inv", value = { fg = colors.green, bold = true } },
+        { group_name = "decorated_h3",     value = { bg = colors.magenta, fg = colors.bg, bold = true } },
+        { group_name = "decorated_h3_inv", value = { fg = colors.magenta, bold = true } },
+        { group_name = "decorated_h4",     value = { bg = colors.orange, fg = colors.bg, bold = true } },
+        { group_name = "decorated_h4_inv", value = { fg = colors.orange, bold = true } },
+        { group_name = "decorated_h5",     value = { bg = colors.red, fg = colors.bg, bold = true } },
+        { group_name = "decorated_h5_inv", value = { fg = colors.red, bold = true } },
+        { group_name = "decorated_h6",     value = { bg = colors.yellow, fg = colors.bg, bold = true } },
+        { group_name = "decorated_h6_inv", value = { fg = colors.yellow, bold = true } },
+    }
+
+    for k,item in pairs(highlight_groups) do
+        vim.api.nvim_set_hl(0, item["group_name"], item["value"])
+    end
+
 end
 
+_G.markview_theme = function()
+    local colors = require(vim.g.colors_name .. '.colors').setup()
+    higlight(colors)
+end
+
+
+vim.api.nvim_create_autocmd({ 'Colorscheme' }, {
+    group = vim.api.nvim_create_augroup('ColorschemeChangeMarkView', { clear = true }),
+    callback = function(e)
+        _G.markview_theme()
+    end,
+})
 
 return {
     -- {'plasticboy/vim-markdown', ft="markdown"}, --vim markdown for vimwiki
