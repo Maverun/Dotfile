@@ -53,6 +53,7 @@ cmd 'set shortmess=I'
 opt.conceallevel = 2            -- allow to view markdown ease
 
 opt.completeopt = "menuone,noselect"
+opt.undofile = true
 
 opt.listchars = {
     -- tab = '',

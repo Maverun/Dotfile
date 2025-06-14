@@ -41,8 +41,8 @@ map(n,'\\k','d$o<esc>p0')
 map(n,'\\j','J')
 -- map(n,'<S-k>','k')
 -- map(n,'<S-j>','j')
-map(n, 'gj', 'gj')
-map(n, 'gk', 'gk')
+map(n, 'j', 'gj')
+map(n, 'k', 'gk')
 
 -- Save
 -- map({n,i},"<C-s>","<cmd>update<CR>")

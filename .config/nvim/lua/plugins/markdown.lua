@@ -5,40 +5,45 @@
 local bullet = { "◉", "✿", "✦", "¤", "", "✸" }
 
 local gen_heading_spec = function(level, icon)
-  return {
-    style = "label",
-    padding_left = " ",
-    padding_right = " ",
-    corner_right = "" .. string.rep("", 6 - level),
-    corner_right_hl = "decorated_h" .. level .. "_inv",
-    icon = bullet[level] .. " ",
-    sign = icon,
-    sign_hl = "decorated_h" .. level .. "_inv",
-    hl = "decorated_h" .. level,
-  }
+    return {
+        style = "label",
+        padding_left = " ",
+        padding_right = " ",
+        corner_right = "" .. string.rep("", 6 - level),
+        corner_right_hl = "decorated_h" .. level .. "_inv",
+        icon = bullet[level] .. " ",
+        sign = icon,
+        sign_hl = "decorated_h" .. level .. "_inv",
+        hl = "decorated_h" .. level,
+    }
 end
 
 
 function higlight(colors)
     highlight_groups = {
-        { group_name = "decorated_h1",     value = { bg = colors.cyan, fg = colors.bg, bold = true } },
-        { group_name = "decorated_h1_inv", value = { fg = colors.cyan, bold = true } },
-        { group_name = "decorated_h2",     value = { bg = colors.green, fg = colors.bg, bold = true } },
-        { group_name = "decorated_h2_inv", value = { fg = colors.green, bold = true } },
-        { group_name = "decorated_h3",     value = { bg = colors.magenta, fg = colors.bg, bold = true } },
-        { group_name = "decorated_h3_inv", value = { fg = colors.magenta, bold = true } },
-        { group_name = "decorated_h4",     value = { bg = colors.orange, fg = colors.bg, bold = true } },
-        { group_name = "decorated_h4_inv", value = { fg = colors.orange, bold = true } },
-        { group_name = "decorated_h5",     value = { bg = colors.red, fg = colors.bg, bold = true } },
-        { group_name = "decorated_h5_inv", value = { fg = colors.red, bold = true } },
-        { group_name = "decorated_h6",     value = { bg = colors.yellow, fg = colors.bg, bold = true } },
-        { group_name = "decorated_h6_inv", value = { fg = colors.yellow, bold = true } },
+        { group_name = "decorated_h1",               value = { bg = colors.cyan, fg = colors.bg, bold = true } },
+        { group_name = "@markup.heading.1.markdown", value = { fg = colors.cyan, bold = true } },
+        { group_name = "decorated_h1_inv",           value = { fg = colors.cyan, bold = true } },
+        { group_name = "decorated_h2",               value = { bg = colors.green, fg = colors.bg, bold = true } },
+        { group_name = "@markup.heading.2.markdown", value = { fg = colors.green, bold = true } },
+        { group_name = "decorated_h2_inv",           value = { fg = colors.green, bold = true } },
+        { group_name = "decorated_h3",               value = { bg = colors.magenta, fg = colors.bg, bold = true } },
+        { group_name = "@markup.heading.3.markdown", value = { fg = colors.magenta, bold = true } },
+        { group_name = "decorated_h3_inv",           value = { fg = colors.magenta, bold = true } },
+        { group_name = "decorated_h4",               value = { bg = colors.orange, fg = colors.bg, bold = true } },
+        { group_name = "@markup.heading.4.markdown", value = { fg = colors.orange, bold = true } },
+        { group_name = "decorated_h4_inv",           value = { fg = colors.orange, bold = true } },
+        { group_name = "decorated_h5",               value = { bg = colors.red, fg = colors.bg, bold = true } },
+        { group_name = "@markup.heading.5.markdown", value = { fg = colors.red, bold = true } },
+        { group_name = "decorated_h5_inv",           value = { fg = colors.red, bold = true } },
+        { group_name = "decorated_h6",               value = { bg = colors.yellow, fg = colors.bg, bold = true } },
+        { group_name = "@markup.heading.6.markdown", value = { fg = colors.yellow, bold = true } },
+        { group_name = "decorated_h6_inv",           value = { fg = colors.yellow, bold = true } },
     }
 
-    for k,item in pairs(highlight_groups) do
+    for k, item in pairs(highlight_groups) do
         vim.api.nvim_set_hl(0, item["group_name"], item["value"])
     end
-
 end
 
 _G.markview_theme = function()
@@ -56,7 +61,7 @@ vim.api.nvim_create_autocmd({ 'Colorscheme' }, {
 
 return {
     -- {'plasticboy/vim-markdown', ft="markdown"}, --vim markdown for vimwiki
-    {'dkarter/bullets.vim', ft="markdown"},
+    { 'dkarter/bullets.vim', ft = "markdown" },
     -- {
     --     "lukas-reineke/headlines.nvim",
     --     dependencies = "nvim-treesitter/nvim-treesitter",
@@ -76,13 +81,13 @@ return {
         ft = { "markdown" },
         build = function() vim.fn["mkdp#util#install"]() end,
         keys = {
-            {"<leader>n",':MarkdownPreviewToggle<CR>', desc="Notes"},
-            {"<leader>no",':MarkdownPreviewToggle<CR>', desc="Markdown Preview Toggle"},
+            { "<leader>n",  ':MarkdownPreviewToggle<CR>', desc = "Notes" },
+            { "<leader>no", ':MarkdownPreviewToggle<CR>', desc = "Markdown Preview Toggle" },
         }
     },
     {
         "OXY2DEV/markview.nvim",
-        lazy = false,      -- Recommended
+        lazy = false, -- Recommended
         priority = 49,
         -- ft = "markdown" -- If you decide to lazy-load anyway
 
@@ -93,7 +98,7 @@ return {
         opts = {
             previews = {
                 linewise_hybrid_mode = true,
-                modes = {'c'},
+                modes = { 'c' },
                 hybrid_modes = { 'n' },
             },
             markdown = {
@@ -110,4 +115,3 @@ return {
         }
     }
 }
-
