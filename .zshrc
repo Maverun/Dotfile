@@ -1,4 +1,4 @@
-export ZSH="/home/maverun/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 export PATH=$HOME/.local/bin:$PATH
 
 ZSH_THEME="xiong-chiamiov-plus"
@@ -12,13 +12,15 @@ plugins=(
     git
     git-prompt
     zsh-autosuggestions
-    zsh-syntax-highlighting
+    colorize
     taskwarrior
     zsh-vi-mode
     # zsh-abbr
 )
 
+plugins+=(fast-syntax-highlighting)
 source $ZSH/oh-my-zsh.sh
+
 
 export EDITOR=nvim
 
