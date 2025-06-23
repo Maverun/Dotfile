@@ -75,16 +75,27 @@ return {
 
     { 'tpope/vim-fugitive', event = "VeryLazy" }, -- GIT
     { 'tpope/vim-sleuth',   event = "VeryLazy" }, -- auto ajust shiftwidth/expandtab
+    -- {
+    --     'numtostr/FTerm.nvim',
+    --     keys = {
+    --         { '<leader>t',  '',                                                                                                               desc = "Fterm" },
+    --         { '<leader>tt', ':lua require("FTerm").toggle()<cr>',                                                                             desc = "Fterm Toggle" },
+    --         { '<leader>tt', '<C-\\><C-n>:lua require("FTerm").toggle()<cr>',                                                                  desc = 'Fterm Toggle' },
+    --         { '<leader>tp', ':lua require("FTerm").run("python ' .. vim.fn.expand("%:t") .. '")<CR>',                                         desc = "Run Python Terminal" },
+    --         { '<leader>tj', ':lua require("FTerm").run("javac ' .. vim.fn.expand("%:t") .. ' && java ' .. vim.fn.expand("%:t:r") .. '")<CR>', desc = "Run Java Terminal" },
+    --     }
+    -- }, -- Floating Terminal
     {
-        'numtostr/FTerm.nvim',
+        "nvzone/floaterm",
+        dependencies = "nvzone/volt",
+        opts = {
+            size = { h = 80, w = 80 } },
+        cmd = "FloatermToggle",
         keys = {
-            { '<leader>t',  '',                                                                                                               desc = "Fterm" },
-            { '<leader>tt', ':lua require("FTerm").toggle()<cr>',                                                                             desc = "Fterm Toggle" },
-            { '<leader>tt', '<C-\\><C-n>:lua require("FTerm").toggle()<cr>',                                                                  desc = 'Fterm Toggle' },
-            { '<leader>tp', ':lua require("FTerm").run("python ' .. vim.fn.expand("%:t") .. '")<CR>',                                         desc = "Run Python Terminal" },
-            { '<leader>tj', ':lua require("FTerm").run("javac ' .. vim.fn.expand("%:t") .. ' && java ' .. vim.fn.expand("%:t:r") .. '")<CR>', desc = "Run Java Terminal" },
+            { "<leader>t",  '',                        desc = "FloatTerm" },
+            { "<leader>tt", "<CMD>FloatermToggle<CR>", desc = "Float Term" }
         }
-    }, -- Floating Terminal
+    },
 
     --'junegunn/fzf'                                      -- Allowing Fuzzle Finder Search!
     --'junegunn/fzf.vim'                                  -- FZF well u know fuzzy finder thingy
