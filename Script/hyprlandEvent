@@ -14,8 +14,8 @@ handle() {
   case $1 in
     activewindow*gw2-64.exe*) ratbagctl "Logitech Gaming Mouse G600" profile active set 2 ;;
     activewindow\>\>*) toggle_gw2_mouse && echo "$1" ;;
-    monitoradded*) pacmd set-card-profile 0 output:hdmi-stereo-extra3;;
-    monitorremoved*) pacmd set-card-profile 0 output:hdmi-stereo-extra3;;
+    # monitoradded*) pacmd set-card-profile 0 output:hdmi-stereo-extra3;;
+    # monitorremoved*) pacmd set-card-profile 0 output:hdmi-stereo-extra3;;
 
     # activewindow*gw2*) echo "hello gw2" ;;
     # activewindow\>\>*) echo "hello others with $1" ;;

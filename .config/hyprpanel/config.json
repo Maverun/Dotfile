@@ -1,6 +1,6 @@
 {
   "bar.layouts": {
-    "0": {
+    "DP-2": {
       "left": [
         "dashboard",
         "workspaces",
@@ -20,7 +20,7 @@
         "systray"
       ]
     },
-    "1": {
+    "DP-1": {
       "left": [
         "dashboard",
         "workspaces",
@@ -40,27 +40,7 @@
         "systray"
       ]
     },
-    "2": {
-      "left": [
-        "dashboard",
-        "workspaces",
-        "windowtitle",
-        "submap"
-      ],
-      "middle": [
-        "clock"
-      ],
-      "right": [
-        "media",
-        "volume",
-        "ram",
-        "cpu",
-        "storage",
-        "notifications",
-        "systray"
-      ]
-    },
-    "3": {
+    "HDMI-A-1": {
       "left": [
         "dashboard",
         "workspaces",
@@ -517,5 +497,13 @@
   "bar.workspaces.showAllActive": true,
   "bar.workspaces.numbered_active_indicator": "underline",
   "bar.workspaces.ignored": "-98",
-  "bar.customModules.storage.labelType": "free"
+  "bar.customModules.storage.labelType": "percentage",
+  "bar.customModules.storage.paths": [
+    "/"
+  ],
+  "bar.customModules.storage.label": true,
+  "bar.customModules.storage.units": "auto",
+  "bar.workspaces.monitorSpecific": true,
+  "bar.workspaces.applicationIconOncePerWorkspace": true,
+  "bar.customModules.ram.labelType": "percentage"
 }
