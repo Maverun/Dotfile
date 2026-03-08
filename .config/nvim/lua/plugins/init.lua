@@ -89,12 +89,24 @@ return {
         "nvzone/floaterm",
         dependencies = "nvzone/volt",
         opts = {
-            size = { h = 80, w = 80 } },
-        cmd = "FloatermToggle",
+            size = { h = 80, w = 80 },
+
+            mappings = {
+                term = function(buf)
+                    vim.keymap.set({ "n"}, "q", function()
+                        require("floaterm").toggle()
+                    end, { buffer = buf })
+                    vim.keymap.set({ "n"}, "<esc>", function()
+                        require("floaterm").toggle()
+                    end, { buffer = buf })
+                end,
+     },
+
+        },
         keys = {
             { "<leader>t",  '',                        desc = "FloatTerm" },
             { "<leader>tt", "<CMD>FloatermToggle<CR>", desc = "Float Term" }
-        }
+        },
     },
 
     --'junegunn/fzf'                                      -- Allowing Fuzzle Finder Search!

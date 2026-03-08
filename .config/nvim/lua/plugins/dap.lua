@@ -23,7 +23,7 @@ return {
   },
   {'rcarriga/nvim-dap-ui',
     ft = "dap-repl",
-    dependencies = {'mfussenegger/nvim-dap'},
+    dependencies = {'mfussenegger/nvim-dap', "nvim-neotest/nvim-nio"},
     opts = {
         icons = { expanded = "▾", collapsed = "▸" },
         mappings = {

@@ -16,10 +16,10 @@ return {
 						-- returns a table (see below)
 						command = {"zsh"}
 					},
-					python = {
-						command = "source ~/venv/bin/activate && ipython",
-						type = "bracketed"
-					}
+					-- python = {
+					-- 	command = "source ~/venv/bin/activate && ipython",
+					-- 	type = "bracketed"
+					-- }
 				},
 				-- How the repl window will be displayed
 				-- See below for more information
@@ -28,19 +28,19 @@ return {
 			-- Iron doesn't set keymaps by default anymore.
 			-- You can set them here or manually add keymaps to the functions in iron.core
 			keymaps = {
-				send_motion = "\\ss",
-				visual_send = "\\ss",
-				send_file = "\\sf",
-				send_line = "\\sl",
-				send_until_cursor = "\\su",
-				send_mark = "\\sm",
-				mark_motion = "\\sc",
-				mark_visual = "\\sc",
-				remove_mark = "\\sd",
-				cr = "\\s<cr>",
-				interrupt = "\\s<space>",
-				exit = "\\sq",
-				clear = "\\sv",
+				send_motion = "\\is",
+				visual_send = "\\is",
+				send_file = "\\if",
+				send_line = "\\il",
+				send_until_cursor = "\\iu",
+				send_mark = "\\im",
+				mark_motion = "\\ic",
+				mark_visual = "\\ic",
+				remove_mark = "\\id",
+				cr = "\\i<cr>",
+				interrupt = "\\i<space>",
+				exit = "\\iq",
+				clear = "\\iv",
 			},
 			-- If the highlight is on, you can change how it looks
 			-- For the available options, check nvim_set_hl
@@ -51,8 +51,8 @@ return {
 		}
 	end,
 	keys = {
-		{'\\s','', desc="Iron"},
-		{'\\sr',':vs<CR>:IronReplHere<CR>', desc="Iron Repl"}
+		{'\\i','', desc="Iron"},
+		{'\\ir',':vs<CR>:IronReplHere<CR>', desc="Iron Repl"}
 	}
 }
 -- send_motion = "\\sc",

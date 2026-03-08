@@ -46,6 +46,7 @@ return {
         { '\\nw', ':lua require"neotest".run.run(vim.fn.expand("%"))<CR>', desc = "Run whole test file" },
         { '\\no', ':lua require"neotest".output_panel.toggle()<CR>', desc = "Toggle the output" },
         { '\\ns', ':lua require"neotest".summary.toggle()<CR>', desc = "Toggle the Summary" },
+        { '\\nt', ':lua require"neotest".watch<CR>', desc = "Watching file" },
     }
   }
 }

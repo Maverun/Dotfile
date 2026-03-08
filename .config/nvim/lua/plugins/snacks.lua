@@ -14,6 +14,7 @@ return {
     input = {enabled = true},
     notifier = {enabled = true, timeout=5000},
     picker = {enabled = true},
+    words = {enabled = true},
     },
   keys = {
     { '<leader>g', '', desc = "Git"},
@@ -38,6 +39,24 @@ return {
     { "<leader>fl", function() Snacks.picker.lines() end, desc = "Lines" },
     { "<leader>fd", function() Snacks.picker.diagnostics() end, desc = "Diagnostics" },
     { "<leader>fp", function() Snacks.picker.projects() end, desc = "Projects" },
+    --Scratch
+    { "<leader>.", function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
+    { "<leader>s", function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
+
+    --Debug
+
+    { "\\s", "", desc = "Snacks Debug" },
+    { "\\sd", function() Snacks.debug() end, desc = "Debug" },
+    { "\\sb", function() Snacks.debug.backtrace() end, desc = "Backtrace" },
+    { "\\sc", function() Snacks.debug.cmd() end, desc = "CMD" },
+    { "\\si", function() Snacks.debug.inspect() end, desc = "Inspect" },
+    { "\\sl", function() Snacks.debug.log() end, desc = "Log" },
+    { "\\sm", function() Snacks.debug.metrics() end, desc = "Metrics" },
+    { "\\sp", function() Snacks.debug.profile() end, desc = "Profile" },
+    { "\\sr", function() Snacks.debug.run() end, desc = "Run" },
+    { "\\ss", function() Snacks.debug.stats() end, desc = "Stats" },
+    { "\\st", function() Snacks.debug.trace() end, desc = "Trace" },
+
   }
 
 }

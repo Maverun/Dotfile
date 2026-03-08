@@ -92,6 +92,8 @@ end
 vim.o.foldtext = "luaeval('MyFoldText()')"
 opt.foldmethod = 'manual'
 vim.o.fillchars = "fold: "
+vim.opt.foldenable = false
+
 -- vim.o.foldlevelstart = 99
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
