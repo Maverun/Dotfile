@@ -497,7 +497,7 @@
   "bar.workspaces.showAllActive": true,
   "bar.workspaces.numbered_active_indicator": "underline",
   "bar.workspaces.ignored": "-98",
-  "bar.customModules.storage.labelType": "percentage",
+  "bar.customModules.storage.labelType": "used",
   "bar.customModules.storage.paths": [
     "/"
   ],
