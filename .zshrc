@@ -130,6 +130,9 @@ alias ssh='kitty +kitten ssh'
 alias icat="kitty +kitten icat --align=left" #photo preview on kitty terminal. Yeah mate.
 alias theme="kitty +kitten themes --reload-in=all "
 
+alias prism="flatpak run org.prismlauncher.PrismLauncher"
+alias homevenv="source ~/home_venv/bin/activate"
+
 # alias gw2="wl-paste -t text -w sh -c '[ \"$(xclip -selection clipboard -o)\" = \"$(wl-paste -n)\" ] || xclip -selection clipboard'"
 
 

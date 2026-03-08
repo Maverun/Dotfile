@@ -6,14 +6,22 @@ toggle_gw2_mouse(){
   echo $result
   if [ $result != '0' ]; then
     ratbagctl "Logitech Gaming Mouse G600" profile active set 0
+    # curl -X POST http://127.0.0.1:27003/api/userProfile/change -d '{"deviceId":"5D095A562BF9582B", "userProfileName": "default"}' --silent | jq
   fi
 }
-
+shopt -s extglob
 handle() {
   echo $1
   case $1 in
-    activewindow*gw2-64.exe*) ratbagctl "Logitech Gaming Mouse G600" profile active set 2 ;;
+    activewindow*gw2-64.exe*)
+    ratbagctl "Logitech Gaming Mouse G600" profile active set 2
+    # curl -X POST http://127.0.0.1:27003/api/userProfile/change -d '{"deviceId":"5D095A562BF9582B", "userProfileName": "gw2"}' --silent | jq
+        ;;
     activewindow\>\>*) toggle_gw2_mouse && echo "$1" ;;
+    # workspacev2*9,* | focusedmonv2*,9) ~/home_venv/bin/python3 ~/Script/dgyma_layer_switch.py 9;;
+    # workspacev2*!(9),* | focusedmonv2*,!(9)) ~/home_venv/bin/python3 ~/Script/dgyma_layer_switch.py 0;;
+
+
     # monitoradded*) pacmd set-card-profile 0 output:hdmi-stereo-extra3;;
     # monitorremoved*) pacmd set-card-profile 0 output:hdmi-stereo-extra3;;
 
