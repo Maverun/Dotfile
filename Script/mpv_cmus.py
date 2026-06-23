@@ -29,6 +29,12 @@ else: # from here, we will deal with MPV now...
         # we are spliting from path and filename,
         # so last one will generate saying 2nd element is file
         path = data["data"].rsplit("/",1)
+        print("the path is")
+        print(path)
+        if "TVShow" in path[0]:
+            playspeed=1
+        else:
+            playspeed=2
         # now we will look for file, they will show in order list of video
         # this way, we can just do index +- 1 for next/prev files
         x = call(f"ls -p \"{path[0]}\"| grep -e .mkv -e.mp4")
@@ -41,4 +47,4 @@ else: # from here, we will deal with MPV now...
         print(video)
         file = call('echo \'{ "command": ["quit"] }\' |' + socat)
         #  check = call(f"mpv -fs --slang=en --sid=1 --alang=jp  \"{video}\" &")
-        check = call(f"mpv -fs --sid=1  \"{video}\" &")
+        check = call(f"mpv -fs --sid=1 --volume=130 --speed={playspeed} \"{video}\" &")

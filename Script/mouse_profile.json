@@ -1,6 +1,8 @@
 {
     "gw2-64.exe": "gw2",
     "OxygenNotIncluded": "oni",
-    "Endfield":"enfield"
+    "Endfield":"enfield",
+    "Terraria.bin.x86_64":"terraria",
+    "dotnet":"terraria"
 }
 

@@ -1,5 +1,5 @@
 gui:
-  scrollHeight: 10  
+  scrollHeight: 10
   nerdFontsVersion: "3"
   theme:
     activeBorderColor:
@@ -26,3 +26,6 @@ gui:
       - "#db4b4b"
     defaultFgColor:
       - "#c0caf5"
+  paging:
+    colorArg: always
+    pager: delta --paging=never --line-numbers --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
