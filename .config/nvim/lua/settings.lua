@@ -2,13 +2,10 @@
 -- │                                 Settings                                  │
 -- └───────────────────────────────────────────────────────────────────────────┘
 
-local cmd = vim.cmd  -- to execute Vim commands e.g. cmd('pwd')
-local fn = vim.fn    -- to call Vim functions e.g. fn.bufnr()
-local g = vim.g      -- a table to access global variables
+local g = vim.g
 local opt = vim.opt
 
 
-opt.syntax = 'on'               -- Able syntax
 opt.hidden = true             -- Enable modified buffers in background
 opt.encoding = 'utf-8'        -- Encoding displayed
 opt.fileencoding = 'utf-8'    -- Encoding written to files
@@ -44,16 +41,13 @@ opt.cmdheight = 1              -- set command height 0
 opt.updatetime = 300
 opt.timeoutlen = 200
 
-cmd 'set iskeyword -=_'              -- allow to ignore _ as one word
--- opt.autochdir = true            -- Working directory will be always same
--- opt.filetype = 'plugin'
-cmd 'set fillchars+=vert:▏'          -- Setting Window Vertical border to thin
-cmd 'set shortmess=I'
+opt.iskeyword:remove('_')            -- allow to ignore _ as one word
+opt.fillchars:append({ vert = '▏' }) -- Setting Window Vertical border to thin
+opt.shortmess = 'I'
 
 opt.conceallevel = 2            -- allow to view markdown ease
 
 opt.completeopt = "menuone,noselect"
-opt.undofile = true
 
 opt.listchars = {
     -- tab = '',
@@ -63,7 +57,7 @@ opt.listchars = {
     extends = '>',
     precedes = '<',
     trail = '·',
-    eol = '󰌑',
+    -- eol = '󰌑',
 }
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
@@ -91,10 +85,9 @@ end
 
 vim.o.foldtext = "luaeval('MyFoldText()')"
 opt.foldmethod = 'manual'
-vim.o.fillchars = "fold: "
-vim.opt.foldenable = false
-
+opt.fillchars:append({ fold = ' ' })
 -- vim.o.foldlevelstart = 99
+vim.opt.foldenable = false
 
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                  Column                                   │
@@ -109,8 +102,8 @@ vim.opt.foldenable = false
 -- │                                  VimStay                                  │
 -- └───────────────────────────────────────────────────────────────────────────┘
 
-g.viewoptions='cursor,folds,slash,unix'
-cmd 'set viewoptions-=options'
+g.viewoptions = 'cursor,folds,slash,unix'
+opt.viewoptions:remove('options')
 
 
 
@@ -139,71 +132,14 @@ end
 
 
 
--- ┌───────────────────────────────────────────────────────────────────────────┐
--- │                                  LSP	                               │
--- └───────────────────────────────────────────────────────────────────────────┘
-
-vim.lsp.enable({
-  -- lua
-  "lua",
-  -- python
-  "python",
-  "basedpyright",
-  "ruff",
-  -- yaml
-  "yaml",
-  -- bash
-  "bash",
-  -- Json
-  'json',
-  -- Markdown
-  "markdown",
-})
-
-_G.inlay_hint_toggle = function()
-    vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-end
-
-vim.lsp.config( "*", {
-  on_attach = function(client, buffer)
-    vim.lsp.inlay_hint.enable()
-    -- vim.bo[buffer].formatexpr = "v:lua.vim.lsp.formatexpr"
-    if client and client:supports_method("textDocument/foldingRange") then
-        local win = vim.api.nvim_get_current_win()
-        vim.wo[win][0].foldmethod = "expr"
-        vim.wo[win][0].foldexpr = "v:lua.vim.lsp.foldexpr()"
-    end
-
-    vim.keymap.set("n", "grq", vim.diagnostic.setloclist, {desc = "Diagnostic QuickList"})
-    vim.keymap.set("n", "grD", vim.lsp.buf.declaration, {desc = "Declaration"})
-    vim.keymap.set("n", "grd", vim.lsp.buf.definition, {desc = "Definition"})
-    vim.keymap.set("n", "gri", _G.inlay_hint_toggle, {desc = "Inlay Hint Toggle"})
-    if client:supports_method("textDocument/formatting") then
-      vim.keymap.set("n",
-        "grf",
-        vim.lsp.buf.format,
-        {
-          buffer = buffer,
-          desc = "Formatting whole files"
-        }
-      )
-    end
-  end,
-})
--- ┌───────────────────────────────────────────────────────────────────────────┐
--- │                                Diagnostics	                               │
--- └───────────────────────────────────────────────────────────────────────────┘
-
-vim.diagnostic.config({
-  -- Use the default configuration
-  -- virtual_lines = true
-  virtual_text = true,
-
-  -- Alternatively, customize specific options
-  virtual_lines = false
-  -- {
- -- Only show virtual line diagnostics for the current cursor line
- -- current_line = true,
-  -- },
-})
-
+vim.cmd[[
+function! s:DiffWithSaved()
+  let filetype=&ft
+  diffthis
+  vnew | r # | normal! 1Gdd
+  exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
+  diffthis
+  wincmd p
+endfunction
+com! DiffSaved call s:DiffWithSaved()
+]]

@@ -1,5 +1,5 @@
 -- LUA language Server
----@type vim.lsp.ClientConfig
+---@type vim.lsp.Config
 return {
   root_markers = {
     '.luarc.json',
@@ -18,8 +18,7 @@ return {
     Lua = {
       diagnostics = {
           disable = { 'lowercase-global' },
-          -- Get the language server to recognize the `vim` global
-          globals = { 'vim', "Snacks" },
+          globals = { 'vim', 'Snacks', 'au', 'ag', 'command', 'describe', 'it', 'before_each', 'after_each' },
       },
       format = {
         enable = true,
@@ -40,16 +39,7 @@ return {
         enable = true,
       },
       telemetry = {
-        enable = false, -- Do not send telemetry data containing a randomized but unique identifier
-      },
-      globals = {
-        'au',
-        'ag',
-        'command',
-        'describe',
-        'it',
-        'before_each',
-        'after_each',
+        enable = false,
       },
       workspace = {
         library = {

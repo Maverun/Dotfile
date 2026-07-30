@@ -6,12 +6,14 @@ return {
         'nvim-treesitter/nvim-treesitter',
         build = ':TSUpdate',
         event = "VeryLazy",
+        dependencies = { 'nvim-treesitter/nvim-treesitter-textobjects' },
         config = function()
             require 'nvim-treesitter.configs'.setup {
                 -- ensure_installed = 'maintained',
                 highlight = {
                     enable = true,
-                    additional_vim_regex_highlighting = true -- <= THIS LINE is the magic! for spelling
+                    -- enable vim regex highlighting only for filetypes that need spell checking
+                    additional_vim_regex_highlighting = { "markdown", "org", "tex" },
                 },
                 indent = {
                     enable = false,
@@ -64,7 +66,7 @@ return {
                     "python",
                     "bash",
                     "json",
-                    "jsonc",
+                    -- "jsonc",
                     "lua",
                     "regex",
                     "vim",
@@ -76,23 +78,5 @@ return {
             }
         end
 
-    },
-    { 'nvim-treesitter/nvim-treesitter-textobjects' },
-    { 'nvim-treesitter/playground',                 event = "VeryLazy" },
-    {
-        "HiPhish/rainbow-delimiters.nvim",
-        config = function()
-            require 'rainbow-delimiters.setup'.setup {
-                highlight = {
-                    -- 'RainbowDelimiterRed',
-                    'RainbowDelimiterYellow',
-                    'RainbowDelimiterBlue',
-                    'RainbowDelimiterOrange',
-                    'RainbowDelimiterGreen',
-                    'RainbowDelimiterViolet',
-                    'RainbowDelimiterCyan',
-                },
-            }
-        end
     },
 }

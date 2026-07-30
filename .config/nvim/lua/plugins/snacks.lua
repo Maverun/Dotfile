@@ -12,7 +12,7 @@ return {
     lazygit = {enabled = true},
     git = {enabled = true},
     input = {enabled = true},
-    notifier = {enabled = true, timeout=5000},
+    notifier = {enabled = true, timeout=5000, top_down=false},
     picker = {enabled = true},
     words = {enabled = true},
     },
@@ -22,6 +22,7 @@ return {
     { "<leader>gb", function() Snacks.git.blame_line() end, desc = "Git Blame Line" },
     { "<leader>gf", function() Snacks.lazygit.log_file() end, desc = "Lazygit Current File History" },
     { "<leader>gl", function() Snacks.lazygit.log() end, desc = "Lazygit Log (cwd)" },
+
     { "<leader>f", desc = "Snacks Picker" },
     { "<leader>ff", function() Snacks.picker.files() end, desc = "Find Files" },
     { "<leader>fg", function() Snacks.picker.grep() end, desc = "Grep" },
@@ -39,6 +40,7 @@ return {
     { "<leader>fl", function() Snacks.picker.lines() end, desc = "Lines" },
     { "<leader>fd", function() Snacks.picker.diagnostics() end, desc = "Diagnostics" },
     { "<leader>fp", function() Snacks.picker.projects() end, desc = "Projects" },
+
     --Scratch
     { "<leader>.", function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
     { "<leader>s", function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },

@@ -12,14 +12,21 @@ return {
 				-- Your repl definitions come here
 				repl_definition = {
 					sh = {
-						-- Can be a table or a function that
-						-- returns a table (see below)
 						command = {"zsh"}
 					},
-					-- python = {
-					-- 	command = "source ~/venv/bin/activate && ipython",
-					-- 	type = "bracketed"
-					-- }
+					python = {
+						command = function()
+							local cwd = vim.fn.getcwd()
+							for _, venv in ipairs({ cwd .. "/venv", cwd .. "/.venv" }) do
+								local ipython = venv .. "/bin/ipython"
+								if vim.fn.executable(ipython) == 1 then
+									return { ipython }
+								end
+							end
+							return { "ipython" }
+						end,
+						format = require("iron.fts.python").bracketed_paste_python,
+					},
 				},
 				-- How the repl window will be displayed
 				-- See below for more information

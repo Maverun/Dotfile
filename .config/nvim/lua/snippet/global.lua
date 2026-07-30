@@ -1,11 +1,6 @@
 local U = require'snippets.utils'
 
-
-local function test(x)
-    print(x)
-end
-
-function make_table(csv)
+local function make_table(csv)
   local str = "|"
   local headers_complete = false
   local headers = {}
@@ -35,12 +30,11 @@ function make_table(csv)
   return str
 end
 
-function string_headline(text)
+local function string_headline(text)
     --local clen = string.len(U.force_comment(''))
     local clen = 3
     local top = '┌'..string.rep('─',78-clen)..'┐'
     local half = string.len(text) / 2
-    print(half)
     local middle = (80 - clen) / 2
     local bottom = '└'..string.rep('─',78 - clen)..'┘'
     --local message = '│'..string.rep(" ",middle-1-half)..text..string.rep(" ",80-half)..'│'
@@ -60,7 +54,7 @@ local data = {
     -- Insert a basic snippet, which is a string.
     todo = U.force_comment "TODO(Maverun - ${=os.date()}): ";
 
-    uname = function() return vim.loop.os_uname().sysname end;
+    uname = function() return vim.uv.os_uname().sysname end;
     date = os.date();
 
     -- Evaluate at the time of the snippet expansion and insert it. You

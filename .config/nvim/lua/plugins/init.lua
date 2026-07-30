@@ -1,41 +1,22 @@
-vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
-
 return {
     { 'folke/lazy.nvim' },
     -- ┌───────────────────────────────────────────────────────────────────────────┐
     -- │                                Appearances                                │
     -- └───────────────────────────────────────────────────────────────────────────┘
 
-    --'tiagovla/tokyodark.nvim'                          -- Colorscheme
-    {
-        'folke/tokyonight.nvim',
-        lazy = false,
-        priority = 1001,
-        config = function()
-            require('tokyonight').setup {
-                style = 'night',
-                transparent = false,
-                styles = {
-                    comments = 'italic',
-                    functions = 'NONE',
-                }
-            }
-        end,
-    },
-
     { "miikanissi/modus-themes.nvim", priority = 1000 },
     { "eldritch-theme/eldritch.nvim", lazy = false,   priority = 1000, opts = {}, },
 
-    'nvim-tree/nvim-web-devicons',                                         -- Icon and so on for more conviences
+    { 'nvim-tree/nvim-web-devicons', event = "VeryLazy" },                  -- Icon and so on for more conviences
     { 'norcalli/nvim-colorizer.lua', opts = { '*' }, event = "VeryLazy" }, -- to show what color look like
-    'kshenoy/vim-signature',                                               -- To display where MARK is at (ma, mb ) etc
+    { 'kshenoy/vim-signature',       event = "VeryLazy" },                 -- To display where MARK is at (ma, mb ) etc
     -- {'SmiteshP/nvim-navic', event="VeryLazy"},
 
     --  ┌───────────────────────────────────────────────────────────────────────────┐
     --  │                                   Auto                                    │
     --  └───────────────────────────────────────────────────────────────────────────┘
 
-    'zhimsel/vim-stay', -- Remember fold, cursor etc
+    { 'zhimsel/vim-stay', event = "VeryLazy" }, -- Remember fold, cursor etc
 
     --  ┌───────────────────────────────────────────────────────────────────────────┐
     --  │                                Navagation                                 │
@@ -117,7 +98,6 @@ return {
     { 'Djancyp/cheat-sheet',       keys = { { '<leader>?', ':CheatSH<CR>' } } }, -- using cheat.sh while in nvim.
 
     -- 'onsails/lspkind-nvim',
-    'nvim-lua/popup.nvim',   -- Popup API
     'nvim-lua/plenary.nvim', -- allow to reuse those function provided
 
     {
@@ -198,6 +178,7 @@ return {
     }, -- noice
     {
         'fei6409/log-highlight.nvim',
+        ft = { 'log' },
         config = function()
             require('log-highlight').setup {}
         end,
@@ -246,7 +227,7 @@ return {
             vim.g.loaded_netrwPlugin = 1
         end,
     },
-    { "AndrewRadev/switch.vim" },
+    { "AndrewRadev/switch.vim", event = "VeryLazy" },
 
     {
         "Dan7h3x/LazyDo",
@@ -266,10 +247,7 @@ return {
     },
     {
         "atiladefreitas/dooing",
-        config = function()
-            require("dooing").setup({
-                -- your custom config here (optional)
-            })
-        end,
+        cmd = { "Dooing" },
+        opts = {},
     },
 } -- Last line

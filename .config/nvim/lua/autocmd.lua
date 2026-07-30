@@ -86,7 +86,7 @@ aucmd('ColorScheme',{
 augroup('wrapText',{clear = true})
 aucmd('FileType',{
     group = 'wrapText',
-    pattern = {'md','tex','text','org'},
+    pattern = {'markdown','tex','text','org'},
     callback = function()
 	vim.opt.wrap = true
 	api.nvim_buf_set_keymap(0,'n','j','gj',{noremap = true, silent = true})
@@ -133,17 +133,22 @@ vim.api.nvim_create_autocmd('LspAttach', {
 --     end,
 -- })
 
--- Run the program with @g so that we can see output, on split window
-vim.cmd [[
-	augroup run_file
-		autocmd BufEnter *.java let @g=":w\<CR>:vsp | terminal java %\<CR>i"
-		autocmd BufEnter *.py let @g=":w\<CR>:vsp |terminal python %\<CR>i"
-		autocmd BufEnter *.asm let @g=":w\<CR> :!nasm -f elf64 -o out.o % && ld out.o -o a.out \<CR> | :vsp |terminal ./a.out\<CR>i"
-		autocmd BufEnter *.cpp let @g=":w\<CR> :!g++ %\<CR> | :vsp |terminal ./a.out\<CR>i"
-		autocmd BufEnter *.c let @g=":w\<CR> :!gcc %\<CR> | :vsp |terminal ./a.out\<CR>i"
-		autocmd BufEnter *.go let @g=":w\<CR> :vsp | terminal go run % \<CR>i"
-		autocmd BufEnter *.js let @g=":w\<CR> :vsp | terminal node % \<CR>i"
-		autocmd BufEnter *.html let @g=":w\<CR> :silent !firefox % \<CR>"
-	augroup end
-]]
+local run_file_cmds = {
+  java  = ":w<CR>:vsp | terminal java %<CR>i",
+  py    = ":w<CR>:vsp |terminal python %<CR>i",
+  asm   = ":w<CR> :!nasm -f elf64 -o out.o % && ld out.o -o a.out <CR> | :vsp |terminal ./a.out<CR>i",
+  cpp   = ":w<CR> :!g++ %<CR> | :vsp |terminal ./a.out<CR>i",
+  c     = ":w<CR> :!gcc %<CR> | :vsp |terminal ./a.out<CR>i",
+  go    = ":w<CR> :vsp | terminal go run % <CR>i",
+  js    = ":w<CR> :vsp | terminal node % <CR>i",
+  html  = ":w<CR> :silent !firefox % <CR>",
+}
 
+augroup("run_file", { clear = true })
+for ext, cmd in pairs(run_file_cmds) do
+  aucmd("BufEnter", {
+    group = "run_file",
+    pattern = "*." .. ext,
+    callback = function() vim.fn.setreg("g", cmd) end,
+  })
+end

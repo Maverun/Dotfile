@@ -3,6 +3,7 @@
     "OxygenNotIncluded": "oni",
     "Endfield":"enfield",
     "Terraria.bin.x86_64":"terraria",
-    "dotnet":"terraria"
+    "dotnet":"terraria",
+    "Minecraft* 1.21.1": "minecraft"
 }
 

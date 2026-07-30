@@ -7,17 +7,16 @@ vim.api.nvim_create_autocmd('FileType',{
     group = 'dapCustom',
     pattern = 'dap-repl',
     callback = function()
-        vim.api.nvim_buf_set_keymap(0,'n','n',":lua require('dap').step_over()<CR>",{noremap = true, silent = true})
-        vim.api.nvim_buf_set_keymap(0,'n','s',":lua require('dap').step_into()<CR>",{noremap = true, silent = true})
-        vim.api.nvim_buf_set_keymap(0,'n','c',":lua require('dap').continue()<CR>",{noremap = true, silent = true})
+        vim.keymap.set('n', 'n', function() require('dap').step_over() end, { buffer = true, silent = true })
+        vim.keymap.set('n', 's', function() require('dap').step_into() end, { buffer = true, silent = true })
+        vim.keymap.set('n', 'c', function() require('dap').continue() end,  { buffer = true, silent = true })
     end,
     desc = "During Dap repl mode, we can just press key to do instead of command",
 })
 
 
 return {
-  {'mfussenegger/nvim-dap-python'},
-
+  {'mfussenegger/nvim-dap-python', ft = 'python'},
   {'theHamsta/nvim-dap-virtual-text',
     ft = "dap-repl",
   },
@@ -67,12 +66,11 @@ return {
   },
 
   {'mfussenegger/nvim-dap',
-    event = 'InsertEnter',
     config = function()
       -- vim.g.dap_virtual_text=true --showing virtual text during debugging
       -- require'nvim-dap-virtual-text'.setup()
-      dap = require('dap')
-      dapui = require('dapui')
+      local dap = require('dap')
+      local dapui = require('dapui')
       dap.listeners.after.event_initialized['dapui_config'] = function() dapui.open() end
       dap.listeners.after.event_terminated['dapui_config'] = function() dapui.close() end
       dap.listeners.after.event_exited['dapui_config'] = function() dapui.close() end
@@ -81,7 +79,7 @@ return {
       dap.adapters.python = {
         type = 'executable';
         -- command = '/home/maverun/dev/venvdebugpy/bin/python';
-        command = '/usr/bin/python';
+        command = '/usr/bin/python3';
         args = { '-m', 'debugpy.adapter' };
       }
 
@@ -106,7 +104,7 @@ return {
             elseif vim.fn.executable(cwd .. '/.venv/bin/python') == 1 then
               return cwd .. '/.venv/bin/python'
             else
-              return '/usr/bin/python'
+              return '/usr/bin/python3'
             end
           end;
         },
@@ -154,15 +152,15 @@ return {
     end,
     keys = {
       {'\\d','',desc = 'Dap'},
-      {'\\dc',':lua require"dap".continue()<CR>',desc = 'Continue'},
-      {'\\do',':lua require"dap".step_over()<CR>',desc = "Step Over"},
-      {'\\dj',':lua require"dap".step_into()<CR>',desc = "Step Into"},
-      {'\\dl',':lua require"dap".step_out()<CR>',desc = "Step Out"},
-      {'\\db',':lua require"dap".toggle_breakpoint()<CR>',desc = "Toggle Breakpoint"},
-      {'\\dsc',':lua require"dap".set_breakpoint(vim.fn.input("Breakpoint Condition: "))<CR>',desc = "Breakpoint Conditions"},
-      {'\\dsl',':lua require"dap".set_breakpoint(nil,nil,vim.fn.input("Log point Message: "))<CR>',desc = "Log Point MSG"},
-      {'\\dr',':lua require"dap".repl.open()<CR>',desc = "Repl Open"},
-      {'\\de',':lua require"dap".run_last()<CR>',desc = "Run Last"},
+      {'\\dc', function() require("dap").continue() end,                                                    desc = 'Continue'},
+      {'\\do', function() require("dap").step_over() end,                                                   desc = "Step Over"},
+      {'\\dj', function() require("dap").step_into() end,                                                   desc = "Step Into"},
+      {'\\dl', function() require("dap").step_out() end,                                                    desc = "Step Out"},
+      {'\\db', function() require("dap").toggle_breakpoint() end,                                           desc = "Toggle Breakpoint"},
+      {'\\dsc', function() require("dap").set_breakpoint(vim.fn.input("Breakpoint Condition: ")) end,       desc = "Breakpoint Conditions"},
+      {'\\dsl', function() require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point Message: ")) end, desc = "Log Point MSG"},
+      {'\\dr', function() require("dap").repl.open() end,                                                   desc = "Repl Open"},
+      {'\\de', function() require("dap").run_last() end,                                                    desc = "Run Last"},
     }
 
 }

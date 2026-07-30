@@ -5,17 +5,10 @@
 -- ':lua _G.dump(vim.fn.getwininfo())'
 function _G.dump(...)
     local objects = vim.tbl_map(vim.inspect, { ... })
-    -- print(unpack(objects))
+    print(unpack(objects))
 end
 
 local M = {}
-
-function M.has_neovim_v05()
-    if vim.fn.has('nvim-0.5') == 1 then
-        return true
-    end
-    return false
-end
 
 function M.is_root()
     local output = vim.fn.systemlist "id -u"
@@ -23,7 +16,7 @@ function M.is_root()
 end
 
 function M.is_darwin()
-    local os_name = vim.loop.os_uname().sysname
+    local os_name = vim.uv.os_uname().sysname
     return os_name == 'Darwin'
 --[[ local output = vim.fn.systemlist "uname -s"
     return not not string.find(output[1] or "", "Darwin") ]]
@@ -45,12 +38,6 @@ function M.have_compiler()
     return false
 end
 
-function M.tablelength(T)
-    local count = 0
-    for _ in pairs(T) do count = count + 1 end
-    return count
-end
-
 function M.get_visual_selection()
     -- must exit visual mode or program croaks
     -- :visual leaves ex-mode back to normal mode
@@ -60,35 +47,15 @@ function M.get_visual_selection()
     local _, cerow, cecol, _ = unpack(vim.fn.getpos("'>"))
     local lines = vim.fn.getline(csrow, cerow)
     -- local n = cerow-csrow+1
-    local n = M.tablelength(lines)
+    local n = #lines
     if n <= 0 then return '' end
     lines[n] = string.sub(lines[n], 1, cecol)
     lines[1] = string.sub(lines[1], cscol)
-    print(n, csrow, cscol, cerow, cecol, table.concat(lines, "\n"))
     return table.concat(lines, "\n")
 end
 
-function M.ensure_loaded_cmd(modules, cmds)
-    vim.cmd[[packadd packer.nvim]]
-    for _, m in ipairs(modules) do
-        vim.cmd([[PackerLoad ]] .. m)
-    end
-    for _, c in ipairs(cmds) do
-        vim.cmd(c)
-    end
-end
-
---[[
-function M.list_buffers()
-for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-print(bufnr, vim.api.nvim_buf_get_name(bufnr))
-end
-end
-]]
-
 function M.toggle_cursor_column()
     if not vim.g.cursor_toggle_mave then return end
-    local is_ruler = vim.g.ruler_toggle_mave
     local is_cursor = vim.g.cursor_toggle_mave
     local wininfo = vim.fn.getwininfo()
     local cwind = vim.api.nvim_get_current_win()
@@ -105,32 +72,6 @@ function M.toggle_cursor_column()
             vim.api.nvim_set_option_value('cursorcolumn', is_cursor and true, {win=win['winid']})
         end
     end
-end
-
-function M.mind_nvim_control_win_size()
-    -- get window info and current window
-    local wininfo = vim.fn.getwininfo()
-    local cwind = vim.api.nvim_get_current_win()
-    current_size = vim.api.nvim_win_get_width(0)
-    -- if we are less than 2, it is fine but more than 2 window, we need to narrow down mind.
-    -- this can happen often when you open up mind files.
-    -- if #wininfo < 3 then return end
-    local setWidth = require'mind'.opts.ui.width
-    local targetwin = cwind
-    for _, win in pairs(wininfo) do
-        -- print(_,win['bufnr'], win['variables']['netrw_prvfile'])
-        -- get filetype of that window it checking and compare if that where I am in.
-        local ft = vim.api.nvim_buf_get_option(win['bufnr'], 'filetype')
-        if ft == "mind" and cwind ~= win['winid'] then
-            setWidth = 10
-            targetwin = win['winid']
-        end
-        if ft == "mind" then
-            vim.api.nvim_win_set_width(targetwin,setWidth)
-        end
-    end
-
-
 end
 
 -- 'q': find the quickfix window
@@ -190,7 +131,7 @@ end
 -- type='l': loclist toggle (all windows)
 function M.toggle_qf(type)
     local windows = M.find_qf(type)
-    if M.tablelength(windows) > 0 then
+    if #windows > 0 then
         -- hide all visible windows
         for _, win in pairs(windows) do
             vim.api.nvim_win_hide(win.winid)

@@ -6,16 +6,16 @@ vim.api.nvim_create_autocmd('FileType',{
     group = 'octo',
     pattern = 'octo',
     callback = function(event)
-      wk = require('which-key')
-      wk.register({
-        ["<leader>i"] = {name = "Octo Issue"},
-        ["<leader>a"] = {name = "Octo Assignee"},
-        ["<leader>l"] = {name = "Octo Label"},
-        ["<leader>c"] = {name = "Octo Comment"},
-        ["<leader>r"] = {name = "Octo React"},
-        ["<leader>p"] = {name = "Octo PR"},
-        ["<leader>v"] = {name = "Octo Reviewer"},
-      }, {buffer = event.buf})
+      local wk = require('which-key')
+      wk.add({
+        { "<leader>i", group = "Octo Issue",    buffer = event.buf },
+        { "<leader>a", group = "Octo Assignee", buffer = event.buf },
+        { "<leader>l", group = "Octo Label",    buffer = event.buf },
+        { "<leader>c", group = "Octo Comment",  buffer = event.buf },
+        { "<leader>r", group = "Octo React",    buffer = event.buf },
+        { "<leader>p", group = "Octo PR",       buffer = event.buf },
+        { "<leader>v", group = "Octo Reviewer", buffer = event.buf },
+      })
     end,
     desc = "Label Octo Prefix",
 })
@@ -34,7 +34,11 @@ return {
     {'<leader>oil',':Octo issue list<CR>',desc = "Octo Issue List"},
     {'<leader>oie',':Octo issue list<CR>',desc = "Octo Issue List"},
     {'<leader>opl',':Octo pr list<CR>',desc = "Octo PR List"},
-    {'<leader>ope',':Octo pr list<CR>',desc = "Octo PR Edit"},
+    {'<leader>ope',':Octo pr edit<CR>',desc = "Octo PR Edit"},
+    {'<leader>opi',':Octo pr list cof-primary/canadadmscontrols-dms-infra<CR>',desc = "Octo PR List Infra"},
+    {'<leader>opw',':Octo pr list cof-primary/canada-datahub-workflows-dmscontrols-workflows<CR>',desc = "Octo PR List Datahub"},
+    {'<leader>opq',':Octo pr list cof-primary/canadadmscontrols-dms-contactpoint-qsink<CR>',desc = "Octo PR List Qsink "},
+    {'<leader>opf',':Octo pr list cof-primary/canadadmscontrols-dms-contactpoint-filters<CR>',desc = "Octo PR List Filters"},
   },
   opts = {
   use_local_fs = false,                    -- use local files on right side of reviews
@@ -57,7 +61,7 @@ return {
   reaction_viewer_hint_icon = " ";        -- marker for user reactions
   user_icon = " ";                        -- user icon
   timeline_marker = " ";                  -- timeline marker
-  timeline_indent = "2";                   -- timeline indentation
+  timeline_indent = 2;                   -- timeline indentation
   right_bubble_delimiter = "";            -- bubble delimiter
   left_bubble_delimiter = "";             -- bubble delimiter
   github_hostname = "";                    -- GitHub Enterprise host
@@ -82,7 +86,7 @@ return {
   },
   file_panel = {
     size = 10,                             -- changed files panel rows
-    use_icons = true                       -- use web-devicons in file panel (if false, nvim-web-devicons does not need to be installed)
+    icons = true                       -- use web-devicons in file panel (if false, nvim-web-devicons does not need to be installed)
   },
   colors = {                               -- used for highlight groups (see Colors section below)
     white = "#ffffff",
@@ -218,15 +222,6 @@ return {
     },
   },
 }},
-
--- {'petertriho/cmp-git',
---   opts = {
---     github = {
---         -- hosts = { "github.mycompany.com", },
---         hosts = { "github.com", },
---     },
---   }
--- }
 
 }
 

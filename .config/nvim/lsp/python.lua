@@ -10,11 +10,6 @@ return {
         useLibraryCodeForTypes = true,
         diagnosticMode = 'openFilesOnly',
       },
-      formatting = {
-        autopep8 = true,
-        black = true,
-        yapf = true,
-      },
     },
   },
   -- settings = {

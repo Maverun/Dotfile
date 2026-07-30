@@ -1,6 +1,6 @@
 -- local cfg = require 'lsp'
 
----@type vim.lsp.ClientConfig
+---@type vim.lsp.Config
 return {
   -- on_attach = cfg.on_attach,
   cmd = { 'vscode-json-language-server', '--stdio' },

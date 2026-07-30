@@ -1,5 +1,5 @@
 ---markdown marksman language server
----@type vim.lsp.ClientConfig
+---@type vim.lsp.Config
 return {
   cmd = { 'marksman', 'server' },
   filetypes = { 'markdown', 'markdown.mdx' },

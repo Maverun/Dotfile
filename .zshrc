@@ -132,6 +132,7 @@ alias theme="kitty +kitten themes --reload-in=all "
 
 alias prism="flatpak run org.prismlauncher.PrismLauncher"
 alias homevenv="source ~/home_venv/bin/activate"
+alias hvenv="~/home_venv/bin/python3"
 
 alias olh="sudo systemctl restart openlinkhub.service"
 
@@ -198,3 +199,4 @@ task calendar
 # Faster key repeat and delay
 xset r rate 210 40
 #eval "$(starship init bash)"
+#[ -s "/home/maverun/.jabba/jabba.sh" ] && source "/home/maverun/.jabba/jabba.sh"

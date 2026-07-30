@@ -1,4 +1,3 @@
-vim.g.mapleader=' ' -- setting space as a leader
 local n = 'n'
 local i = 'i'
 local v = 'v'
@@ -13,11 +12,7 @@ local function map(mode, lhs, rhs, opts)
     vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
-local termcodes = function(str)
-    return vim.api.nvim_replace_termcodes(str, true, true, true)
-end
-
-function smart_dd()
+local function smart_dd()
     -- checking if it just white space, if yes, then do void delete.
     if vim.api.nvim_get_current_line():match("^%s*$") then
         return "\"_dd"
@@ -104,19 +99,19 @@ map('t','<esc>','<C-\\><C-n>') -- escape terminal trap!
 
 
 
-function ruler_toggle()
+local function ruler_toggle()
     vim.g.ruler_toggle_mave = not vim.g.ruler_toggle_mave
     vim.opt.number = vim.g.ruler_toggle_mave
     -- vim.opt.relativenumber = not vim.opt.relativenumber._value
 end
 
-function cursor_toggle()
+local function cursor_toggle()
     vim.g.cursor_toggle_mave = not vim.g.cursor_toggle_mave
     vim.opt.cursorcolumn = vim.g.cursor_toggle_mave
     vim.opt.cursorline = vim.g.cursor_toggle_mave
 end
 
-function diagnostic_text_toggle()
+local function diagnostic_text_toggle()
     local result = vim.diagnostic.config().virtual_lines
     vim.diagnostic.config({
         virtual_lines = not result
@@ -126,11 +121,9 @@ end
 
 vim.g.cursor_toggle_mave = false
 
-map(n,'<F5>',':lua ruler_toggle()<CR>', {desc="Enable ruler", silent=true})
-map(n,'<F6>',':lua cursor_toggle()<CR>', {desc="Enable Cursor line", silent=true})
-
-
-map(n, "<F1>", ":lua diagnostic_text_toggle()<CR>", {desc="Toggle Diagnostic Virtual Line Text", silent=true})
+vim.keymap.set(n,'<F5>', ruler_toggle, {desc="Enable ruler", silent=true})
+vim.keymap.set(n,'<F6>', cursor_toggle, {desc="Enable Cursor line", silent=true})
+vim.keymap.set(n, "<F1>", diagnostic_text_toggle, {desc="Toggle Diagnostic Virtual Line Text", silent=true})
 -- ┌───────────────────────────────────────────────────────────────────────────┐
 -- │                                Navigation                                 │
 -- └───────────────────────────────────────────────────────────────────────────┘
@@ -154,10 +147,8 @@ map({n,v},'{','{zz')
 map({n,v},'}','}zz')
 map({n,v},'n','nzz')
 map({n,v},'N','Nzz')
-map({n,v},'[s','[snzz')
+map({n,v},'[s','[szz')
 map({n,v},']s',']szz')
-map({n,v},'N','Nzz')
-map({n,v},'N','Nzz')
 
 --┌────────────────────────────────────────────────────────────────────────────┐
 --│                                   Window                                   │
@@ -166,10 +157,10 @@ map({n,v},'N','Nzz')
 
 
 --Using alt + hjkl for resize windows
-map(n,'<M-h>',":lua require'utils'.resize(true,-2)<CR>", {silent = true})
-map(n,'<M-j>',":lua require'utils'.resize(false,2)<CR>", {silent = true})
-map(n,'<M-k>',":lua require'utils'.resize(false,-2)<CR>", {silent = true})
-map(n,'<M-l>',":lua require'utils'.resize(true,2)<CR>", {silent = true})
+vim.keymap.set(n,'<M-h>', function() require('utils').resize(true,-2)  end, {silent=true})
+vim.keymap.set(n,'<M-j>', function() require('utils').resize(false,2)  end, {silent=true})
+vim.keymap.set(n,'<M-k>', function() require('utils').resize(false,-2) end, {silent=true})
+vim.keymap.set(n,'<M-l>', function() require('utils').resize(true,2)   end, {silent=true})
 
 --Buffer next page or previously
 map(n,"gbn",":bn<CR>", {silent = true})
