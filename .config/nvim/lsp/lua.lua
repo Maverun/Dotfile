@@ -18,7 +18,7 @@ return {
     Lua = {
       diagnostics = {
           disable = { 'lowercase-global' },
-          globals = { 'vim', 'Snacks', 'au', 'ag', 'command', 'describe', 'it', 'before_each', 'after_each' },
+          globals = { 'vim', 'Snacks', 'au', 'ag', 'command', 'describe', 'it', 'before_each', 'after_each','hl' },
       },
       format = {
         enable = true,
