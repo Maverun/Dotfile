@@ -1,17 +1,24 @@
 [[plugin.deps]]
 use = "yazi-rs/plugins:jump-to-char"
 rev = "7458b6c"
-hash = "70edd87b9fb5f64c7b0ccf0db2795ec0"
+hash = ""
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:smart-filter"
 rev = "7458b6c"
-hash = "2111d15f1dcb6a35bb85816213ba063b"
+hash = ""
 
 [[plugin.deps]]
 use = "AnirudhG07/rich-preview"
 rev = "fe43219"
-hash = "ebf93ce73808294ca16581a8c18b497f"
+hash = ""
 
-[flavor]
-deps = []
+[[plugin.deps]]
+use = "yazi-rs/plugins:smart-enter"
+rev = "bb758e2"
+hash = "187cc58ba7ac3befd49c342129e6f1b6"
+
+[[flavor.deps]]
+use = "6ruby1/eldritch"
+rev = "7b5bf34"
+hash = "d73a2192b13f0267461d5424a7f10cd1"

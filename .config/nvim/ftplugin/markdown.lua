@@ -2,7 +2,6 @@
 vim.cmd('runtime /ftplugin/textSetting.vim')
 
 local q = require"vim.treesitter"
-local tsutil = require'nvim-treesitter.ts_utils'
 
 local NAMESPACE = vim.api.nvim_create_namespace("headline_star")
 
@@ -180,7 +179,7 @@ end
 local function toggleCheckBox()
 	local save_current_cursor = vim.api.nvim_win_get_cursor(0)
 	vim.api.nvim_exec("normal ^", nil)
-	local node = tsutil.get_node_at_cursor(0)
+	local node = vim.treesitter.get_node()
 	local child = node:next_sibling()
 	local text = nil
 	if node:type() == "list_marker_minus" then

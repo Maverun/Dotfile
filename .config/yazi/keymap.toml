@@ -12,7 +12,7 @@ desc = "Smart filter"
 on  = "<C-n>"
 desc = "Dragon"
 run = '''
-	shell 'dragon -x -i -T "$1"' --confirm
+	shell 'ripdrag "$@" -x 2>/dev/null &' --confirm
 '''
 
 [[mgr.prepend_keymap]]
@@ -21,3 +21,8 @@ desc = "Back to Root Git directory"
 run = '''
 	shell 'ya pub dds-cd --str "$(git rev-parse --show-toplevel)"' --confirm
 '''
+
+[[mgr.prepend_keymap]]
+on   = "<Enter>"
+run  = "plugin smart-enter"
+desc = "Enter the child directory, or open the file"
