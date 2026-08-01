@@ -3,29 +3,31 @@ gui:
   nerdFontsVersion: "3"
   theme:
     activeBorderColor:
-      - "#ff9e64"
-      - "bold"
+      - "#37f499"
+      - bold
     inactiveBorderColor:
-      - "#27a1b9"
+      - "#04d1f9"
     searchingActiveBorderColor:
-      - "#ff9e64"
-      - "bold"
+      - "#a48cf2"
+      - bold
     optionsTextColor:
-      - "#7aa2f7"
+      - "#abb4da"
     selectedLineBgColor:
-      - "#283457"
+      - "#abb4da"
+    inactiveViewSelectedLineBgColor:
+      - bold
     cherryPickedCommitFgColor:
-      - "#7aa2f7"
+      - "#abb4da"
     cherryPickedCommitBgColor:
-      - "#bb9af7"
+      - "#a48cf2"
     markedBaseCommitFgColor:
-      - "#7aa2f7"
+      - "#a48cf2"
     markedBaseCommitBgColor:
-      - "#e0af68"
+      - "#f16c75"
     unstagedChangesColor:
-      - "#db4b4b"
+      - "#f16c75"
     defaultFgColor:
-      - "#c0caf5"
+      - "#ebfafa"
   paging:
     colorArg: always
     pager: delta --paging=never --line-numbers --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"

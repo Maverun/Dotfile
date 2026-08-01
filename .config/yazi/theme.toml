@@ -127,3 +127,7 @@ rules = [
 	{ name = "*/", fg = "#7aa2f7" }
 ]
     
+
+[flavor]
+dark = "noctalia"
+light = "noctalia"
