@@ -1,5 +1,5 @@
 ---@module 'hl'
--- vim: filetype=hyprlang
+-- vim: filetype=lua
 -- Please note not all available settings / options are set here.
 -- For a full list, see the wiki
 --
@@ -557,7 +557,7 @@ end)
 hl.bind(mainMod .. " + " .. "RETURN", hl.dsp.exec_cmd("kitty")) --"Terminal"
 hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "C", hl.dsp.window.close()) --"Close/Kill"
 hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "M", hl.dsp.exit()) --"Exit"
-hl.bind(mainMod .. " + " .. "Y", hl.dsp.exec_cmd("tofi-run -c ~/.config/tofi/tokyonight_dmenu| xargs hyprctl dispatch exec --")) --"Menu Launcher"
+-- hl.bind(mainMod .. " + " .. "Y", hl.dsp.exec_cmd("tofi-run -c ~/.config/tofi/tokyonight_dmenu| xargs -I hyprctl dispatch 'hl.dsp.exec_cmd('{}')'")) --"Menu Launcher"
 hl.bind(mainMod .. " + " .. "PERIOD", hl.dsp.exec_cmd("notify-send $(hyprctl activewindow | sed -n -e 9p -e 10p -e 11p -e 12p)"))
 
 --"Window information"
@@ -732,6 +732,7 @@ hl.bind(hyper .. " + " .. "mouse:273", hl.dsp.window.resize(), { mouse = true })
 hl.bind(mainMod .. "+comma", hl.dsp.exec_cmd(ipc .. "settings-toggle")) --"Noctalia Setting toggle"
 -- hl.bind(mainMod .. "+C", hl.dsp.exec_cmd(ipc .. "panel-toggle control-center")) --"Noctalia Control Center"
 hl.bind(mainMod .. "+C", hl.dsp.exec_cmd(ipc .. "panel-toggle clipboard")) --"Noctalia Control Center"
+hl.bind(mainMod .. "+Y", hl.dsp.exec_cmd(ipc .. "panel-toggle launcher")) --"Noctalia Control Center"
 
 hl.bind(hyper .. " + " .. "P", hl.dsp.exec_cmd(ipc .. "panel-toggle session"))
 hl.bind(hyper .. " + " .. "L", hl.dsp.exec_cmd(ipc .. "call lockScreen lock"))

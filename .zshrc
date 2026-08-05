@@ -134,6 +134,7 @@ alias prism="flatpak run org.prismlauncher.PrismLauncher"
 alias homevenv="source ~/home_venv/bin/activate"
 alias hvenv="~/home_venv/bin/python3"
 
+alias mouse_event="~/home_venv/bin/python3 ~/Script/hyprlandEvent.py"
 alias olh="sudo systemctl restart openlinkhub.service"
 
 # alias gw2="wl-paste -t text -w sh -c '[ \"$(xclip -selection clipboard -o)\" = \"$(wl-paste -n)\" ] || xclip -selection clipboard'"

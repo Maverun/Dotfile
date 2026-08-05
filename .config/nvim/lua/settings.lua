@@ -128,10 +128,6 @@ end
 ]]
 
 
-
-
-
-
 vim.cmd[[
 function! s:DiffWithSaved()
   let filetype=&ft

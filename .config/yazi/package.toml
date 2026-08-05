@@ -1,21 +1,21 @@
 [[plugin.deps]]
 use = "yazi-rs/plugins:jump-to-char"
-rev = "7458b6c"
-hash = ""
+rev = "bfdc423"
+hash = "1f794a69af5af9d7d463f4110631f1d0"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:smart-filter"
-rev = "7458b6c"
-hash = ""
+rev = "bfdc423"
+hash = "ff02680f83720cfc045fb17a350a17e7"
 
 [[plugin.deps]]
 use = "AnirudhG07/rich-preview"
-rev = "fe43219"
-hash = ""
+rev = "7d616ad"
+hash = "5c529d1507459cc95b31b3908ecc6ca5"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:smart-enter"
-rev = "bb758e2"
+rev = "bfdc423"
 hash = "187cc58ba7ac3befd49c342129e6f1b6"
 
 [[flavor.deps]]
