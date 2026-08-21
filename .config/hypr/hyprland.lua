@@ -410,6 +410,17 @@ hl.window_rule({
 })
 
 hl.window_rule({
+    name = "Arknight Launcher",
+    match = {
+        title = "GRYPHLINK"
+    },
+    tile= true,
+    workspace = 9,
+    float = false,
+    center = true
+})
+
+hl.window_rule({
     name  = "Exilium",
     match = {
         title = "*EXILIUM*",

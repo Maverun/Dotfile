@@ -8,27 +8,29 @@ return {
         build = ':TSUpdate',
         lazy = false,
         config = function()
-            -- Enable treesitter highlighting and incremental selection per filetype
+            -- Enable treesitter highlighting per filetype, skip virtual scheme buffers
             vim.api.nvim_create_autocmd('FileType', {
                 pattern = { 'python', 'bash', 'sh', 'json', 'lua', 'vim', 'yaml', 'markdown' },
-                callback = function()
-                    vim.treesitter.start()
+                callback = function(ev)
+                    local bufname = vim.api.nvim_buf_get_name(ev.buf)
+                    if bufname:match('^%a+://') then return end
+                    local ok, err = pcall(vim.treesitter.start, ev.buf)
+                    if not ok then
+                        vim.notify('[treesitter] ' .. err, vim.log.levels.WARN)
+                    end
                 end,
             })
 
-            -- Incremental selection keymaps
+            -- Incremental selection via built-in vim.treesitter.select (nvim 0.12+)
             vim.keymap.set('n', '<cr>', function()
-                require('nvim-treesitter.incremental_selection').init_selection()
-            end, { desc = 'TS: init selection' })
+                vim.treesitter.select('parent')
+            end, { desc = 'TS: init/expand selection' })
             vim.keymap.set('x', '<cr>', function()
-                require('nvim-treesitter.incremental_selection').node_incremental()
-            end, { desc = 'TS: node incremental' })
-            vim.keymap.set('x', 'gnn', function()
-                require('nvim-treesitter.incremental_selection').scope_incremental()
-            end, { desc = 'TS: scope incremental' })
+                vim.treesitter.select('parent')
+            end, { desc = 'TS: expand selection' })
             vim.keymap.set('x', '<bs>', function()
-                require('nvim-treesitter.incremental_selection').node_decremental()
-            end, { desc = 'TS: node decremental' })
+                vim.treesitter.select("child")
+            end, { desc = 'TS: shrink selection' })
         end,
     },
     {

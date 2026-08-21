@@ -112,7 +112,22 @@ return {
         }
     },
     -- { 'lervag/vimtex',             ft = "tex" },
-    { 'numToStr/Comment.nvim',     event = "VeryLazy",                        opts = {} },
+    {
+        'numToStr/Comment.nvim',
+        event = "VeryLazy",
+        opts = {
+            pre_hook = function(ctx)
+                local ft = require('Comment.ft')
+                -- nvim 0.12 get_parser returns nil on failure instead of erroring,
+                -- so ft.calculate crashes. Guard it here and fall back to ft table.
+                local parser = vim.treesitter.get_parser(0)
+                if not parser then
+                    return ft.get(vim.bo.filetype, ctx.ctype)
+                end
+                return ft.calculate(ctx)
+            end,
+        },
+    },
 
     { 'elihunter173/dirbuf.nvim',  event = "VimEnter" },
 
